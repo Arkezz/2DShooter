@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/assets">
+        <file>Assets/grass-tile.png</file>
+    </qresource>
+</RCC>
