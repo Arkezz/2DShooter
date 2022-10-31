@@ -20,6 +20,8 @@ public:
 
 	//Function that adds a block item to the scene. Each block is a 16 by 16 png in assets folder
 	void addBlockItem(int x, int y, QString blockName);
+	//Function that draws the scene
+	void drawScene();
 private:
 	QGraphicsScene* scene;
 	QGraphicsPixmapItem* player;
