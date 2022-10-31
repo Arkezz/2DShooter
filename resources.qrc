@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/assets">
-        <file>Assets/grass-tile.png</file>
+    <qresource prefix="/images">
+        <file alias="grass.png">Assets/grass.png</file>
     </qresource>
 </RCC>
