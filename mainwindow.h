@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QScreen>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include "sceneview.h"
@@ -22,9 +23,12 @@ public:
 	void addBlockItem(int x, int y, QString blockName);
 	//Function that draws the scene
 	void drawScene();
+    //SetSize
+    void setSize();
 private:
 	QGraphicsScene* scene;
 	QGraphicsPixmapItem* player;
 	SceneView* view;
+    void createScene();
 };
 #endif // MAINWINDOW_H
