@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QApplication>
 #include <QScreen>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
@@ -29,6 +30,7 @@ private:
 	QGraphicsScene* scene;
 	QGraphicsPixmapItem* player;
 	SceneView* view;
+    QRect screenGeometry = QApplication::primaryScreen()->geometry();
     void createScene();
 };
 #endif // MAINWINDOW_H
