@@ -4,9 +4,11 @@
 #include <QMainWindow>
 #include <QApplication>
 #include <QScreen>
+#include <QFile>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include "sceneview.h"
+#include "player.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,16 +23,19 @@ public:
 	~MainWindow();
 
 	//Function that adds a block item to the scene. Each block is a 16 by 16 png in assets folder
-	void addBlockItem(int x, int y, QString blockName);
+	void addTile(int x, int y, QString blockName);
 	//Function that draws the scene
 	void drawScene();
-    //SetSize
-    void setSize();
+	//SetSize
+	void setSize();
+
+public slots:
+
 private:
 	QGraphicsScene* scene;
-	QGraphicsPixmapItem* player;
 	SceneView* view;
-    QRect screenGeometry = QApplication::primaryScreen()->geometry();
-    void createScene();
+	QRect screenGeometry = QApplication::primaryScreen()->geometry();
+	void createScene();
+    Player player;
 };
 #endif // MAINWINDOW_H

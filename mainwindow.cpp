@@ -1,21 +1,19 @@
 #include "mainwindow.h"
 
 //Pixel size of each block in the grid
-const int blockLen = 48;
-
-//Create a tilemap that is used by drawscene to determine what to draw
-//The tilemap is a 2D array of integers that represent the type of tile
-//that should be drawn at that location
-//Tile map should be as big as the screen
+const int blockLen = 32;
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
-	//Create the scene
+	//Create the scene object and set the scene to the view
 	createScene();
 	setCentralWidget(view);
 	setWindowTitle("2D Shooter");
 
+	//Connections
+
+	//Call the drawScene function
 	drawScene();
 }
 
@@ -25,18 +23,40 @@ MainWindow::~MainWindow()
 	delete view;
 }
 
-//Function that adds blocks to the scene.
-void MainWindow::addBlockItem(int x, int y, QString blockName) {
+//Function that adds tiles to the scene.
+void MainWindow::addTile(int x, int y, QString tileName) {
 	QGraphicsPixmapItem* newItem = new QGraphicsPixmapItem;
-	newItem->setPixmap(QPixmap(":/images/" + blockName + ".png"));
-	newItem->setPos(x, y);
+	//Set pixmap from .qrc file and make sure it is scaled
+	newItem->setPixmap(QPixmap(":/tiles/" + tileName).scaled(blockLen, blockLen));
+	newItem->setPos(x * blockLen, y * blockLen);
 	scene->addItem(newItem);
 }
 
 //Function that draws the scene
 void MainWindow::drawScene() {
 	scene->clear();
-	//add a grass block use screengeomtry
+
+	//Read the text file level 1 from .qrc
+	QFile file(":/maps/level1");
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		return;
+	//Draw the tilemap according to the file contents 1 is grass 2 is wall
+	QTextStream in(&file);
+	int y = 0;
+	while (!in.atEnd()) {
+		QString line = in.readLine();
+		for (int x = 0; x < line.length(); x++) {
+			if (line[x] == '1') {
+                addTile(x, y, "grass");
+			}
+			else if (line[x] == '2') {
+                addTile(x, y, "wall");
+			}
+            else {
+			}
+		}
+		y++;
+	}
 }
 
 //Creation and setting of scene and view
@@ -48,8 +68,8 @@ void MainWindow::createScene() {
 
 //Size changes
 void MainWindow::setSize() {
-	this->setFixedSize(800, 600);
+    this->setFixedSize(960, 720);
 	int x = ((screenGeometry.width() - this->width()) / 2);
 	int y = ((screenGeometry.height() - this->height()) / 2);
-	this->move(x, y);
+    this->move(x, y);
 }

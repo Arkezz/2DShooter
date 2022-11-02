@@ -11,10 +11,12 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    player.cpp \
     sceneview.cpp
 
 HEADERS += \
     mainwindow.h \
+    player.h \
     sceneview.h
 
 FORMS +=
