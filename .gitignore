@@ -452,3 +452,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+2DShooter.vcxproj
+2DShooter.vcxproj.filters
