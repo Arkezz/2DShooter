@@ -8,5 +8,22 @@
     </qresource>
     <qresource prefix="/entities">
         <file alias="player">Assets/Entiites/gangsta.png</file>
+        <file alias="side_0">Assets/Entiites/_side walk_0.png</file>
+        <file alias="side_1">Assets/Entiites/_side walk_1.png</file>
+        <file alias="side_2">Assets/Entiites/_side walk_2.png</file>
+        <file alias="side_3">Assets/Entiites/_side walk_3.png</file>
+        <file alias="side_4">Assets/Entiites/_side walk_4.png</file>
+        <file alias="side_5">Assets/Entiites/_side walk_5.png</file>
+        <file alias="down_0">Assets/Entiites/_down idle_0.png</file>
+        <file alias="down_1">Assets/Entiites/_down idle_1.png</file>
+        <file alias="down_2">Assets/Entiites/_down idle_2.png</file>
+        <file alias="down_3">Assets/Entiites/_down idle_3.png</file>
+        <file alias="down_4">Assets/Entiites/_down idle_4.png</file>
+        <file alias="up_0">Assets/Entiites/_up walk_0.png</file>
+        <file alias="up_1">Assets/Entiites/_up walk_1.png</file>
+        <file alias="up_2">Assets/Entiites/_up walk_2.png</file>
+        <file alias="up_3">Assets/Entiites/_up walk_3.png</file>
+        <file alias="up_4">Assets/Entiites/_up walk_4.png</file>
+        <file alias="up_5">Assets/Entiites/_up walk_5.png</file>
     </qresource>
 </RCC>

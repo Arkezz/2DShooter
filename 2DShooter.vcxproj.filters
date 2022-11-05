@@ -97,7 +97,7 @@
     <None Include="Assets\Tiles\grass.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Maps\level1.txt">
+    <None Include="Assets\Maps\level1.tmx">
       <Filter>Resource Files</Filter>
     </None>
     <CustomBuild Include="resources.qrc">
