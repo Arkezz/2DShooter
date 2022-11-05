@@ -37,6 +37,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,12 +54,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <ClInclude Include="player.h">
+    <CustomBuild Include="player.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <CustomBuild Include="sceneview.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -66,6 +72,12 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="release\moc_mainwindow.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_player.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_player.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -89,6 +101,57 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Tiles\0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down idle_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down idle_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down idle_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down idle_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down idle_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side walk_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side walk_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side walk_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side walk_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side walk_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side walk_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up walk_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up walk_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up walk_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up walk_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up walk_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up walk_5.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\gangsta.png">
