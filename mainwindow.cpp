@@ -2,6 +2,9 @@
 
 //Pixel size of each Tile in the grid
 const int tileLen = 32;
+//Data structure that stores the location of each tile in the grid
+//0 = empty, 1 = wall, 2 = player, 3 = enemy
+int grid[15][20];
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -12,6 +15,7 @@ MainWindow::MainWindow(QWidget* parent)
 	setWindowTitle("2D Shooter");
 
 	//Connections
+	//Connect sceneview key presses to the player movement function
 
 	//Call the drawScene function
 	drawScene();
@@ -35,7 +39,6 @@ void MainWindow::addTile(int x, int y, QString tileName) {
 //Function that draws the scene
 void MainWindow::drawScene() {
 	scene->clear();
-
 	//Read the tmx file then go line by line in the csv
 	QFile file(":/maps/map1");
 	file.open(QIODevice::ReadOnly);
@@ -49,12 +52,7 @@ void MainWindow::drawScene() {
 				QStringList list = line.split(",");
 				for (int x = 0; x < list.size(); x++) {
 					//If the tile is not empty, add it to the scene
-					if (list[x] == "0") {
-						addTile(x, y, "grass");
-					}
-					else if (list[x] == "1") {
-						addTile(x, y, "wall");
-					}
+					grid[y][x] = list[x].toInt();
 				}
 				y++;
 				line = in.readLine();
@@ -62,6 +60,26 @@ void MainWindow::drawScene() {
 		}
 		line = in.readLine();
 	}
+
+	// Draw the scene according to the grid
+	for (int y = 0; y < 15; y++) {
+		for (int x = 0; x < 20; x++) {
+			if (grid[y][x] == 1) {
+				addTile(x, y, "wall");
+			}
+			else if (grid[y][x] == 0) {
+				addTile(x, y, "grass");
+			}
+			else if (grid[y][x] == 3) {
+				addTile(x, y, "enemy.png");
+			}
+		}
+	}
+	//Add player to the middle of the scene
+    player.setPos(40, 40);
+    player.setFocus();
+    scene->addItem(&player);
+
 }
 
 //Creation and setting of scene and view
@@ -78,3 +96,4 @@ void MainWindow::setSize() {
 	int y = ((screenGeometry.height() - this->height()) / 2);
 	this->move(x, y);
 }
+

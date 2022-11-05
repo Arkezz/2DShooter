@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/tiles">
-        <file alias = "wall">Assets/Tiles/0.png</file>
-        <file alias = "grass">Assets/Tiles/grass.png</file>
+        <file alias="wall">Assets/Tiles/0.png</file>
+        <file alias="grass">Assets/Tiles/grass.png</file>
     </qresource>
     <qresource prefix="/maps">
-        <file alias = "level1">Assets/Maps/level1.txt</file>
+        <file alias="map1">Assets/Maps/level1.tmx</file>
     </qresource>
     <qresource prefix="/entities">
-        <file alias = "player">Assets/Entiites/gangsta.png</file>
+        <file alias="player">Assets/Entiites/gangsta.png</file>
     </qresource>
 </RCC>

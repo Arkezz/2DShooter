@@ -16,26 +16,24 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	MainWindow(QWidget* parent = nullptr);
-	~MainWindow();
+    MainWindow(QWidget* parent = nullptr);
+    ~MainWindow();
 
-	//Function that adds a block item to the scene. Each block is a 16 by 16 png in assets folder
-	void addTile(int x, int y, QString blockName);
-	//Function that draws the scene
-	void drawScene();
-	//SetSize
-	void setSize();
-
-public slots:
+    //Function that adds a block item to the scene. Each block is a 16 by 16 png in assets folder
+    void addTile(int x, int y, QString blockName);
+    //Function that draws the scene
+    void drawScene();
+    //SetSize
+    void setSize();
 
 private:
-	QGraphicsScene* scene;
-	SceneView* view;
-	QRect screenGeometry = QApplication::primaryScreen()->geometry();
-	void createScene();
+    QGraphicsScene* scene;
+    SceneView* view;
+    QRect screenGeometry = QApplication::primaryScreen()->geometry();
+    void createScene();
     Player player;
 };
 #endif // MAINWINDOW_H
