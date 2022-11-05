@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget* parent)
 	setWindowTitle("2D Shooter");
 
 	//Connections
-	//Connect sceneview key presses to the player movement function
+	//Connect a timer to the idleanimation of player
 
 	//Call the drawScene function
 	drawScene();
@@ -76,10 +76,12 @@ void MainWindow::drawScene() {
 		}
 	}
 	//Add player to the middle of the scene
-    player.setPos(40, 40);
-    player.setFocus();
-    scene->addItem(&player);
-
+	player.setPos(80, 80);
+	player.setFocus();
+	scene->addItem(&player);
+	//Add enemy to the middle of the scene
+	enemies[1].setPos(400, 80);
+	scene->addItem(&enemies[1]);
 }
 
 //Creation and setting of scene and view
@@ -96,4 +98,3 @@ void MainWindow::setSize() {
 	int y = ((screenGeometry.height() - this->height()) / 2);
 	this->move(x, y);
 }
-
