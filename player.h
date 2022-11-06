@@ -13,12 +13,10 @@ class Player : public QObject, public QGraphicsPixmapItem
 public:
 	Player();
 	virtual ~Player() {};
-	//Direction player is facing
     enum dirF { UP, DOWN, LEFT, RIGHT };
-	bool isIdle;
-	//Set the direction of the player
 	void setDir(dirF dir);
     void shoot();
+    void move();
 
 public slots:
 	void animateIdle();
@@ -27,11 +25,13 @@ protected:
 
 private:
 	dirF dir;
+    bool isIdle;
 	QVector<QPixmap> anim[4];
     QVector<QPixmap> idleAnim[4];
 	int anim_index;
 	QTimer* idleTimer;
     QTimer* keyPressTimer;
+    QTimer* moveTimer;
 };
 
 #endif // PLAYER_H
