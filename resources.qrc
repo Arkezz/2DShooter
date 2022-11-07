@@ -8,6 +8,7 @@
     </qresource>
     <qresource prefix="/sounds">
         <file alias="bgm">Assets/Sounds/b423b42.wav</file>
+        <file alias="hurtSound">Assets/Sounds/413174__micahlg__male-hurt11.wav</file>
     </qresource>
     <qresource prefix="/ui">
         <file alias="fullHeart">Assets/UI/Pixel Heart Sprite Sheet 32x32_0.png</file>

@@ -5,6 +5,8 @@
 #include <QKeyEvent>
 #include <QVector>
 #include <QTimer>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 #include "qobject.h"
 #include "enemy.h"
 

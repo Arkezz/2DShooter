@@ -147,20 +147,28 @@ void Player::collisionHandler()
 		if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
 			health--;
 			emit drawUi();
+			//Play hurt sound
+			QMediaPlayer* hurtSound = new QMediaPlayer();
+			QAudioOutput* audioOutput = new QAudioOutput();
+			hurtSound->setLoops(1);
+			hurtSound->setAudioOutput(audioOutput);
+			hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
+			audioOutput->setVolume(200);
+			hurtSound->play();
 			//Animate the player getting hit
 			setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
 			//Move the player in the opposite direction
 			if (dir == RIGHT) {
-				setPos(x() - 64, y());
+				setPos(x() - 32, y());
 			}
 			else if (dir == LEFT) {
-				setPos(x() + 64, y());
+				setPos(x() + 32, y());
 			}
 			else if (dir == UP) {
-				setPos(x(), y() + 64);
+				setPos(x(), y() + 32);
 			}
 			else if (dir == DOWN) {
-				setPos(x(), y() - 64);
+				setPos(x(), y() - 32);
 			}
 		}
 	}
