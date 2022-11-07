@@ -28,4 +28,3 @@ void SceneView::resizeEvent(QResizeEvent* event)
 	fitInView(sceneRect(), Qt::KeepAspectRatio);
 	QGraphicsView::resizeEvent(event);
 }
-

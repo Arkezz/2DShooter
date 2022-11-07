@@ -13,25 +13,27 @@ class Player : public QObject, public QGraphicsPixmapItem
 public:
 	Player();
 	virtual ~Player() {};
-    enum dirF { UP, DOWN, LEFT, RIGHT };
+	enum dirF { UP, DOWN, LEFT, RIGHT };
 	void setDir(dirF dir);
-    void shoot();
-    void move();
+	void shoot();
+	void move();
 
 public slots:
 	void animateIdle();
 protected:
-	void keyPressEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent*);
+    //Always keep focus on the player
+    void focusOutEvent(QFocusEvent*) { setFocus(); };
 
 private:
 	dirF dir;
-    bool isIdle;
+	bool isIdle;
 	QVector<QPixmap> anim[4];
-    QVector<QPixmap> idleAnim[4];
+	QVector<QPixmap> idleAnim[4];
 	int anim_index;
 	QTimer* idleTimer;
-    QTimer* keyPressTimer;
-    QTimer* moveTimer;
+	QTimer* keyPressTimer;
+	QTimer* moveTimer;
 };
 
 #endif // PLAYER_H

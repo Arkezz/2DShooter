@@ -118,6 +118,39 @@
     <None Include="Assets\Entiites\_down idle_4.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Entiites\_down walk_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down walk_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down walk_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down walk_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down walk_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_down walk_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side idle_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side idle_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side idle_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side idle_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_side idle_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Entiites\_side walk_0.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -136,6 +169,21 @@
     <None Include="Assets\Entiites\_side walk_5.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Entiites\_up idle_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up idle_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up idle_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up idle_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\_up idle_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Entiites\_up walk_0.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -152,6 +200,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\_up walk_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Sounds\b423b42.wav">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\gangsta.png">
