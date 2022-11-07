@@ -7,9 +7,9 @@
 #include <QFile>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QVector>
 #include "sceneview.h"
 #include "player.h"
-#include "enemy.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -22,20 +22,23 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow();
-
-	//Function that adds a block item to the scene. Each block is a 16 by 16 png in assets folder
-	void addTile(int x, int y, QString blockName);
 	//Function that draws the scene
 	void drawScene();
 	//SetSize
 	void setSize();
+
+public slots:
+	//Function for controlling the UI
+	void drawUI();
 
 private:
 	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
 	void createScene();
+    void addTile(int x, int y, QString blockName);
 	Player player;
 	Enemy enemies[2];
+	QVector<QGraphicsPixmapItem*> hearts;
 };
 #endif // MAINWINDOW_H

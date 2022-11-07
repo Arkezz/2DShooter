@@ -3,6 +3,7 @@ extern int grid[15][20];
 
 Player::Player()
 {
+	health = 3;
 	dir = RIGHT;
 	anim_index = 2;
 	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
@@ -65,7 +66,7 @@ Player::Player()
 	keyPressTimer = new QTimer(this);
 	idleTimer = new QTimer(this);
 	moveTimer = new QTimer(this);
-	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animateIdle()));
+	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
 	connect(keyPressTimer, &QTimer::timeout, [=]() {
 		idleTimer->start(200);
 		});
@@ -75,6 +76,11 @@ Player::Player()
 void Player::setDir(dirF dir)
 {
 	this->dir = dir;
+}
+
+int Player::getHealth()
+{
+	return health;
 }
 
 void Player::shoot() {
@@ -113,7 +119,7 @@ void Player::shoot() {
 	}
 }
 
-void Player::animateIdle()
+void Player::animHandler()
 {
 	if (isIdle)
 	{
@@ -121,6 +127,42 @@ void Player::animateIdle()
 		if (anim_index >= idleAnim[dir].size())
 			anim_index = 0;
 		setPixmap(idleAnim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+	}
+	else
+	{
+		anim_index++;
+		if (anim_index >= anim[dir].size())
+			anim_index = 0;
+		setPixmap(anim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+	}
+}
+
+//Collision handler
+void Player::collisionHandler()
+{
+	//Check the colliding items with the player
+	QList<QGraphicsItem*> colliding_items = collidingItems();
+	for (int i = 0; i < colliding_items.size(); i++) {
+		//If the colliding item is an enemy, do damage to the enemy
+		if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
+			health--;
+			emit drawUi();
+			//Animate the player getting hit
+			setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+			//Move the player in the opposite direction
+			if (dir == RIGHT) {
+				setPos(x() - 64, y());
+			}
+			else if (dir == LEFT) {
+				setPos(x() + 64, y());
+			}
+			else if (dir == UP) {
+				setPos(x(), y() + 64);
+			}
+			else if (dir == DOWN) {
+				setPos(x(), y() - 64);
+			}
+		}
 	}
 }
 
@@ -130,25 +172,23 @@ void Player::keyPressEvent(QKeyEvent* event)
 	if (event->key() == Qt::Key_W) {
 		setDir(UP);
 		isIdle = false;
-		move();
 	}
 	else if (event->key() == Qt::Key_D) {
 		setDir(RIGHT);
 		isIdle = false;
-		move();
 	}
 	else if (event->key() == Qt::Key_A) {
 		setDir(LEFT);
 		isIdle = false;
-		move();
 	}
 	else if (event->key() == Qt::Key_S) {
 		setDir(DOWN);
 		isIdle = false;
-		move();
 	}
+	move();
 }
 
+//Move player function handle animations and collisions and dont let player go outside the map
 void Player::move() {
 	//Create frame interpolation for walking animation and movement
 	{
@@ -210,6 +250,7 @@ void Player::move() {
 					setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
 				}
 			}
+			collisionHandler();
 		}
 		//Once the movement ends set the player back to idle and start the idle animation
 		isIdle = true;
