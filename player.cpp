@@ -1,7 +1,7 @@
 #include "player.h"
 extern int grid[15][20];
 const int tileLen = 32;
-const int playerLen = 128;
+const int playerLen = 64;
 
 Player::Player()
 {
@@ -51,11 +51,11 @@ Player::Player()
 	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_3"));
 	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_4"));
 
-    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_0").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_1").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_2").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_3").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_4").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_0").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_1").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_2").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_3").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_4").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_0"));
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_1"));
@@ -63,7 +63,7 @@ Player::Player()
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_3"));
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_4"));
 
-    setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 	//Make a timer to animate the idle animation
 	keyPressTimer = new QTimer(this);
 	idleTimer = new QTimer(this);
@@ -85,6 +85,11 @@ int Player::getHealth()
 	return health;
 }
 
+void Player::setHealth(int health)
+{
+	this->health = health;
+}
+
 void Player::shoot() {
 	//Checks all the tiles in the direction the player is facing if it finds an enemy do damage to the enemy
 }
@@ -96,7 +101,7 @@ void Player::animHandler()
 		anim_index++;
 		if (anim_index >= idleAnim[dir].size())
 			anim_index = 0;
-        setPixmap(idleAnim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+		setPixmap(idleAnim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 	}
 }
 
@@ -119,19 +124,19 @@ void Player::collisionHandler()
 			audioOutput->setVolume(200);
 			hurtSound->play();
 			//Animate the player getting hit
-            setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+			setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 			//Move the player in the opposite direction
 			if (dir == RIGHT) {
-                setPos(x() - tileLen, y());
+				setPos(x() - tileLen, y());
 			}
 			else if (dir == LEFT) {
-                setPos(x() + tileLen, y());
+				setPos(x() + tileLen, y());
 			}
 			else if (dir == UP) {
-                setPos(x(), y() + tileLen);
+				setPos(x(), y() + tileLen);
 			}
 			else if (dir == DOWN) {
-                setPos(x(), y() - tileLen);
+				setPos(x(), y() - tileLen);
 			}
 		}
 	}
@@ -164,8 +169,8 @@ void Player::move() {
 	//Create frame interpolation for walking animation and movement
 	{
 		//Get the players position
-        int x = pos().x() / tileLen;
-        int y = pos().y() / tileLen;
+		int x = pos().x() / tileLen;
+		int y = pos().y() / tileLen;
 
 		if (!isIdle)
 		{
@@ -173,7 +178,7 @@ void Player::move() {
 			case UP:
 				//If the tile above the player is empty, move the player up
 				if (grid[y - 1][x] == 0) {
-                    setPos(x * tileLen, (y - 1) * tileLen);
+					setPos(x * tileLen, (y - 1) * tileLen);
 					//Play down anims flipped vertically
 					if (anim_index < anim[UP].size() - 1) {
 						anim_index++;
@@ -181,13 +186,13 @@ void Player::move() {
 					else {
 						anim_index = 0;
 					}
-                    setPixmap(anim[UP][anim_index].scaled(playerLen, playerLen));
+					setPixmap(anim[UP][anim_index].scaled(playerLen, playerLen));
 				}
 				break;
 			case DOWN:
 				//If the tile below the player is empty, move the player down
 				if (grid[y + 1][x] == 0) {
-                    setPos(x * tileLen, (y + 1) * tileLen);
+					setPos(x * tileLen, (y + 1) * tileLen);
 					//Play the down anims
 					if (anim_index < 4) {
 						anim_index++;
@@ -195,39 +200,38 @@ void Player::move() {
 					else {
 						anim_index = 0;
 					}
-                    setPixmap(anim[DOWN][anim_index].scaled(playerLen, playerLen));
+					setPixmap(anim[DOWN][anim_index].scaled(playerLen, playerLen));
 				}
 				break;
 			case LEFT:
 				//If the tile to the left of the player is empty, move the player left
 				if (grid[y][x - 1] == 0) {
-                    setPos((x - 1) * tileLen, y * tileLen);
+					setPos((x - 1) * tileLen, y * tileLen);
 					//Play the side animS
 					anim_index++;
 					if (anim_index > 5) {
 						anim_index = 0;
 					}
-                    setPixmap(anim[LEFT][anim_index].scaled(playerLen, playerLen));
+					setPixmap(anim[LEFT][anim_index].scaled(playerLen, playerLen));
 				}
 				break;
 			case RIGHT:
 				//If the tile to the right of the player is empty, move the player right
 				if (grid[y][x + 1] == 0) {
-                    setPos((x + 1) * tileLen, y * tileLen);
+					setPos((x + 1) * tileLen, y * tileLen);
 					//Play the side animS flipped around
 					anim_index++;
 					if (anim_index > 5) {
 						anim_index = 0;
 					}
-                    setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+					setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 				}
 			}
 			collisionHandler();
 		}
-		//Once the movement ends set the player back to idle and start the idle animation
 		isIdle = true;
 		keyPressTimer->start(200);
 	}
 }
 
-//Stop the player clipping through walls since the player is a
+//Make the grid for the map where each point is a pixel and each tile is 32x32

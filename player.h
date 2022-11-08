@@ -19,6 +19,7 @@ public:
 	enum dirF { UP, DOWN, LEFT, RIGHT };
 	void setDir(dirF dir);
 	int getHealth();
+	void setHealth(int);
 	void shoot();
 	void move();
 	void collisionHandler();
