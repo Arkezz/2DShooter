@@ -74,7 +74,7 @@ void MainWindow::drawScene() {
         }
     }
     //Add player to the middle of the scene
-    player.setPos(80, 80);
+    player.setPos(400, 200);
     player.setFocus();
     scene->addItem(&player);
     //Add enemy to the middle of the scene

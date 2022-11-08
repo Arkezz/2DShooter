@@ -22,12 +22,14 @@ public:
 	void shoot();
 	void move();
 	void collisionHandler();
+	bool isWall();
+	void createGraph();
 
 signals:
 	void drawUi();
 
 public slots:
-    void animHandler();
+	void animHandler();
 protected:
 	void keyPressEvent(QKeyEvent*);
 	//Always keep focus on the player
@@ -44,6 +46,8 @@ private:
 	QTimer* idleTimer;
 	QTimer* keyPressTimer;
 	QTimer* moveTimer;
+	//Graph variable
+	QVector<QVector<int>> graph;
 };
 
 #endif // PLAYER_H

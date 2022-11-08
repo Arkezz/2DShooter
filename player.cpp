@@ -49,11 +49,11 @@ Player::Player()
 	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_3"));
 	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_4"));
 
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_0").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_1").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_2").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_3").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_4").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_0").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_1").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_2").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_3").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+    idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_4").transformed(QTransform().scale(-1, 1)).scaled(128, 128));
 
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_0"));
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_1"));
@@ -61,7 +61,7 @@ Player::Player()
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_3"));
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_4"));
 
-	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+    setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
 	//Make a timer to animate the idle animation
 	keyPressTimer = new QTimer(this);
 	idleTimer = new QTimer(this);
@@ -85,38 +85,6 @@ int Player::getHealth()
 
 void Player::shoot() {
 	//Checks all the tiles in the direction the player is facing if it finds an enemy do damage to the enemy
-	if (dir == RIGHT) {
-		for (int i = 0; i < 20; i++) {
-			if (grid[(int)(y() / 64)][(int)((x() + 64) / 64) + i] == 2) {
-				//Do damage to enemy
-				break;
-			}
-		}
-	}
-	else if (dir == LEFT) {
-		for (int i = 0; i < 20; i++) {
-			if (grid[(int)(y() / 64)][(int)((x() - 64) / 64) - i] == 2) {
-				//Do damage to enemy
-				break;
-			}
-		}
-	}
-	else if (dir == UP) {
-		for (int i = 0; i < 20; i++) {
-			if (grid[(int)((y() - 64) / 64) - i][(int)(x() / 64)] == 2) {
-				//Do damage to enemy
-				break;
-			}
-		}
-	}
-	else if (dir == DOWN) {
-		for (int i = 0; i < 20; i++) {
-			if (grid[(int)((y() + 64) / 64) + i][(int)(x() / 64)] == 2) {
-				//Do damage to enemy
-				break;
-			}
-		}
-	}
 }
 
 void Player::animHandler()
@@ -126,14 +94,7 @@ void Player::animHandler()
 		anim_index++;
 		if (anim_index >= idleAnim[dir].size())
 			anim_index = 0;
-		setPixmap(idleAnim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
-	}
-	else
-	{
-		anim_index++;
-		if (anim_index >= anim[dir].size())
-			anim_index = 0;
-		setPixmap(anim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+        setPixmap(idleAnim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
 	}
 }
 
@@ -203,6 +164,7 @@ void Player::move() {
 		//Get the players position
 		int x = pos().x() / 32;
 		int y = pos().y() / 32;
+
 		if (!isIdle)
 		{
 			switch (dir) {
@@ -217,7 +179,7 @@ void Player::move() {
 					else {
 						anim_index = 0;
 					}
-					setPixmap(anim[UP][anim_index].scaled(128, 128));
+                    setPixmap(anim[UP][anim_index].scaled(128, 128));
 				}
 				break;
 			case DOWN:
@@ -231,19 +193,19 @@ void Player::move() {
 					else {
 						anim_index = 0;
 					}
-					setPixmap(anim[DOWN][anim_index].scaled(128, 128));
+                    setPixmap(anim[DOWN][anim_index].scaled(128, 128));
 				}
 				break;
 			case LEFT:
 				//If the tile to the left of the player is empty, move the player left
 				if (grid[y][x - 1] == 0) {
-					setPos((x - 1) * 32, y * 32);
+                    setPos((x - 1) * 32, y * 32);
 					//Play the side animS
 					anim_index++;
 					if (anim_index > 5) {
 						anim_index = 0;
 					}
-					setPixmap(anim[LEFT][anim_index].scaled(128, 128));
+                    setPixmap(anim[LEFT][anim_index].scaled(128, 128));
 				}
 				break;
 			case RIGHT:
@@ -255,7 +217,7 @@ void Player::move() {
 					if (anim_index > 5) {
 						anim_index = 0;
 					}
-					setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
+                    setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(128, 128));
 				}
 			}
 			collisionHandler();
