@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 #include <QApplication>
 #include <QScreen>
 #include <QFile>
@@ -30,13 +33,17 @@ public:
 public slots:
 	//Function for controlling the UI
 	void drawUI();
+	//GameOver function
+	void gameOver();
+	//Restart function
+	void restart();
 
 private:
 	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
 	void createScene();
-    void addTile(int x, int y, QString blockName);
+	void addTile(int x, int y, QString blockName);
 	Player player;
 	Enemy enemies[2];
 	QVector<QGraphicsPixmapItem*> hearts;
