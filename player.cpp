@@ -64,6 +64,7 @@ Player::Player()
 	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_4"));
 
 	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+
 	//Make a timer to animate the idle animation
 	keyPressTimer = new QTimer(this);
 	idleTimer = new QTimer(this);
@@ -160,6 +161,9 @@ void Player::keyPressEvent(QKeyEvent* event)
 	else if (event->key() == Qt::Key_S) {
 		setDir(DOWN);
 		isIdle = false;
+	}
+	else if (event->key() == Qt::Key_Escape) {
+		emit openSettings();
 	}
 	move();
 }

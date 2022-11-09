@@ -28,6 +28,7 @@ public:
 
 signals:
 	void drawUi();
+    void openSettings();
 
 public slots:
 	void animHandler();

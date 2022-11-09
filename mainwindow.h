@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QGraphicsOpacityEffect>
 #include <QApplication>
 #include <QScreen>
 #include <QFile>
@@ -33,15 +34,16 @@ public:
 public slots:
 	//Function for controlling the UI
 	void drawUI();
-	//GameOver function
-	void gameOver();
 	//Restart function
 	void restart();
+	//settings function
+	void settings();
 
 private:
 	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
+	void gameOver();
 	void createScene();
 	void addTile(int x, int y, QString blockName);
 	Player player;

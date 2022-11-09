@@ -17,6 +17,10 @@ MainWindow::MainWindow(QWidget* parent)
 	//Connections
 	//Connect player collision handler to drawUI
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
+	//Connect settings button to settings function
+	connect(&player, SIGNAL(openSettings()), this, SLOT(settings()));
+	//Connect drawui to enemy attackhandler
+	connect(&player, SIGNAL(drawUi()), &enemies[0], SLOT(attackHandler()));
 
 	//Call the drawScene function
 	drawScene();
@@ -124,6 +128,10 @@ void MainWindow::gameOver() {
 	gameOverWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 	gameOverWindow->setWindowModality(Qt::ApplicationModal);
 	gameOverWindow->setStyleSheet("background-color: #000000;");
+	//Make the screen half transparent
+	QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect;
+	effect->setOpacity(0.5);
+	gameOverWindow->setGraphicsEffect(effect);
 
 	//Create the layout
 	QVBoxLayout* layout = new QVBoxLayout;
@@ -166,4 +174,39 @@ void MainWindow::restart() {
 	for (int i = 0; i < hearts.size(); i++) {
 		hearts[i]->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
 	}
+}
+
+//Settings function
+void MainWindow::settings() {
+	//Create the window
+	QWidget* settingsWindow = new QWidget;
+	settingsWindow->setWindowTitle("Settings");
+	settingsWindow->setFixedSize(300, 200);
+	settingsWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+	settingsWindow->setWindowModality(Qt::ApplicationModal);
+	settingsWindow->setStyleSheet("background-color: #000000;");
+	setAttribute(Qt::WA_TranslucentBackground);
+
+	//Make the screen show whats behind it
+
+	//Create the layout
+	QVBoxLayout* layout = new QVBoxLayout;
+	settingsWindow->setLayout(layout);
+
+	//Make the window closable button is round
+	QPushButton* closeButton = new QPushButton;
+	closeButton->setStyleSheet("background-color: #000000; border-radius: 15px; border: 1px solid #FFFFFF;");
+	closeButton->setFixedSize(30, 30);
+	closeButton->setIcon(QIcon(":/ui/closeButton"));
+	closeButton->setIconSize(QSize(20, 20));
+	layout->addWidget(closeButton, 0, Qt::AlignRight);
+	connect(closeButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
+
+	//Create the label
+	QLabel* settingsLabel = new QLabel("Settings");
+	settingsLabel->setStyleSheet("color: #FFFFFF; font-size: 30px;");
+	layout->addWidget(settingsLabel, 0, Qt::AlignCenter);
+
+	//Show the window
+	settingsWindow->show();
 }
