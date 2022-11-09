@@ -5,18 +5,21 @@
 #include "qobject.h"
 class Enemy : public QObject, public QGraphicsPixmapItem
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
 	Enemy();
 	void pathFinding();
 
 public slots:
-    void animHandler();
+	void animHandler();
+	void attackHandler();
 private:
 	int health;
 	QVector<QPixmap> idleAnim;
+	QVector<QPixmap> attackAnim;
 	int anim_index;
-    QTimer* idleTimer;
+	QTimer* idleTimer;
+    QTimer* attackTimer;
 };
 
 #endif // ENEMY_H

@@ -15,12 +15,19 @@
         <file alias="fullHeart">Assets/UI/Pixel Heart Sprite Sheet 32x32_0.png</file>
         <file alias="halfHeart">Assets/UI/Pixel Heart Sprite Sheet 32x32_1.png</file>
         <file alias="emptyHeart">Assets/UI/Pixel Heart Sprite Sheet 32x32_2.png</file>
+        <file alias="closeButton">Assets/UI/Exit button.png</file>
     </qresource>
     <qresource prefix="/enemy1">
         <file alias="idle_0">Assets/Entiites/Enemy1/Idle_0.png</file>
         <file alias="idle_1">Assets/Entiites/Enemy1/Idle_1.png</file>
         <file alias="idle_2">Assets/Entiites/Enemy1/Idle_2.png</file>
         <file alias="idle_3">Assets/Entiites/Enemy1/Idle_3.png</file>
+        <file alias="attack_0">Assets/Entiites/Enemy1/Attack_0.png</file>
+        <file alias="attack_1">Assets/Entiites/Enemy1/Attack_1.png</file>
+        <file alias="attack_2">Assets/Entiites/Enemy1/Attack_2.png</file>
+        <file alias="attack_3">Assets/Entiites/Enemy1/Attack_3.png</file>
+        <file alias="attack_4">Assets/Entiites/Enemy1/Attack_4.png</file>
+        <file alias="attack_5">Assets/Entiites/Enemy1/Attack_5.png</file>
     </qresource>
     <qresource prefix="/entities">
         <file alias="downIdle_0">Assets/Entiites/Player/_down idle_0.png</file>
