@@ -5,9 +5,8 @@
 #include <QKeyEvent>
 #include <QVector>
 #include <QTimer>
-#include <QMediaPlayer>
-#include <QAudioOutput>
 #include "qobject.h"
+#include "soundmanager.h"
 #include "enemy.h"
 
 class Player : public QObject, public QGraphicsPixmapItem
@@ -28,7 +27,7 @@ public:
 
 signals:
 	void drawUi();
-    void openSettings();
+	void openSettings();
 
 public slots:
 	void animHandler();
@@ -48,8 +47,7 @@ private:
 	QTimer* idleTimer;
 	QTimer* keyPressTimer;
 	QTimer* moveTimer;
-	//Graph variable
-	QVector<QVector<int>> graph;
+	soundManager* sounds;
 };
 
 #endif // PLAYER_H

@@ -65,6 +65,8 @@ Player::Player()
 
 	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 
+	sounds = new soundManager();
+
 	//Make a timer to animate the idle animation
 	keyPressTimer = new QTimer(this);
 	idleTimer = new QTimer(this);
@@ -117,13 +119,8 @@ void Player::collisionHandler()
 			health--;
 			emit drawUi();
 			//Play hurt sound
-			QMediaPlayer* hurtSound = new QMediaPlayer();
-			QAudioOutput* audioOutput = new QAudioOutput();
-			hurtSound->setLoops(1);
-			hurtSound->setAudioOutput(audioOutput);
-			hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
-			audioOutput->setVolume(200);
-			hurtSound->play();
+			sounds->playSound("hurt");
+
 			//Animate the player getting hit
 			setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 			//Move the player in the opposite direction

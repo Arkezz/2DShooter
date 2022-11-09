@@ -13,13 +13,15 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     player.cpp \
-    sceneview.cpp
+    sceneview.cpp \
+    soundmanager.cpp
 
 HEADERS += \
     enemy.h \
     mainwindow.h \
     player.h \
-    sceneview.h
+    sceneview.h \
+    soundmanager.h
 
 FORMS +=
 

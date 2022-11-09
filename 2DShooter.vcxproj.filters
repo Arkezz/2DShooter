@@ -52,11 +52,14 @@
     <ClCompile Include="sceneview.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="soundmanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="enemy.h">
+    <CustomBuild Include="enemy.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <CustomBuild Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -66,8 +69,17 @@
     <CustomBuild Include="sceneview.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="soundmanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug\moc_enemy.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_enemy.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
     <ClCompile Include="debug\moc_mainwindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -103,109 +115,154 @@
     <None Include="Assets\Tiles\0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down idle_0.png">
+    <None Include="Assets\Sounds\336598__inspectorj__footsteps-concrete-a.wav">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down idle_1.png">
+    <None Include="Assets\Sounds\413174__micahlg__male-hurt11.wav">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down idle_2.png">
+    <None Include="Assets\Entiites\Enemy1\Attack_0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down idle_3.png">
+    <None Include="Assets\Entiites\Enemy1\Attack_1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down idle_4.png">
+    <None Include="Assets\Entiites\Enemy1\Attack_2.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down walk_0.png">
+    <None Include="Assets\Entiites\Enemy1\Attack_3.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down walk_1.png">
+    <None Include="Assets\Entiites\Enemy1\Attack_4.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down walk_2.png">
+    <None Include="Assets\Entiites\Enemy1\Attack_5.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down walk_3.png">
+    <None Include="Assets\UI\Exit button.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down walk_4.png">
+    <None Include="Assets\Entiites\Enemy1\Idle_0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_down walk_5.png">
+    <None Include="Assets\Entiites\Enemy1\Idle_1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side idle_0.png">
+    <None Include="Assets\Entiites\Enemy1\Idle_2.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side idle_1.png">
+    <None Include="Assets\Entiites\Enemy1\Idle_3.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side idle_2.png">
+    <None Include="Assets\UI\Pixel Heart Sprite Sheet 32x32_0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side idle_3.png">
+    <None Include="Assets\UI\Pixel Heart Sprite Sheet 32x32_1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side idle_4.png">
+    <None Include="Assets\UI\Pixel Heart Sprite Sheet 32x32_2.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side walk_0.png">
+    <None Include="Assets\Entiites\Player\_down idle_0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side walk_1.png">
+    <None Include="Assets\Entiites\Player\_down idle_1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side walk_2.png">
+    <None Include="Assets\Entiites\Player\_down idle_2.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side walk_3.png">
+    <None Include="Assets\Entiites\Player\_down idle_3.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side walk_4.png">
+    <None Include="Assets\Entiites\Player\_down idle_4.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_side walk_5.png">
+    <None Include="Assets\Entiites\Player\_down walk_0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up idle_0.png">
+    <None Include="Assets\Entiites\Player\_down walk_1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up idle_1.png">
+    <None Include="Assets\Entiites\Player\_down walk_2.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up idle_2.png">
+    <None Include="Assets\Entiites\Player\_down walk_3.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up idle_3.png">
+    <None Include="Assets\Entiites\Player\_down walk_4.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up idle_4.png">
+    <None Include="Assets\Entiites\Player\_down walk_5.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up walk_0.png">
+    <None Include="Assets\Entiites\Player\_side idle_0.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up walk_1.png">
+    <None Include="Assets\Entiites\Player\_side idle_1.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up walk_2.png">
+    <None Include="Assets\Entiites\Player\_side idle_2.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up walk_3.png">
+    <None Include="Assets\Entiites\Player\_side idle_3.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up walk_4.png">
+    <None Include="Assets\Entiites\Player\_side idle_4.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Assets\Entiites\_up walk_5.png">
+    <None Include="Assets\Entiites\Player\_side walk_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_side walk_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_side walk_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_side walk_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_side walk_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_side walk_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up idle_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up idle_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up idle_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up idle_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up idle_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up walk_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up walk_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up walk_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up walk_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up walk_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_up walk_5.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Sounds\b423b42.wav">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Entiites\gangsta.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\grass.png">
