@@ -119,19 +119,29 @@ void MainWindow::setSize() {
 	this->move(x, y);
 }
 
+void MainWindow::restart() {
+	//Reset the player
+	player.setPos(400, 200);
+	player.setHealth(3);
+	player.setFocus();
+	scene->addItem(&player);
+	//Reset the enemy
+	enemies[0].setPos(400, 80);
+	scene->addItem(&enemies[0]);
+	//Reset the hearts
+	for (int i = 0; i < hearts.size(); i++) {
+		hearts[i]->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
+	}
+}
+
 //GameOver function opens a new window that has two buttons (restart and quit)
 void MainWindow::gameOver() {
-	//Create the window
+	//Create the window have it be semi transparent
 	QWidget* gameOverWindow = new QWidget;
-	gameOverWindow->setWindowTitle("Game Over");
-	gameOverWindow->setFixedSize(300, 200);
-	gameOverWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-	gameOverWindow->setWindowModality(Qt::ApplicationModal);
-	gameOverWindow->setStyleSheet("background-color: #000000;");
-	//Make the screen half transparent
-	QGraphicsOpacityEffect* effect = new QGraphicsOpacityEffect;
-	effect->setOpacity(0.5);
-	gameOverWindow->setGraphicsEffect(effect);
+	gameOverWindow->setWindowFlags(Qt::FramelessWindowHint);
+	gameOverWindow->setWindowOpacity(0.8);
+	gameOverWindow->setStyleSheet("background-color: black;");
+	gameOverWindow->setFixedSize(400, 200);
 
 	//Create the layout
 	QVBoxLayout* layout = new QVBoxLayout;
@@ -160,34 +170,14 @@ void MainWindow::gameOver() {
 	gameOverWindow->show();
 }
 
-//Restart function
-void MainWindow::restart() {
-	//Reset the player
-	player.setPos(400, 200);
-	player.setHealth(3);
-	player.setFocus();
-	scene->addItem(&player);
-	//Reset the enemy
-	enemies[0].setPos(400, 80);
-	scene->addItem(&enemies[0]);
-	//Reset the hearts
-	for (int i = 0; i < hearts.size(); i++) {
-		hearts[i]->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
-	}
-}
-
 //Settings function
 void MainWindow::settings() {
-	//Create the window
+	//Create the window make it semi transparent
 	QWidget* settingsWindow = new QWidget;
-	settingsWindow->setWindowTitle("Settings");
-	settingsWindow->setFixedSize(300, 200);
-	settingsWindow->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-	settingsWindow->setWindowModality(Qt::ApplicationModal);
-	settingsWindow->setStyleSheet("background-color: #000000;");
-	setAttribute(Qt::WA_TranslucentBackground);
-
-	//Make the screen show whats behind it
+	settingsWindow->setWindowFlags(Qt::FramelessWindowHint);
+	settingsWindow->setWindowOpacity(0.8);
+	settingsWindow->setStyleSheet("background-color: black;");
+	settingsWindow->setFixedSize(400, 200);
 
 	//Create the layout
 	QVBoxLayout* layout = new QVBoxLayout;
