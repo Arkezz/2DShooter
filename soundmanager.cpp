@@ -2,7 +2,7 @@
 
 soundManager::soundManager()
 {
-    audioOutput = new QAudioOutput();
+	audioOutput = new QAudioOutput();
 
 	footSteps = new QSoundEffect();
 	footSteps->setSource(QUrl("qrc:/sounds/footstepSound"));
@@ -32,3 +32,13 @@ void soundManager::playSound(QString soundName)
 	}
 }
 
+void soundManager::mute()
+{
+    qDebug() << "muted";
+    audioOutput->setVolume(0);
+}
+
+void soundManager::changeVolume(int volume)
+{
+	audioOutput->setVolume(volume);
+}

@@ -16,6 +16,7 @@
         <file alias="halfHeart">Assets/UI/Pixel Heart Sprite Sheet 32x32_1.png</file>
         <file alias="emptyHeart">Assets/UI/Pixel Heart Sprite Sheet 32x32_2.png</file>
         <file alias="closeButton">Assets/UI/Exit button.png</file>
+        <file alias="muteButton">Assets/UI/Off sound button.png</file>
     </qresource>
     <qresource prefix="/enemy1">
         <file alias="idle_0">Assets/Entiites/Enemy1/Idle_0.png</file>

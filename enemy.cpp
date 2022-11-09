@@ -1,6 +1,7 @@
 #include "enemy.h"
 extern int grid[15][20];
-
+const int tileLen = 32;
+const int enemyLen = 64;
 Enemy::Enemy()
 {
 	anim_index = 0;
@@ -40,21 +41,12 @@ void Enemy::animHandler()
 //attackHandler
 void Enemy::attackHandler()
 {
-	//Start the timer for the attack animation if anim index is 0
-	if (anim_index == 0)
-	{
-		attackTimer->start(200);
-	}
-	//If anim index is 3, stop the timer
-	if (anim_index == 3)
-	{
-		attackTimer->stop();
-		anim_index = 0;
-	}
-	else {
+	while (anim_index != 3) {
 		anim_index++;
 	}
-	setPixmap(attackAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(64, 64));
+	//According to the direction of the enemy, the attack animation will be played
+    setPixmap(attackAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(64, 64));
+	anim_index = 0;
 }
 
 // pathfinding algorithim for enemy using graphs and nodes

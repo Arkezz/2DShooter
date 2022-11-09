@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QGraphicsOpacityEffect>
+#include <QSlider>
 #include <QApplication>
 #include <QScreen>
 #include <QFile>
@@ -14,6 +15,7 @@
 #include <QVector>
 #include "sceneview.h"
 #include "player.h"
+#include "soundmanager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -49,5 +51,6 @@ private:
 	Player player;
 	Enemy enemies[2];
 	QVector<QGraphicsPixmapItem*> hearts;
+	soundManager music;
 };
 #endif // MAINWINDOW_H

@@ -6,21 +6,28 @@
 #include <QAudioOutput>
 #include <QSoundEffect>
 
-class soundManager
+class soundManager : public QObject
 {
+    Q_OBJECT
 public:
-	soundManager();
-	//Function that plays the sound depending on the input
-	void playSound(QString soundName);
+    soundManager();
+    //Function that plays the sound depending on the input
+    void playSound(QString soundName);
+
+public slots:
+    //Mute function
+    void mute();
+    //Volume changer
+    void changeVolume(int volume);
 
 private:
-	//Footsteps, gunshots, etc
-	QSoundEffect* footSteps;
-	QSoundEffect* hurtSound;
-	//Background music
-	QMediaPlayer* musicPlayer;
-	//Audiooutput
-	QAudioOutput* audioOutput;
+    //Footsteps, gunshots, etc
+    QSoundEffect* footSteps;
+    QSoundEffect* hurtSound;
+    //Background music
+    QMediaPlayer* musicPlayer;
+    //Audiooutput
+    QAudioOutput* audioOutput;
 };
 
 #endif // SOUNDMANAGER_H

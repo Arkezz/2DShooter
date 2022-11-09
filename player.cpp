@@ -94,7 +94,10 @@ void Player::setHealth(int health)
 }
 
 void Player::shoot() {
-	//Checks all the tiles in the direction the player is facing if it finds an enemy do damage to the enemy
+	if (ammo > 0) {
+		ammo--;
+		sounds->playSound("shoot");
+	}
 }
 
 void Player::animHandler()
@@ -120,7 +123,6 @@ void Player::collisionHandler()
 			emit drawUi();
 			//Play hurt sound
 			sounds->playSound("hurt");
-
 			//Animate the player getting hit
 			setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 			//Move the player in the opposite direction
@@ -158,6 +160,9 @@ void Player::keyPressEvent(QKeyEvent* event)
 	else if (event->key() == Qt::Key_S) {
 		setDir(DOWN);
 		isIdle = false;
+	}
+	else if (event->key() == Qt::Key_Space) {
+		shoot();
 	}
 	else if (event->key() == Qt::Key_Escape) {
 		emit openSettings();
@@ -234,5 +239,3 @@ void Player::move() {
 		keyPressTimer->start(200);
 	}
 }
-
-//Make the grid for the map where each point is a pixel and each tile is 32x32
