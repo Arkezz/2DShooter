@@ -8,8 +8,10 @@ Player::Player()
 	health = 3;
 	dir = RIGHT;
 	anim_index = 2;
-	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
 	isIdle = true;
+	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
+	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
+	setGraphicsEffect(effect);
 
 	anim[RIGHT].push_back(QPixmap(":/entities/side_0"));
 	anim[RIGHT].push_back(QPixmap(":/entities/side_1"));
@@ -83,6 +85,11 @@ void Player::setDir(dirF dir)
 	this->dir = dir;
 }
 
+Player::dirF Player::getDir()
+{
+	return dir;
+}
+
 int Player::getHealth()
 {
 	return health;
@@ -108,37 +115,6 @@ void Player::animHandler()
 		if (anim_index >= idleAnim[dir].size())
 			anim_index = 0;
 		setPixmap(idleAnim[dir][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-	}
-}
-
-//Collision handler
-void Player::collisionHandler()
-{
-	//Check the colliding items with the player
-	QList<QGraphicsItem*> colliding_items = collidingItems();
-	for (int i = 0; i < colliding_items.size(); i++) {
-		//If the colliding item is an enemy, do damage to the enemy
-		if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
-			health--;
-			emit drawUi();
-			//Play hurt sound
-			sounds->playSound("hurt");
-			//Animate the player getting hit
-			setPixmap(QPixmap(":/entities/playerHit").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-			//Move the player in the opposite direction
-			if (dir == RIGHT) {
-				setPos(x() - tileLen, y());
-			}
-			else if (dir == LEFT) {
-				setPos(x() + tileLen, y());
-			}
-			else if (dir == UP) {
-				setPos(x(), y() + tileLen);
-			}
-			else if (dir == DOWN) {
-				setPos(x(), y() - tileLen);
-			}
-		}
 	}
 }
 
@@ -170,9 +146,7 @@ void Player::keyPressEvent(QKeyEvent* event)
 	move();
 }
 
-//Move player function handle animations and collisions and dont let player go outside the map
 void Player::move() {
-	//Create frame interpolation for walking animation and movement
 	{
 		//Get the players position
 		int x = pos().x() / tileLen;

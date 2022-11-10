@@ -2,6 +2,7 @@
 #define ENEMY_H
 #include <QGraphicsItem>
 #include <QTimer>
+#include <QGraphicsDropShadowEffect>
 #include "qobject.h"
 class Enemy : public QObject, public QGraphicsPixmapItem
 {

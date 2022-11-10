@@ -5,6 +5,9 @@ const int enemyLen = 64;
 Enemy::Enemy()
 {
 	anim_index = 0;
+	//add shadow effect
+	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
+	setGraphicsEffect(effect);
 	//Idleanim vector
 	idleAnim.push_back(QPixmap(":/enemy1/idle_0"));
 	idleAnim.push_back(QPixmap(":/enemy1/idle_1"));
@@ -35,7 +38,7 @@ void Enemy::animHandler()
 	{
 		anim_index++;
 	}
-	setPixmap(idleAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(64, 64));
+	setPixmap(idleAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 }
 
 //attackHandler
@@ -45,7 +48,7 @@ void Enemy::attackHandler()
 		anim_index++;
 	}
 	//According to the direction of the enemy, the attack animation will be played
-    setPixmap(attackAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(64, 64));
+	setPixmap(attackAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 	anim_index = 0;
 }
 

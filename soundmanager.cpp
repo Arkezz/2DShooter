@@ -34,7 +34,6 @@ void soundManager::playSound(QString soundName)
 
 void soundManager::mute()
 {
-    qDebug() << "muted";
     audioOutput->setVolume(0);
 }
 

@@ -5,9 +5,10 @@
 #include <QKeyEvent>
 #include <QVector>
 #include <QTimer>
+#include <QGraphicsDropShadowEffect>
 #include "qobject.h"
 #include "soundmanager.h"
-#include "enemy.h"
+
 
 class Player : public QObject, public QGraphicsPixmapItem
 {
@@ -15,19 +16,18 @@ class Player : public QObject, public QGraphicsPixmapItem
 public:
 	Player();
 	virtual ~Player() {};
-	enum dirF { UP, DOWN, LEFT, RIGHT };
+    enum dirF { RIGHT, LEFT, UP, DOWN };
 	void setDir(dirF dir);
+	dirF getDir();
 	int getHealth();
 	void setHealth(int);
 	void shoot();
 	void move();
-	void collisionHandler();
-	bool isWall();
-	void createGraph();
 
 signals:
 	void drawUi();
 	void openSettings();
+	void collisionHandler();
 
 public slots:
 	void animHandler();

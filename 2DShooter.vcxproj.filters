@@ -37,6 +37,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="collectibles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,6 +60,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="collectibles.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="enemy.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -69,11 +75,17 @@
     <CustomBuild Include="sceneview.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <ClInclude Include="soundmanager.h">
+    <CustomBuild Include="soundmanager.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug\moc_collectibles.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_collectibles.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
     <ClCompile Include="debug\moc_enemy.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
@@ -102,6 +114,12 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="release\moc_sceneview.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_soundmanager.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_soundmanager.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="debug\qrc_resources.cpp">
@@ -152,6 +170,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\Enemy1\Idle_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\UI\Off sound button.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\UI\On sound button.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\UI\Pixel Heart Sprite Sheet 32x32_0.png">
