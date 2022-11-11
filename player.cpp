@@ -100,6 +100,16 @@ void Player::setHealth(int health)
 	this->health = health;
 }
 
+void Player::setAmmo(int ammo)
+{
+	this->ammo = ammo;
+}
+
+int Player::getAmmo()
+{
+	return ammo;
+}
+
 void Player::shoot() {
 	if (ammo > 0) {
 		ammo--;

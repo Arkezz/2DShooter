@@ -9,7 +9,7 @@ class Collectibles : public QObject, public QGraphicsPixmapItem
 {
 	Q_OBJECT
 public:
-	enum objectType { bullet };
+    enum objectType { bullet };
 	Collectibles(objectType);
 	objectType getType();
 

@@ -88,6 +88,9 @@ void MainWindow::drawScene() {
 		scene->addItem(heart);
 		hearts.push_back(heart);
 	}
+	object = new Collectibles(Collectibles::bullet);
+	object->setPos(400, 400);
+	scene->addItem(object);
 }
 
 //Function that controls the ui
@@ -107,7 +110,7 @@ void MainWindow::collisionHandler() {
 	for (int i = 0; i < colliding_items.size(); i++) {
 		if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
 			player.setHealth(player.getHealth() - 1);
-            player.setPixmap(QPixmap("a"));
+			player.setPixmap(QPixmap("a"));
 			drawUI();
 			emit enemyAttack();
 			music.playSound("hurt");
@@ -126,6 +129,13 @@ void MainWindow::collisionHandler() {
 			else if (dir == 3) {
 				player.setPos(player.x(), player.y() - tileLen);
 			}
+		}//if its colliding with a collectible, remove it from the scene and decide its type
+		else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
+            scene->removeItem(colliding_items[i]);
+			//If its a bullet increase the players ammo
+            if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
+                player.setAmmo(player.getAmmo() + 1);
+            }
 		}
 	}
 }

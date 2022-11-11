@@ -9,18 +9,19 @@
 #include "qobject.h"
 #include "soundmanager.h"
 
-
 class Player : public QObject, public QGraphicsPixmapItem
 {
 	Q_OBJECT
 public:
 	Player();
 	virtual ~Player() {};
-    enum dirF { RIGHT, LEFT, UP, DOWN };
+	enum dirF { RIGHT, LEFT, UP, DOWN };
 	void setDir(dirF dir);
 	dirF getDir();
-	int getHealth();
 	void setHealth(int);
+	int getHealth();
+	void setAmmo(int);
+	int getAmmo();
 	void shoot();
 	void move();
 

@@ -7,7 +7,7 @@ Collectibles::Collectibles(objectType type)
 	//Set the pixmap according to the type
 	if (barobject == bullet)
 	{
-		setPixmap(QPixmap(":/collectibles/bullet"));
+        setPixmap(QPixmap(":/ui/fullHeart"));
 	}
 	//add shadow effect
 	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
