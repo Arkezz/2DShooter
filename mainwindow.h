@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
+#include <QDialog>
 #include <QSlider>
 #include <QApplication>
 #include <QScreen>
@@ -44,8 +46,8 @@ public slots:
 	void fullScreen();
 
 private:
-	QWidget* settingsWindow = NULL;
-	QGraphicsScene* scene;
+    QWidget* settingsWindow = NULL;
+    QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
 	void gameOver();

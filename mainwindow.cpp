@@ -91,6 +91,7 @@ void MainWindow::drawScene() {
 	object = new Collectibles(Collectibles::bullet);
 	object->setPos(400, 400);
 	scene->addItem(object);
+    //object->animHandler();
 }
 
 //Function that controls the ui
