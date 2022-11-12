@@ -5,10 +5,9 @@ const int enemyLen = 64;
 Enemy::Enemy()
 {
 	anim_index = 0;
-	//add shadow effect
 	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
 	setGraphicsEffect(effect);
-	//Idleanim vector
+
 	idleAnim.push_back(QPixmap(":/enemy1/idle_0"));
 	idleAnim.push_back(QPixmap(":/enemy1/idle_1"));
 	idleAnim.push_back(QPixmap(":/enemy1/idle_2"));
@@ -19,10 +18,11 @@ Enemy::Enemy()
 	attackAnim.push_back(QPixmap(":/enemy1/attack_2"));
 	attackAnim.push_back(QPixmap(":/enemy1/attack_3"));
 
+
+    setPixmap(QPixmap(":/enemy1/idle_0"));
 	idleTimer = new QTimer(this);
+    attackTimer = new QTimer(this);
 	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
-	setPixmap(QPixmap(":/enemy1/idle_0"));
-	attackTimer = new QTimer(this);
 	connect(attackTimer, SIGNAL(timeout()), this, SLOT(attackHandler()));
 	idleTimer->start(200);
 }

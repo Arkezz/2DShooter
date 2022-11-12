@@ -30,24 +30,21 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow(QWidget* parent = nullptr);
 	~MainWindow();
-	//Function that draws the scene
 	void drawScene();
-	//SetSize
 	void setSize();
 
 signals:
 	void enemyAttack();
 
 public slots:
-	//Function for controlling the UI
 	void drawUI();
-	//Restart function
 	void restart();
-	//settings function
 	void settings();
 	void collisionHandler();
+	void fullScreen();
 
 private:
+	QWidget* settingsWindow = NULL;
 	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
@@ -57,7 +54,6 @@ private:
 	Player player;
 	Enemy enemies[2];
 	QVector<QGraphicsPixmapItem*> hearts;
-	//array of collectibles
 	Collectibles* object;
 	soundManager music;
 };

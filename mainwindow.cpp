@@ -131,11 +131,11 @@ void MainWindow::collisionHandler() {
 			}
 		}//if its colliding with a collectible, remove it from the scene and decide its type
 		else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
-            scene->removeItem(colliding_items[i]);
+			scene->removeItem(colliding_items[i]);
 			//If its a bullet increase the players ammo
-            if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
-                player.setAmmo(player.getAmmo() + 1);
-            }
+			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
+				player.setAmmo(player.getAmmo() + 1);
+			}
 		}
 	}
 }
@@ -158,6 +158,7 @@ void MainWindow::setSize() {
 void MainWindow::restart() {
 	//Reset the player
 	player.setPos(400, 200);
+	player.setAmmo(0);
 	player.setHealth(3);
 	player.setFocus();
 	scene->addItem(&player);
@@ -167,6 +168,18 @@ void MainWindow::restart() {
 	//Reset the hearts
 	for (int i = 0; i < hearts.size(); i++) {
 		hearts[i]->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
+	}
+	//Reset the object
+	scene->addItem(object);
+}
+
+//fullscreen function
+void MainWindow::fullScreen() {
+	if (this->isFullScreen()) {
+		this->showNormal();
+	}
+	else {
+		this->showFullScreen();
 	}
 }
 
@@ -208,83 +221,92 @@ void MainWindow::gameOver() {
 
 //Settings function
 void MainWindow::settings() {
-	//Create the window make it semi transparent
-	QWidget* settingsWindow = new QWidget;
-	settingsWindow->setWindowFlags(Qt::FramelessWindowHint);
-	settingsWindow->setWindowOpacity(0.8);
-	settingsWindow->setStyleSheet("background-color: black;");
-	settingsWindow->setFixedSize(400, 200);
+	if (!settingsWindow) {
+		QWidget* settingsWindow = new QWidget;
+		settingsWindow->setWindowFlags(Qt::FramelessWindowHint);
+		settingsWindow->setWindowOpacity(0.8);
+		settingsWindow->setStyleSheet("background-color: black;");
+		settingsWindow->setFixedSize(400, 400);
 
-	//Create the layout
-	QVBoxLayout* layout = new QVBoxLayout;
-	settingsWindow->setLayout(layout);
+		//Create the layout
+		QVBoxLayout* layout = new QVBoxLayout;
+		settingsWindow->setLayout(layout);
 
-	//Make the window closable button is round
-	QPushButton* closeButton = new QPushButton;
-	closeButton->setStyleSheet("background-color: #000000; border-radius: 15px; border: 1px solid #FFFFFF;");
-	closeButton->setFixedSize(30, 30);
-	closeButton->setIcon(QIcon(":/ui/closeButton"));
-	closeButton->setIconSize(QSize(20, 20));
-	layout->addWidget(closeButton, 0, Qt::AlignRight);
-	connect(closeButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
+		//Make the window closable button is round
+		QPushButton* closeButton = new QPushButton;
+		closeButton->setStyleSheet("background-color: #000000; border-radius: 15px; border: 1px solid #FFFFFF;");
+		closeButton->setFixedSize(30, 30);
+		closeButton->setIcon(QIcon(":/ui/closeButton"));
+		closeButton->setIconSize(QSize(20, 20));
+		layout->addWidget(closeButton, 0, Qt::AlignRight);
+		connect(closeButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
 
-	//Create the label
-	QLabel* settingsLabel = new QLabel("Settings");
-	settingsLabel->setStyleSheet("color: #FFFFFF; font-size: 30px;");
-	layout->addWidget(settingsLabel, 0, Qt::AlignCenter);
+		//Create the label
+		QLabel* settingsLabel = new QLabel("Settings");
+		settingsLabel->setStyleSheet("color: #FFFFFF; font-size: 30px;");
+		layout->addWidget(settingsLabel, 0, Qt::AlignCenter);
 
-	//Volume slider
-	QSlider* volumeSlider = new QSlider(Qt::Horizontal);
-	volumeSlider->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
-	volumeSlider->setRange(0, 100);
-	volumeSlider->setTickInterval(1);
-	volumeSlider->setSingleStep(1);
-	volumeSlider->setPageStep(10);
-	volumeSlider->setValue(100);
-	layout->addWidget(volumeSlider, 0, Qt::AlignCenter);
-	//Connect the slider to the changeVolume function in soundManager class pass the value of the slider to the function
-	connect(volumeSlider, SIGNAL(valueChanged(int)), &music, SLOT(changeVolume(int)));
+		//Volume slider
+		QSlider* volumeSlider = new QSlider(Qt::Horizontal);
+		volumeSlider->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
+		volumeSlider->setRange(0, 100);
+		volumeSlider->setTickInterval(1);
+		volumeSlider->setSingleStep(1);
+		volumeSlider->setPageStep(10);
+		volumeSlider->setValue(100);
+		layout->addWidget(volumeSlider, 0, Qt::AlignCenter);
+		//Connect the slider to the changeVolume function in soundManager class pass the value of the slider to the function
+		connect(volumeSlider, SIGNAL(valueChanged(int)), &music, SLOT(changeVolume(int)));
 
-	//Label to the right of the slider showing what volume its at
-	QLabel* volumeLabel = new QLabel("100%");
-	volumeLabel->setStyleSheet("color: #FFFFFF; font-size: 20px;");
-	layout->addWidget(volumeLabel, 0, Qt::AlignCenter);
-	//Connect the slider to the label pass the value of the slider to the label using a lambda
-	connect(volumeSlider, &QSlider::valueChanged, [volumeLabel](int value) {
-		volumeLabel->setText(QString::number(value) + "%");
-		});
+		//Label to the right of the slider showing what volume its at
+		QLabel* volumeLabel = new QLabel("100%");
+		volumeLabel->setStyleSheet("color: #FFFFFF; font-size: 20px;");
+		layout->addWidget(volumeLabel, 0, Qt::AlignCenter);
+		//Connect the slider to the label pass the value of the slider to the label using a lambda
+		connect(volumeSlider, &QSlider::valueChanged, [volumeLabel](int value) {
+			volumeLabel->setText(QString::number(value) + "%");
+			});
 
-	//add mute button to the left of the slider
-	QPushButton* muteButton = new QPushButton;
-	muteButton->setStyleSheet("background-color: #000000; border-radius: 15px; border: 1px solid #FFFFFF;");
-	muteButton->setFixedSize(30, 30);
-	muteButton->setIcon(QIcon(":/ui/muteButton"));
-	muteButton->setIconSize(QSize(20, 20));
-	layout->addWidget(muteButton, 0, Qt::AlignLeft);
-	//if the mute button is clicked change the icon to unmute and change the volume to 100
-	connect(muteButton, &QPushButton::clicked, [muteButton, volumeSlider]() {
-		if (muteButton->icon().cacheKey() == QIcon(":/ui/muteButton").cacheKey()) {
-			muteButton->setIcon(QIcon(":/ui/unmuteButton"));
-			volumeSlider->setValue(100);
-		}
-		else {
-			muteButton->setIcon(QIcon(":/ui/muteButton"));
-			volumeSlider->setValue(0);
-		}
-		});
+		//add mute button to the left of the slider
+		QPushButton* muteButton = new QPushButton;
+		muteButton->setStyleSheet("background-color: #000000; border-radius: 15px; border: 1px solid #FFFFFF;");
+		muteButton->setFixedSize(30, 30);
+		muteButton->setIcon(QIcon(":/ui/muteButton"));
+		muteButton->setIconSize(QSize(20, 20));
+		layout->addWidget(muteButton, 0, Qt::AlignLeft);
+		//if the mute button is clicked change the icon to unmute and change the volume to 100
+		connect(muteButton, &QPushButton::clicked, [muteButton, volumeSlider]() {
+			if (muteButton->icon().cacheKey() == QIcon(":/ui/muteButton").cacheKey()) {
+				muteButton->setIcon(QIcon(":/ui/unmuteButton"));
+				volumeSlider->setValue(100);
+			}
+			else {
+				muteButton->setIcon(QIcon(":/ui/muteButton"));
+				volumeSlider->setValue(0);
+			}
+			});
 
-	QPushButton* restartButton = new QPushButton("Restart");
-	restartButton->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
-	layout->addWidget(restartButton, 0, Qt::AlignCenter);
-	connect(restartButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
-	connect(restartButton, SIGNAL(clicked()), this, SLOT(restart()));
+		//Fullscreen button
+		QPushButton* fullscreenButton = new QPushButton("Fullscreen");
+		fullscreenButton->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
+		layout->addWidget(fullscreenButton, 0, Qt::AlignCenter);
 
-	//Quit and restart buttons
-	QPushButton* quitButton = new QPushButton("Quit");
-	quitButton->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
-	layout->addWidget(quitButton, 0, Qt::AlignCenter);
-	connect(quitButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
-	connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
-	//Show the window
-	settingsWindow->show();
+		//Connect the fullscreen button to the fullscreen function
+		connect(fullscreenButton, SIGNAL(clicked()), this, SLOT(fullScreen()));
+
+		QPushButton* restartButton = new QPushButton("Restart");
+		restartButton->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
+		layout->addWidget(restartButton, 0, Qt::AlignCenter);
+		connect(restartButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
+		connect(restartButton, SIGNAL(clicked()), this, SLOT(restart()));
+
+		//Quit and restart buttons
+		QPushButton* quitButton = new QPushButton("Quit");
+		quitButton->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
+		layout->addWidget(quitButton, 0, Qt::AlignCenter);
+		connect(quitButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
+		connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+		//Show the window
+		settingsWindow->show();
+	}
 }

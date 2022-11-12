@@ -68,8 +68,6 @@ Player::Player()
 	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 
 	sounds = new soundManager();
-
-	//Make a timer to animate the idle animation
 	keyPressTimer = new QTimer(this);
 	idleTimer = new QTimer(this);
 	moveTimer = new QTimer(this);
@@ -217,7 +215,7 @@ void Player::move() {
 					setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 				}
 			}
-			collisionHandler();
+            emit collisionHandler();
 		}
 		isIdle = true;
 		keyPressTimer->start(200);
