@@ -8,26 +8,30 @@
 
 class soundManager : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    soundManager();
-    //Function that plays the sound depending on the input
-    void playSound(QString soundName);
+	soundManager();
+	//Function that plays the sound depending on the input
+	void playSound(QString soundName);
+	//isPlaying function that returns true if the sound is playing
+	bool isPlaying(QString soundName);
+	//Stop playing the sound
+	void stopSound(QString soundName);
 
 public slots:
-    //Mute function
-    void mute();
-    //Volume changer
-    void changeVolume(int volume);
+	//Mute function
+	void mute();
+	//Volume changer
+	void changeVolume(int volume);
 
 private:
-    //Footsteps, gunshots, etc
-    QSoundEffect* footSteps;
-    QSoundEffect* hurtSound;
-    //Background music
-    QMediaPlayer* musicPlayer;
-    //Audiooutput
-    QAudioOutput* audioOutput;
+	//Footsteps, gunshots, etc
+	QSoundEffect* footSteps;
+	QSoundEffect* hurtSound;
+	//Background music
+	QMediaPlayer* musicPlayer;
+	//Audiooutput
+	QAudioOutput* audioOutput;
 };
 
 #endif // SOUNDMANAGER_H

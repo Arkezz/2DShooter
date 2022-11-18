@@ -44,10 +44,11 @@ public slots:
 	void settings();
 	void collisionHandler();
 	void fullScreen();
+	void drawFootsteps();
 
 private:
-    QWidget* settingsWindow = NULL;
-    QGraphicsScene* scene;
+	QWidget* settingsWindow = NULL;
+	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
 	void gameOver();
@@ -58,5 +59,6 @@ private:
 	QVector<QGraphicsPixmapItem*> hearts;
 	Collectibles* object;
 	soundManager music;
+	QVector<QGraphicsEllipseItem*> footsteps;
 };
 #endif // MAINWINDOW_H

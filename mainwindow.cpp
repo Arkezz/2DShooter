@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(&player, SIGNAL(openSettings()), this, SLOT(settings()));
 	connect(this, SIGNAL(enemyAttack()), &enemies[0], SLOT(attackHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
+	connect(&player, SIGNAL(drawFootsteps()), this, SLOT(drawFootsteps()));
 
 	drawScene();
 }
@@ -91,7 +92,7 @@ void MainWindow::drawScene() {
 	object = new Collectibles(Collectibles::bullet);
 	object->setPos(400, 400);
 	scene->addItem(object);
-    //object->animHandler();
+	object->animHandler();
 }
 
 //Function that controls the ui
@@ -101,6 +102,26 @@ void MainWindow::drawUI() {
 	if (player.getHealth() == 0) {
 		scene->removeItem(&player);
 		gameOver();
+	}
+}
+
+void MainWindow::drawFootsteps() {
+	//draw a round circle to simulate footsteps on the grass once there are 5 footsteps delete the oldest one
+	if (footsteps.size() < 5) {
+		QGraphicsEllipseItem* footstep = new QGraphicsEllipseItem;
+		footstep->setRect(player.x(), player.y(), 5, 5);
+		footstep->setBrush(QBrush(QColor(0, 0, 0, 100)));
+		scene->addItem(footstep);
+		footsteps.push_back(footstep);
+	}
+	else {
+		scene->removeItem(footsteps[0]);
+		footsteps.erase(footsteps.begin());
+		QGraphicsEllipseItem* footstep = new QGraphicsEllipseItem;
+		footstep->setRect(player.x() + 10, player.y() + 10, 10, 10);
+		footstep->setBrush(QBrush(QColor(0, 0, 0, 100)));
+		scene->addItem(footstep);
+		footsteps.push_back(footstep);
 	}
 }
 
@@ -181,16 +202,18 @@ void MainWindow::fullScreen() {
 	}
 	else {
 		this->showFullScreen();
+		//Fill the black parts the screen with the background
 	}
 }
 
 //GameOver function opens a new window that has two buttons (restart and quit)
 void MainWindow::gameOver() {
 	//Create the window have it be semi transparent
-	QWidget* gameOverWindow = new QWidget;
+	QWidget* gameOverWindow = new QWidget(this);
 	gameOverWindow->setWindowFlags(Qt::FramelessWindowHint);
-	gameOverWindow->setWindowOpacity(0.8);
-	gameOverWindow->setStyleSheet("background-color: black;");
+	gameOverWindow->setStyleSheet("background-color: rgba(0, 0, 0, 200);");
+	//Place it in the middle of its parent
+	gameOverWindow->setGeometry((this->width() / 2) - 200, (this->height() / 2) - 100, 400, 200);
 	gameOverWindow->setFixedSize(400, 200);
 
 	//Create the layout

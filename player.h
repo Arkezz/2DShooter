@@ -29,6 +29,7 @@ signals:
 	void drawUi();
 	void openSettings();
 	void collisionHandler();
+	void drawFootsteps();
 
 public slots:
 	void animHandler();
@@ -49,6 +50,8 @@ private:
 	QTimer* keyPressTimer;
 	QTimer* moveTimer;
 	soundManager* sounds;
+	QGraphicsDropShadowEffect* shadow;
+	QVector<QGraphicsDropShadowEffect> trail;
 };
 
 #endif // PLAYER_H

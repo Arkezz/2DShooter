@@ -18,10 +18,9 @@ Enemy::Enemy()
 	attackAnim.push_back(QPixmap(":/enemy1/attack_2"));
 	attackAnim.push_back(QPixmap(":/enemy1/attack_3"));
 
-
-    setPixmap(QPixmap(":/enemy1/idle_0"));
+	setPixmap(QPixmap(":/enemy1/idle_0"));
 	idleTimer = new QTimer(this);
-    attackTimer = new QTimer(this);
+	attackTimer = new QTimer(this);
 	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
 	connect(attackTimer, SIGNAL(timeout()), this, SLOT(attackHandler()));
 	idleTimer->start(200);
@@ -54,4 +53,5 @@ void Enemy::attackHandler()
 
 // pathfinding algorithim for enemy using graphs and nodes
 void Enemy::pathFinding() {
+	//Create a graph of nodes
 }

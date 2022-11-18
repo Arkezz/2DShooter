@@ -6,8 +6,9 @@ soundManager::soundManager()
 
 	footSteps = new QSoundEffect();
 	footSteps->setSource(QUrl("qrc:/sounds/footstepSound"));
-	footSteps->setLoopCount(QSoundEffect::Infinite);
-	footSteps->setVolume(0.5);
+	//Only play as long as the player is moving
+	footSteps->setLoopCount(1);
+	footSteps->setVolume(1);
 
 	hurtSound = new QSoundEffect();
 	hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
@@ -32,9 +33,32 @@ void soundManager::playSound(QString soundName)
 	}
 }
 
+bool soundManager::isPlaying(QString soundName)
+{
+	if (soundName == "footsteps") {
+		return footSteps->isPlaying();
+	}
+	else if (soundName == "hurt") {
+		return hurtSound->isPlaying();
+	}
+}
+
+void soundManager::stopSound(QString soundName)
+{
+	if (soundName == "footsteps") {
+		footSteps->stop();
+	}
+	else if (soundName == "hurt") {
+		hurtSound->stop();
+	}
+	else if (soundName == "bgm") {
+		musicPlayer->stop();
+	}
+}
+
 void soundManager::mute()
 {
-    audioOutput->setVolume(0);
+	audioOutput->setVolume(0);
 }
 
 void soundManager::changeVolume(int volume)

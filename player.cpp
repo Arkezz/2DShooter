@@ -10,8 +10,9 @@ Player::Player()
 	anim_index = 2;
 	isIdle = true;
 	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
-	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
-	setGraphicsEffect(effect);
+	shadow = new QGraphicsDropShadowEffect;
+	setGraphicsEffect(shadow);
+	shadow->setOffset(6);
 
 	anim[RIGHT].push_back(QPixmap(":/entities/side_0"));
 	anim[RIGHT].push_back(QPixmap(":/entities/side_1"));
@@ -128,6 +129,8 @@ void Player::animHandler()
 
 void Player::keyPressEvent(QKeyEvent* event)
 {
+	emit drawFootsteps();
+
 	idleTimer->stop();
 	if (event->key() == Qt::Key_W) {
 		setDir(UP);
@@ -215,9 +218,11 @@ void Player::move() {
 					setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 				}
 			}
-            emit collisionHandler();
+			emit collisionHandler();
 		}
 		isIdle = true;
 		keyPressTimer->start(200);
 	}
 }
+
+//Fix the move function since the player is bigger than the tile take into account the player size
