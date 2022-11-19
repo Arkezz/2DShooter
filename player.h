@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QTimer>
 #include <QGraphicsDropShadowEffect>
+#include <QRandomGenerator>
 #include "qobject.h"
 #include "soundmanager.h"
 
@@ -24,6 +25,8 @@ public:
 	int getAmmo();
 	void shoot();
 	void move();
+	void animFiller();
+	void pickUp();
 
 signals:
 	void drawUi();
@@ -45,7 +48,10 @@ private:
 	int ammo;
 	QVector<QPixmap> anim[4];
 	QVector<QPixmap> idleAnim[4];
-	int anim_index;
+	QVector<QPixmap> pickupAnim;
+	int anim_index = 2;
+	int idle_index = 0;
+	int pickup_index = 0;
 	QTimer* idleTimer;
 	QTimer* keyPressTimer;
 	QTimer* moveTimer;

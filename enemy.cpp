@@ -4,7 +4,11 @@ const int tileLen = 32;
 const int enemyLen = 64;
 Enemy::Enemy()
 {
+	//Make the enmy focusable
+	setFlag(QGraphicsItem::ItemIsFocusable);
+
 	anim_index = 0;
+	attack_index = 0;
 	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
 	setGraphicsEffect(effect);
 
@@ -24,20 +28,23 @@ Enemy::Enemy()
 	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
 	connect(attackTimer, SIGNAL(timeout()), this, SLOT(attackHandler()));
 	idleTimer->start(200);
+
+	//If the enmy is pressed on the screen, it will attack
+	connect(this, SIGNAL(pressed()), this, SLOT(attack()));
 }
 
 //animhandler
 void Enemy::animHandler()
 {
-	if (anim_index == 3)
+	if (attack_index == 3)
 	{
-		anim_index = 0;
+		attack_index = 0;
 	}
 	else
 	{
-		anim_index++;
+		attack_index++;
 	}
-	setPixmap(idleAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
+	setPixmap(idleAnim[attack_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 }
 
 //attackHandler
@@ -53,5 +60,5 @@ void Enemy::attackHandler()
 
 // pathfinding algorithim for enemy using graphs and nodes
 void Enemy::pathFinding() {
-	//Create a graph of nodes
+	//Apply Dijkstra's algorithm to find the shortest path to the player
 }

@@ -157,6 +157,7 @@ void MainWindow::collisionHandler() {
 			//If its a bullet increase the players ammo
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
 				player.setAmmo(player.getAmmo() + 1);
+				player.pickUp();
 			}
 		}
 	}

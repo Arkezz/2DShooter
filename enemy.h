@@ -19,8 +19,9 @@ private:
 	QVector<QPixmap> idleAnim;
 	QVector<QPixmap> attackAnim;
 	int anim_index;
+	int attack_index;
 	QTimer* idleTimer;
-    QTimer* attackTimer;
+	QTimer* attackTimer;
 };
 
 #endif // ENEMY_H

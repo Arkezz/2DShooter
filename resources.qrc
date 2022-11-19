@@ -18,6 +18,7 @@
         <file alias="closeButton">Assets/UI/Exit button.png</file>
         <file alias="muteButton">Assets/UI/Off sound button.png</file>
         <file alias="umuteButton">Assets/UI/On sound button.png</file>
+        <file alias="bullet">Assets/UI/3.png</file>
     </qresource>
     <qresource prefix="/enemy1">
         <file alias="idle_0">Assets/Entiites/Enemy1/Idle_0.png</file>
@@ -65,5 +66,10 @@
         <file alias="up_3">Assets/Entiites/Player/_up walk_3.png</file>
         <file alias="up_4">Assets/Entiites/Player/_up walk_4.png</file>
         <file alias="up_5">Assets/Entiites/Player/_up walk_5.png</file>
+        <file alias="pickup_0">Assets/Entiites/Player/_pick up_0.png</file>
+        <file alias="pickup_1">Assets/Entiites/Player/_pick up_1.png</file>
+        <file alias="pickup_2">Assets/Entiites/Player/_pick up_2.png</file>
+        <file alias="pickup_3">Assets/Entiites/Player/_pick up_3.png</file>
+        <file alias="pickup_4">Assets/Entiites/Player/_pick up_4.png</file>
     </qresource>
 </RCC>

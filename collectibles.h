@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsDropShadowEffect>
 #include <QPropertyAnimation>
+#include <QSequentialAnimationGroup>
 #include <QProperty>
 
 class Collectibles : public QObject, public QGraphicsPixmapItem
@@ -15,7 +16,9 @@ public:
 	enum objectType { bullet };
 	Collectibles(objectType);
 	objectType getType();
-    void animHandler();
+
+public slots:
+	void animHandler();
 
 private:
 	objectType barobject;
