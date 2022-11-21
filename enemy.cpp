@@ -9,6 +9,7 @@ Enemy::Enemy()
 
 	anim_index = 0;
 	attack_index = 0;
+    health = 2;
 	QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect;
 	setGraphicsEffect(effect);
 
@@ -31,6 +32,14 @@ Enemy::Enemy()
 
 	//If the enmy is pressed on the screen, it will attack
 	connect(this, SIGNAL(pressed()), this, SLOT(attack()));
+}
+
+void Enemy::loseHealth(){
+    this->health = 0;
+}
+
+int Enemy::getHealth(){
+    return this->health;
 }
 
 //animhandler

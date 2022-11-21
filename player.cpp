@@ -7,6 +7,7 @@ Player::Player()
 {
 	animFiller();
 	health = 3;
+	ammo = 0;
 	dir = RIGHT;
 	isIdle = true;
 	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);

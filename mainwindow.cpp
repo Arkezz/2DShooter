@@ -97,12 +97,47 @@ void MainWindow::drawScene() {
 
 //Function that controls the ui
 void MainWindow::drawUI() {
-	//Set the heart to empty
-	hearts[player.getHealth()]->setPixmap(QPixmap(":/ui/emptyHeart").scaled(tileLen, tileLen));
+	//Check the health of the player and turn each heart empty if the player is hurt start from the end of the vector
+	for (int i = player.getHealth(); i < hearts.size(); i++) {
+		hearts[i]->setPixmap(QPixmap(":/ui/emptyHeart").scaled(tileLen, tileLen));
+		//remove it from vector
+		hearts.erase(hearts.begin() + i);
+	}
+
+	//If the player gained a heart add a new heart to the vector
+	if (player.getHealth() > hearts.size()) {
+		QGraphicsPixmapItem* heart = new QGraphicsPixmapItem;
+		heart->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
+		heart->setPos(0 + (hearts.size() * tileLen), 0);
+		scene->addItem(heart);
+		hearts.push_back(heart);
+	} //Check if the player has any empty hearts and remove them from the vector
+
 	if (player.getHealth() == 0) {
 		scene->removeItem(&player);
 		gameOver();
 	}
+
+	//Show the amount of ammo the player next to the hearts
+	QGraphicsTextItem* ammo = new QGraphicsTextItem;
+	ammo->setPlainText("Ammo: " + QString::number(player.getAmmo()) + "/4");
+	ammo->setPos(0, tileLen);
+	scene->addItem(ammo);
+
+	//Text that shows the player's status if hes on a powerup or not
+	QGraphicsTextItem* statusText = new QGraphicsTextItem;
+
+	statusText->setPlainText("Normal");
+
+	//if (player.getStatus() == 1) {
+	//	statusText->setPlainText("Speed");
+	//}
+	//else if (player.getStatus() == 2) {
+	//	statusText->setPlainText("Invincible");
+	//}
+
+	statusText->setPos(0, tileLen * 2);
+	scene->addItem(statusText);
 }
 
 void MainWindow::drawFootsteps() {
@@ -156,7 +191,8 @@ void MainWindow::collisionHandler() {
 			scene->removeItem(colliding_items[i]);
 			//If its a bullet increase the players ammo
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
-				player.setAmmo(player.getAmmo() + 1);
+				player.setHealth(player.getHealth() + 1);
+				drawUI();
 				player.pickUp();
 			}
 		}
@@ -210,7 +246,7 @@ void MainWindow::fullScreen() {
 //GameOver function opens a new window that has two buttons (restart and quit)
 void MainWindow::gameOver() {
 	//Create the window have it be semi transparent
-	QWidget* gameOverWindow = new QWidget(this);
+	QDialog* gameOverWindow = new QDialog(this);
 	gameOverWindow->setWindowFlags(Qt::FramelessWindowHint);
 	gameOverWindow->setStyleSheet("background-color: rgba(0, 0, 0, 200);");
 	//Place it in the middle of its parent
@@ -247,10 +283,12 @@ void MainWindow::gameOver() {
 //Settings function
 void MainWindow::settings() {
 	if (!settingsWindow) {
-		QWidget* settingsWindow = new QWidget;
+		QDialog* settingsWindow = new QDialog(this);
+		settingsWindow->setWindowModality(Qt::ApplicationModal);
 		settingsWindow->setWindowFlags(Qt::FramelessWindowHint);
 		settingsWindow->setWindowOpacity(0.8);
-		settingsWindow->setStyleSheet("background-color: black;");
+		setStyleSheet("background-color: rgba(0, 0, 0, 200);");
+		settingsWindow->setGeometry((this->width() / 2) - 200, (this->height() / 2) - 100, 400, 200);
 		settingsWindow->setFixedSize(400, 400);
 
 		//Create the layout
@@ -332,6 +370,6 @@ void MainWindow::settings() {
 		connect(quitButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
 		connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
 		//Show the window
-		settingsWindow->show();
+		settingsWindow->exec();
 	}
 }

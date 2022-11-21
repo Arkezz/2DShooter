@@ -10,6 +10,8 @@ class Enemy : public QObject, public QGraphicsPixmapItem
 public:
 	Enemy();
 	void pathFinding();
+    void loseHealth();
+    int getHealth();
 
 public slots:
 	void animHandler();
