@@ -42,7 +42,7 @@ void MainWindow::addTile(int x, int y, QString tileName) {
 void MainWindow::drawScene() {
 	scene->clear();
 	//Read the tmx file then go line by line in the csv
-	QFile file(":/maps/map1");
+    QFile file(":/maps/test");
 	file.open(QIODevice::ReadOnly);
 	QTextStream in(&file);
 	QString line = in.readLine();
@@ -66,12 +66,120 @@ void MainWindow::drawScene() {
 	// Draw the scene according to the grid
 	for (int y = 0; y < 15; y++) {
 		for (int x = 0; x < 20; x++) {
-			if (grid[y][x] == 1) {
-				addTile(x, y, "wall");
+            if (grid[y][x] == 3) {
+                addTile(x, y, "3");
 			}
-			else if (grid[y][x] == 0) {
-				addTile(x, y, "grass");
+            else if (grid[y][x] ==4) {
+                addTile(x, y, "4");
 			}
+            else if (grid[y][x] ==116) {
+                addTile(x, y, "116");
+            }
+            else if (grid[y][x] ==5) {
+                addTile(x, y, "5");
+            }
+            else if (grid[y][x] ==124) {
+                addTile(x, y, "124");
+            }
+            else if (grid[y][x] ==125) {
+                addTile(x, y, "125");
+            }
+            else if (grid[y][x] ==1) {
+                addTile(x, y, "1");
+            }
+            else if (grid[y][x] ==128) {
+                addTile(x, y, "128");
+            }
+            else if (grid[y][x] ==633) {
+                addTile(x, y, "633");
+            }
+            else if (grid[y][x] ==634) {
+                addTile(x, y, "634");
+            }
+            else if (grid[y][x] ==6) {
+                addTile(x, y, "6");
+            }
+            else if (grid[y][x] ==7) {
+                addTile(x, y, "7");
+            }
+            else if (grid[y][x] ==9) {
+                addTile(x, y, "9");
+            }
+            else if (grid[y][x] ==11) {
+                addTile(x, y, "11");
+            }
+            else if (grid[y][x] ==10) {
+                addTile(x, y, "10");
+            }
+            else if (grid[y][x] ==8) {
+                addTile(x, y, "8");
+            }
+            else if (grid[y][x] ==13) {
+                addTile(x, y, "13");
+            }
+            else if (grid[y][x] ==190) {
+                addTile(x, y, "190");
+            }
+            else if (grid[y][x] ==191) {
+                addTile(x, y, "191");
+            }
+            else if (grid[y][x] ==192) {
+                addTile(x, y, "192");
+            }
+            else if (grid[y][x] ==193) {
+                addTile(x, y, "193");
+            }
+            else if (grid[y][x] ==194) {
+                addTile(x, y, "194");
+            }
+            else if (grid[y][x] ==195) {
+                addTile(x, y, "195");
+            }
+            else if (grid[y][x] ==196) {
+                addTile(x, y, "196");
+            }
+            else if (grid[y][x] ==197) {
+                addTile(x, y, "197");
+            }
+            else if (grid[y][x] ==198) {
+                addTile(x, y, "198");
+            }
+            else if (grid[y][x] ==199) {
+                addTile(x, y, "199");
+            }
+            else if (grid[y][x] ==200) {
+                addTile(x, y, "200");
+            }
+            else if (grid[y][x] ==201) {
+                addTile(x, y, "201");
+            }
+            else if (grid[y][x] ==14) {
+                addTile(x, y, "14");
+            }
+            else if (grid[y][x] ==329) {
+                addTile(x, y, "329");
+            }
+            else if (grid[y][x] ==350) {
+                addTile(x, y, "350");
+            }
+            else if (grid[y][x] ==22) {
+                addTile(x, y, "22");
+            }
+            else if (grid[y][x] ==30) {
+                addTile(x, y, "22");
+            }
+            else if (grid[y][x] ==111) {
+                addTile(x, y, "111");
+            }
+            else if (grid[y][x] ==75) {
+                addTile(x, y, "75");
+            }
+
+            else if (grid[y][x] ==38) {
+                addTile(x, y, "38");
+            }
+
+
 		}
 	}
 	//Add player to the middle of the scene

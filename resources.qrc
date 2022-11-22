@@ -1,10 +1,48 @@
 <RCC>
     <qresource prefix="/tiles">
-        <file alias="wall">Assets/Tiles/0.png</file>
-        <file alias="grass">Assets/Tiles/grass.png</file>
+        <file alias="125">Assets/Tiles/dirt.png</file>
+        <file alias="1">Assets/Tiles/inserec half .png</file>
+        <file>Assets/Tiles/Intersec full.png</file>
+        <file alias="116">Assets/Tiles/raseef.png</file>
+        <file alias="128">Assets/Tiles/raseefinver.png</file>
+        <file alias="633">Assets/Tiles/raseefside inver.png</file>
+        <file alias="634">Assets/Tiles/raseefside.png</file>
+        <file alias="6">Assets/Tiles/street_test-expor2t (1).png</file>
+        <file alias="7">Assets/Tiles/street_test-expor2t.png</file>
+        <file alias="8">Assets/Tiles/street_test-expor22t (1).png</file>
+        <file alias="9">Assets/Tiles/street_test-export.png</file>
+        <file alias="4">Assets/Tiles/street_test.png</file>
+        <file alias="3">Assets/Tiles/street2t.png</file>
+        <file alias="10">Assets/Tiles/streetarc2t.png</file>
+        <file alias="11">Assets/Tiles/streetarc3t.png</file>
+        <file alias="5">Assets/Tiles/streetarc4t.png</file>
+        <file alias="13">Assets/Tiles/streetarct.png</file>
+        <file alias="124">Assets/Tiles/TreeBackground.png</file>
+        <file alias="14">Assets/Tiles/werwer.png</file>
+        <file alias="329">Assets/Tiles/grass.png</file>
+        <file alias="190">Assets/Tiles/house_0.png</file>
+        <file alias="191">Assets/Tiles/house_1.png</file>
+        <file alias="192">Assets/Tiles/house_2.png</file>
+        <file alias="193">Assets/Tiles/house_8.png</file>
+        <file alias="194">Assets/Tiles/house_9.png</file>
+        <file alias="195">Assets/Tiles/house_10.png</file>
+        <file alias="196">Assets/Tiles/house_16.png</file>
+        <file alias="197">Assets/Tiles/house_17.png</file>
+        <file alias="198">Assets/Tiles/house_18.png</file>
+        <file alias="199">Assets/Tiles/house_24.png</file>
+        <file alias="200">Assets/Tiles/house_25.png</file>
+        <file alias="201">Assets/Tiles/house_26.png</file>
+        <file>Assets/Tiles/betterhouse_1.png</file>
+        <file alias="22">Assets/Tiles/hhouse_border_etc_21.png</file>
+        <file alias="30">Assets/Tiles/hhouse_border_etc_29.png</file>
+        <file alias="111">Assets/Tiles/border_down.png</file>
+        <file alias="350">Assets/Tiles/border_up.png</file>
+        <file alias="75">Assets/Tiles/border_left.png</file>
+        <file alias="38">Assets/Tiles/borderrigth.png</file>
     </qresource>
     <qresource prefix="/maps">
         <file alias="map1">Assets/Maps/level1.tmx</file>
+        <file alias="test">Assets/Maps/maptest (1).tmx</file>
     </qresource>
     <qresource prefix="/sounds">
         <file alias="bgm">Assets/Sounds/b423b42.wav</file>
