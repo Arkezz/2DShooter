@@ -20,6 +20,9 @@ Collectibles::Collectibles(objectType type)
        {
            setPixmap(QPixmap(":/ui/shield"));
        }
+       if(barobject == exit){
+           setPixmap(QPixmap(":/ui/exit"));
+       }
 }
 
 Collectibles::objectType Collectibles::getType()

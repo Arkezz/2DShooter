@@ -13,7 +13,7 @@ class Collectibles : public QObject, public QGraphicsPixmapItem
 	Q_OBJECT
 		Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 public:
-    enum objectType {heart, bullet, shield };
+    enum objectType {heart, bullet, shield, exit };
 	Collectibles(objectType);
 	objectType getType();
 

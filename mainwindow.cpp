@@ -229,6 +229,11 @@ void MainWindow::drawScene() {
 	object->setPos(300, 400);
 	scene->addItem(object);
 	object->animHandler();
+
+	object = new Collectibles(Collectibles::exit);
+	object->setPos(550, 400);
+	scene->addItem(object);
+	object->animHandler();
 }
 
 //Function that controls the ui
@@ -273,11 +278,6 @@ void MainWindow::drawUI() {
 		QTimer::singleShot(2000, [this]() {
 			scene->removeItem(&enemies[1]);
 			});
-	}
-
-	//Check the health of both enemies if both of them are dead then the player wins
-	if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
-		win();
 	}
 
 	//Show the amount of ammo the player next to the hearts
@@ -354,14 +354,15 @@ void MainWindow::collisionHandler() {
 		}
 		//if its colliding with a collectible, remove it from the scene and decide its type
 		else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
-			scene->removeItem(colliding_items[i]);
 			//If its a bullet increase the players ammo
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
+				scene->removeItem(colliding_items[i]);
 				player.setHealth(player.getHealth() + 1);
 				drawUI();
 				player.pickUp();
 			}
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 1) {
+				scene->removeItem(colliding_items[i]);
 				player.setAmmo(player.getAmmo() + 1);
 				//Euclidean algorithim to find the closest enemy
 				int enemy1 = sqrt(pow(player.x() - enemies[0].x(), 2) + pow(player.y() - enemies[0].y(), 2));
@@ -381,11 +382,18 @@ void MainWindow::collisionHandler() {
 				player.pickUp();
 			}
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 2) {
+				scene->removeItem(colliding_items[i]);
 				//Singleshot invinctimer for 10 seconds only one time
 				invincTimer->start(10000);
 				player.setStatus(2);
 				drawUI();
 				player.pickUp();
+			}
+			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 3) {
+				//Check the health of both enemies if both of them are dead then the player wins
+				if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
+					win();
+				}
 			}
 		}
 	}
