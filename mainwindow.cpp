@@ -295,7 +295,12 @@ void MainWindow::drawUI() {
 		statusText->setPlainText("Speed");
 	}
 	else if (player.getStatus() == 2) {
-		//Show countdown for invincTimer if the player is invincible in the status text
+		if (invincTimer->isActive()) {
+			statusText->setPlainText("Invincible");
+		}
+		else {
+			statusText->setPlainText("Normal");
+		}
 	}
 
 	statusText->setPos(0, tileLen * 2);
@@ -363,6 +368,7 @@ void MainWindow::collisionHandler() {
 			}
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 1) {
 				scene->removeItem(colliding_items[i]);
+                music.playSound("gunShot");
 				player.setAmmo(player.getAmmo() + 1);
 				//Euclidean algorithim to find the closest enemy
 				int enemy1 = sqrt(pow(player.x() - enemies[0].x(), 2) + pow(player.y() - enemies[0].y(), 2));

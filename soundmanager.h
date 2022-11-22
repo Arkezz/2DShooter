@@ -28,6 +28,7 @@ private:
 	//Footsteps, gunshots, etc
 	QSoundEffect* footSteps;
 	QSoundEffect* hurtSound;
+    QSoundEffect* gunShot;
 	//Background music
 	QMediaPlayer* musicPlayer;
 	//Audiooutput

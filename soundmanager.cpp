@@ -13,6 +13,10 @@ soundManager::soundManager()
 	hurtSound = new QSoundEffect();
 	hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
 
+    gunShot = new QSoundEffect();
+    gunShot->setSource(QUrl("qrc:/sounds/gunShot"));
+    gunShot->setVolume(50);
+
 	musicPlayer = new QMediaPlayer();
 	musicPlayer->setSource(QUrl("qrc:/sounds/bgm"));
 	musicPlayer->setAudioOutput(audioOutput);
@@ -31,6 +35,9 @@ void soundManager::playSound(QString soundName)
 	else if (soundName == "bgm") {
 		musicPlayer->play();
 	}
+    else if (soundName == "gunShot") {
+        gunShot->play();
+    }
 }
 
 bool soundManager::isPlaying(QString soundName)
