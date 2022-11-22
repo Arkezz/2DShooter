@@ -10,24 +10,26 @@ class Enemy : public QObject, public QGraphicsPixmapItem
 public:
 	Enemy();
 	void pathFinding();
-    void loseHealth();
-    int getHealth();
-    void animFiller();
+	void loseHealth();
+	int getHealth();
+	void animFiller();
 
 public slots:
 	void animHandler();
 	void attackHandler();
-    void deathHandler();
+	void deathHandler();
+	void move();
 private:
 	int health;
 	QVector<QPixmap> idleAnim;
 	QVector<QPixmap> attackAnim;
-    QVector<QPixmap> deathAnim;
+	QVector<QPixmap> deathAnim;
 	int anim_index;
 	int attack_index;
-    int death_index;
+	int death_index;
 	QTimer* idleTimer;
 	QTimer* attackTimer;
+	QTimer* moveTimer;
 };
 
 #endif // ENEMY_H

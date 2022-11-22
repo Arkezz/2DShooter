@@ -8,10 +8,18 @@ Collectibles::Collectibles(objectType type)
 	setGraphicsEffect(effect);
 
 	//Set the pixmap according to the type
-	if (barobject == bullet)
-	{
-        setPixmap(QPixmap(":/ui/fullHeart"));
-	}
+    if (barobject == heart)
+       {
+           setPixmap(QPixmap(":/ui/fullHeart"));
+       }
+       if (barobject == bullet)
+       {
+           setPixmap(QPixmap(":/ui/bullet"));
+       }
+       if (barobject == shield)
+       {
+           setPixmap(QPixmap(":/ui/shield"));
+       }
 }
 
 Collectibles::objectType Collectibles::getType()

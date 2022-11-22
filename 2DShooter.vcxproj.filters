@@ -130,7 +130,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Tiles\0.png">
+    <None Include="Assets\UI\3.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Sounds\336598__inspectorj__footsteps-concrete-a.wav">
@@ -157,7 +157,28 @@
     <None Include="Assets\Entiites\Enemy1\Attack_5.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Entiites\Enemy1\Death_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Death_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Death_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Death_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Death_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Death_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\UI\Exit button.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Hurt_1.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\Enemy1\Idle_0.png">
@@ -170,6 +191,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\Enemy1\Idle_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\Intersec full.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\UI\Off sound button.png">
@@ -185,6 +209,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\UI\Pixel Heart Sprite Sheet 32x32_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\TreeBackground.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\Player\_down idle_0.png">
@@ -218,6 +245,21 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\Player\_down walk_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_pick up_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_pick up_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_pick up_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_pick up_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Player\_pick up_4.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Entiites\Player\_side idle_0.png">
@@ -289,14 +331,125 @@
     <None Include="Assets\Sounds\b423b42.wav">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Tiles\betterhouse_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\border_down.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\border_left.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\border_up.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\borderrigth.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\dirt.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Tiles\grass.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\hhouse_border_etc_21.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\hhouse_border_etc_29.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_10.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_17.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_18.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_24.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_25.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_26.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_8.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\house_9.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\inserec half .png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Maps\level1.tmx">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Maps\maptest (1).tmx">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\raseef.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\raseefinver.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\raseefside inver.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\raseefside.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <CustomBuild Include="resources.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <None Include="Assets\Tiles\street2t.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\street_test-expor22t (1).png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\street_test-expor2t (1).png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\street_test-expor2t.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\street_test-export.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\street_test.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\streetarc2t.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\streetarc3t.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\streetarc4t.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\streetarct.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Tiles\werwer.png">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -56,7 +56,9 @@
         <file alias="closeButton">Assets/UI/Exit button.png</file>
         <file alias="muteButton">Assets/UI/Off sound button.png</file>
         <file alias="umuteButton">Assets/UI/On sound button.png</file>
-        <file alias="bullet">Assets/UI/3.png</file>
+        <file>Assets/UI/3.png</file>
+        <file alias="bullet">Assets/UI/bulletmaybe.png</file>
+        <file alias="shield">Assets/UI/shield.png</file>
     </qresource>
     <qresource prefix="/enemy1">
         <file alias="idle_0">Assets/Entiites/Enemy1/Idle_0.png</file>

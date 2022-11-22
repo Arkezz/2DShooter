@@ -15,10 +15,9 @@
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QVector>
+#include <QTimer>
 #include "sceneview.h"
 #include "player.h"
-#include "enemy.h"
-#include "collectibles.h"
 #include "soundmanager.h"
 
 QT_BEGIN_NAMESPACE
@@ -53,6 +52,7 @@ private:
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
 	void gameOver();
+	void win();
 	void createScene();
 	void addTile(int x, int y, QString blockName);
 	Player player;
@@ -61,5 +61,6 @@ private:
 	Collectibles* object;
 	soundManager music;
 	QVector<QGraphicsEllipseItem*> footsteps;
+	QTimer* invincTimer;
 };
 #endif // MAINWINDOW_H

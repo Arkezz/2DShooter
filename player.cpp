@@ -48,6 +48,16 @@ void Player::setHealth(int health)
 	this->health = health;
 }
 
+void Player::setStatus(int status)
+{
+	this->status = status;
+}
+
+int Player::getStatus()
+{
+	return status;
+}
+
 void Player::setAmmo(int ammo)
 {
 	this->ammo = ammo;
@@ -148,7 +158,7 @@ void Player::move() {
 			switch (dir) {
 			case UP:
 				//If the tile above the player is empty, move the player up
-                if (grid[y - 1][x] < 15) {
+				if (grid[y - 1][x] < 15) {
 					setPos(x * tileLen, (y - 1) * tileLen);
 					//Play down anims flipped vertically
 					if (anim_index < anim[UP].size() - 1) {
@@ -162,7 +172,7 @@ void Player::move() {
 				break;
 			case DOWN:
 				//If the tile below the player is empty, move the player down
-                if (grid[y + 1][x] <15) {
+				if (grid[y + 1][x] < 15) {
 					setPos(x * tileLen, (y + 1) * tileLen);
 					//Play the down anims
 					if (anim_index < 4) {
@@ -176,7 +186,7 @@ void Player::move() {
 				break;
 			case LEFT:
 				//If the tile to the left of the player is empty, move the player left
-                if (grid[y][x - 1] < 15) {
+				if (grid[y][x - 1] < 15) {
 					setPos((x - 1) * tileLen, y * tileLen);
 					//Play the side animS
 					anim_index++;
@@ -188,7 +198,7 @@ void Player::move() {
 				break;
 			case RIGHT:
 				//If the tile to the right of the player is empty, move the player right
-                if (grid[y][x + 1] < 15) {
+				if (grid[y][x + 1] < 15) {
 					setPos((x + 1) * tileLen, y * tileLen);
 					//Play the side animS flipped around
 					anim_index++;

@@ -9,6 +9,8 @@
 #include <QRandomGenerator>
 #include "qobject.h"
 #include "soundmanager.h"
+#include "enemy.h"
+#include "collectibles.h"
 
 class Player : public QObject, public QGraphicsPixmapItem
 {
@@ -23,6 +25,8 @@ public:
 	int getHealth();
 	void setAmmo(int);
 	int getAmmo();
+	void setStatus(int);
+	int getStatus();
 	void shoot();
 	void move();
 	void animFiller();
@@ -46,6 +50,7 @@ private:
 	bool isIdle;
 	int health;
 	int ammo;
+	int status;
 	QVector<QPixmap> anim[4];
 	QVector<QPixmap> idleAnim[4];
 	QVector<QPixmap> pickupAnim;
@@ -55,6 +60,7 @@ private:
 	QTimer* idleTimer;
 	QTimer* keyPressTimer;
 	QTimer* moveTimer;
+	QTimer* shieldtime;
 	soundManager* sounds;
 	QGraphicsDropShadowEffect* shadow;
 	QVector<QGraphicsDropShadowEffect> trail;
