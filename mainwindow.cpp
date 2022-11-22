@@ -368,7 +368,7 @@ void MainWindow::collisionHandler() {
 				int enemy1 = sqrt(pow(player.x() - enemies[0].x(), 2) + pow(player.y() - enemies[0].y(), 2));
 				int enemy2 = sqrt(pow(player.x() - enemies[1].x(), 2) + pow(player.y() - enemies[1].y(), 2));
 				//If the first enemy is closer then the second enemy
-				if (enemy1 < enemy2) {
+				if (enemy1 < enemy2 || enemies[1].getHealth() == 0) {
 					//Shoot at the first enemy
 					enemies[0].loseHealth();
 					enemies[0].setPixmap(QPixmap(":/enemy1/hurt"));
