@@ -179,7 +179,7 @@ void MainWindow::collisionHandler() {
 		if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
 			player.setHealth(player.getHealth() - 1);
 			player.setPixmap(QPixmap("a"));
-			drawUI();
+            drawUI();
 			emit enemyAttack();
 			music.playSound("hurt");
 			//get the direction of the player
