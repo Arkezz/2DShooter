@@ -292,14 +292,11 @@ void MainWindow::drawUI() {
 	statusText->setPlainText("Normal");
 
 	if (player.getStatus() == 1) {
-		statusText->setPlainText("Speed");
+        statusText->setPlainText("Normal");
 	}
 	else if (player.getStatus() == 2) {
 		if (invincTimer->isActive()) {
 			statusText->setPlainText("Invincible");
-		}
-		else {
-			statusText->setPlainText("Normal");
 		}
 	}
 
