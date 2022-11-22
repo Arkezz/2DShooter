@@ -118,14 +118,16 @@ void MainWindow::drawUI() {
 		gameOver();
 	}
 
-	//Timer connected to enemy deathHandler
-	QTimer* deathTimer = new QTimer;
-	deathTimer->start(300);
-	connect(deathTimer, SIGNAL(timeout()), &enemies[0], SLOT(deathHandler()));
-	//wait 2 seconds then remove the enemy from the scene lambda
-	QTimer::singleShot(2000, [this]() {
-		scene->removeItem(&enemies[0]);
-		});
+	if (enemies[0].getHealth() == 0) {
+		//Timer connected to enemy deathHandler
+		QTimer* deathTimer = new QTimer;
+		deathTimer->start(300);
+		connect(deathTimer, SIGNAL(timeout()), &enemies[0], SLOT(deathHandler()));
+		//wait 2 seconds then remove the enemy from the scene lambda
+		QTimer::singleShot(2000, [this]() {
+			scene->removeItem(&enemies[0]);
+			});
+	}
 
 	//Show the amount of ammo the player next to the hearts
 	QGraphicsTextItem* ammo = new QGraphicsTextItem;
@@ -203,6 +205,7 @@ void MainWindow::collisionHandler() {
 				player.setHealth(player.getHealth() + 1);
 				drawUI();
 				player.pickUp();
+                //enemies[0].setPixmap(QPixmap(":/enemy1/hurt").transformed(QTransform().scale(-1, 1)).scaled(64,64));
 			}
 		}
 	}

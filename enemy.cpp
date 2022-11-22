@@ -26,7 +26,7 @@ Enemy::Enemy()
 }
 
 void Enemy::loseHealth() {
-	this->health = 0;
+    this->health -= 1;
 }
 
 int Enemy::getHealth() {
