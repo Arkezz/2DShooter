@@ -94,7 +94,7 @@ void Enemy::move() {
 		}
 		break;
 	}
-	//emit collisionHandler();
+	emit collisionHandler();
 }
 
 // pathfinding algorithim for enemy using graphs and nodes

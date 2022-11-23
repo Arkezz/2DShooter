@@ -409,26 +409,28 @@ void MainWindow::enemyCollisionHandler() {
 	for (int i = 0; i < 2; i++) {
 		QList<QGraphicsItem*> colliding_items = enemies[i].collidingItems();
 		for (int j = 0; j < colliding_items.size(); j++) {
-			if (!invincTimer->isActive()) {
-				player.setHealth(player.getHealth() - 1);
-				player.setPixmap(QPixmap("a"));
-				drawUI();
-				emit enemyAttack();
-				music.playSound("hurt");
-				//get the direction of the player
-				int dir = player.getDir();
-				//move the player back
-				if (dir == 0) {
-					player.setPos(player.x() - tileLen, player.y());
-				}
-				else if (dir == 1) {
-					player.setPos(player.x() + tileLen, player.y());
-				}
-				else if (dir == 2) {
-					player.setPos(player.x(), player.y() + tileLen);
-				}
-				else if (dir == 3) {
-					player.setPos(player.x(), player.y() - tileLen);
+			if (typeid(*(colliding_items[j])) == typeid(Player)) {
+				//If invinctimer is active dont allow collision with enemy
+				if (!invincTimer->isActive()) {
+					player.setHealth(player.getHealth() - 1);
+					player.setPixmap(QPixmap("a"));
+					drawUI();
+					music.playSound("hurt");
+					//get the direction of the player
+					int dir = player.getDir();
+					//move the player back
+					if (dir == 0) {
+						player.setPos(player.x() - tileLen, player.y());
+					}
+					else if (dir == 1) {
+						player.setPos(player.x() + tileLen, player.y());
+					}
+					else if (dir == 2) {
+						player.setPos(player.x(), player.y() + tileLen);
+					}
+					else if (dir == 3) {
+						player.setPos(player.x(), player.y() - tileLen);
+					}
 				}
 			}
 		}
