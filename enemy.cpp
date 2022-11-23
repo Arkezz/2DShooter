@@ -53,6 +53,7 @@ void Enemy::deathHandler() {
 		return;
 	setPixmap(deathAnim[death_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 	idleTimer->stop();
+	moveTimer->stop();
 }
 
 //attackHandler
@@ -93,6 +94,7 @@ void Enemy::move() {
 		}
 		break;
 	}
+	//emit collisionHandler();
 }
 
 // pathfinding algorithim for enemy using graphs and nodes

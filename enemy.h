@@ -14,6 +14,9 @@ public:
 	int getHealth();
 	void animFiller();
 
+signals:
+	void collisionHandler();
+
 public slots:
 	void animHandler();
 	void attackHandler();

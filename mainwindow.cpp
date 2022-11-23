@@ -18,8 +18,10 @@ MainWindow::MainWindow(QWidget* parent)
 	//Connections:
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
 	connect(&player, SIGNAL(openSettings()), this, SLOT(settings()));
-	connect(this, SIGNAL(enemyAttack()), &enemies[1], SLOT(attackHandler()));
 	connect(this, SIGNAL(enemyAttack()), &enemies[0], SLOT(attackHandler()));
+	connect(this, SIGNAL(enemyAttack()), &enemies[1], SLOT(attackHandler()));
+	connect(&enemies[0], SIGNAL(collisionHandler()), this, SLOT(enemyCollisionHandler()));
+	connect(&enemies[1], SIGNAL(collisionHandler()), this, SLOT(enemyCollisionHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
 	connect(&player, SIGNAL(drawFootsteps()), this, SLOT(drawFootsteps()));
 	invincTimer = new QTimer(this);
@@ -292,7 +294,7 @@ void MainWindow::drawUI() {
 	statusText->setPlainText("Normal");
 
 	if (player.getStatus() == 1) {
-        statusText->setPlainText("Normal");
+		statusText->setPlainText("Normal");
 	}
 	else if (player.getStatus() == 2) {
 		if (invincTimer->isActive()) {
@@ -365,7 +367,7 @@ void MainWindow::collisionHandler() {
 			}
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 1) {
 				scene->removeItem(colliding_items[i]);
-                music.playSound("gunShot");
+				music.playSound("gunShot");
 				player.setAmmo(player.getAmmo() + 1);
 				//Euclidean algorithim to find the closest enemy
 				int enemy1 = sqrt(pow(player.x() - enemies[0].x(), 2) + pow(player.y() - enemies[0].y(), 2));
@@ -396,6 +398,37 @@ void MainWindow::collisionHandler() {
 				//Check the health of both enemies if both of them are dead then the player wins
 				if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
 					win();
+				}
+			}
+		}
+	}
+}
+
+void MainWindow::enemyCollisionHandler() {
+	//Check if the enemies are colliding with a player
+	for (int i = 0; i < 2; i++) {
+		QList<QGraphicsItem*> colliding_items = enemies[i].collidingItems();
+		for (int j = 0; j < colliding_items.size(); j++) {
+			if (!invincTimer->isActive()) {
+				player.setHealth(player.getHealth() - 1);
+				player.setPixmap(QPixmap("a"));
+				drawUI();
+				emit enemyAttack();
+				music.playSound("hurt");
+				//get the direction of the player
+				int dir = player.getDir();
+				//move the player back
+				if (dir == 0) {
+					player.setPos(player.x() - tileLen, player.y());
+				}
+				else if (dir == 1) {
+					player.setPos(player.x() + tileLen, player.y());
+				}
+				else if (dir == 2) {
+					player.setPos(player.x(), player.y() + tileLen);
+				}
+				else if (dir == 3) {
+					player.setPos(player.x(), player.y() - tileLen);
 				}
 			}
 		}

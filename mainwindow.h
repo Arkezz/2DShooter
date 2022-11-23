@@ -42,6 +42,7 @@ public slots:
 	void restart();
 	void settings();
 	void collisionHandler();
+	void enemyCollisionHandler();
 	void fullScreen();
 	void drawFootsteps();
 
