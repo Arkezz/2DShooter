@@ -25,11 +25,6 @@ Collectibles::Collectibles(objectType type)
        }
 }
 
-Collectibles::objectType Collectibles::getType()
-{
-	return barobject;
-}
-
 void Collectibles::animHandler() {
 	QPropertyAnimation* animation = new QPropertyAnimation(this, "pos");
 	animation->setDuration(1500);

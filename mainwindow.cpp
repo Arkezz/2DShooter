@@ -24,6 +24,8 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(&enemies[1], SIGNAL(collisionHandler()), this, SLOT(enemyCollisionHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
 	connect(&player, SIGNAL(drawFootsteps()), this, SLOT(drawFootsteps()));
+
+	//Timers
 	invincTimer = new QTimer(this);
 	invincTimer->setSingleShot(true);
 
@@ -254,7 +256,7 @@ void MainWindow::drawUI() {
 		heart->setPos(0 + (hearts.size() * tileLen), 0);
 		scene->addItem(heart);
 		hearts.push_back(heart);
-	} //Check if the player has any empty hearts and remove them from the vector
+	}
 
 	if (player.getHealth() == 0) {
 		scene->removeItem(&player);
@@ -266,9 +268,9 @@ void MainWindow::drawUI() {
 		QTimer* deathTimer = new QTimer;
 		deathTimer->start(300);
 		connect(deathTimer, SIGNAL(timeout()), &enemies[0], SLOT(deathHandler()));
-        QTimer::singleShot(2000, this, [=]() {
-            scene->removeItem(&enemies[0]);
-            });
+		QTimer::singleShot(2000, this, [=]() {
+			scene->removeItem(&enemies[0]);
+			});
 	}
 	if (enemies[1].getHealth() == 0) {
 		//Timer connected to enemy deathHandler
@@ -281,28 +283,29 @@ void MainWindow::drawUI() {
 			});
 	}
 
-	//Show the amount of ammo the player next to the hearts
-	QGraphicsTextItem* ammo = new QGraphicsTextItem;
-	ammo->setPlainText(" ");
-	ammo->setPlainText("Ammo: " + QString::number(player.getAmmo()) + "/4");
-	ammo->setPos(0, tileLen);
-	scene->addItem(ammo);
+	//Only add it once to the scene
+	if (scene->items().contains(ammo) == false) {
+		//Show the bullet count
+		ammo = new QGraphicsTextItem;
+		ammo->setPlainText(QString("Bullets: ") + QString::number(player.getAmmo()));
+		ammo->setDefaultTextColor(Qt::white);
+		ammo->setFont(QFont("times", 16));
+		ammo->setPos(0, 50);
+		scene->addItem(ammo);
+	}
+	else {
+		ammo->setPlainText(QString::number(player.getAmmo()));
+	}
 
-	//Text that shows the player's status if hes on a powerup or not
-	QGraphicsTextItem* statusText = new QGraphicsTextItem;
-	statusText->setPlainText("Normal");
-
+	//Show a counter displaying the timer if invincible
 	if (player.getStatus() == 1) {
-		statusText->setPlainText("Normal");
+		statusText = new QGraphicsTextItem;
+		statusText->setPlainText(QString("Invincible"));
+		statusText->setDefaultTextColor(Qt::white);
+		statusText->setFont(QFont("times", 16));
+		statusText->setPos(0, 100);
+		scene->addItem(statusText);
 	}
-	else if (player.getStatus() == 2) {
-		if (invincTimer->isActive()) {
-			statusText->setPlainText("Invincible");
-		}
-	}
-
-	statusText->setPos(0, tileLen * 2);
-	scene->addItem(statusText);
 }
 
 void MainWindow::drawFootsteps() {
@@ -389,7 +392,7 @@ void MainWindow::collisionHandler() {
 				scene->removeItem(colliding_items[i]);
 				//Singleshot invinctimer for 10 seconds only one time
 				invincTimer->start(10000);
-				player.setStatus(2);
+				player.setStatus(Player::invincible);
 				drawUI();
 				player.pickUp();
 			}
@@ -457,11 +460,14 @@ void MainWindow::restart() {
 //fullscreen function
 void MainWindow::fullScreen() {
 	if (this->isFullScreen()) {
+		//Remove backgorund
+		scene->setBackgroundBrush(QBrush(QColor(0, 0, 0, 0)));
 		this->showNormal();
 	}
 	else {
+		//Paint the background
+		scene->setBackgroundBrush(QBrush(QImage(":/ui/sky")));
 		this->showFullScreen();
-		//Fill the black parts the screen with the background
 	}
 }
 

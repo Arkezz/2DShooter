@@ -19,14 +19,17 @@ public:
 	Player();
 	virtual ~Player() {};
 	enum dirF { RIGHT, LEFT, UP, DOWN };
-	void setDir(dirF dir);
-	dirF getDir();
-	void setHealth(int);
-	int getHealth();
-	void setAmmo(int);
-	int getAmmo();
-	void setStatus(int);
-	int getStatus();
+	enum state { normal, invincible };
+
+	void setDir(dirF dir) { this->dir = dir; }
+	dirF getDir() { return dir; }
+	void setHealth(int health) { this->health = health; }
+	int getHealth() { return health; }
+	void setAmmo(int a) { ammo = a; }
+	int getAmmo() { return ammo; }
+	void setStatus(state s) { status = s; }
+	state getStatus() { return status; }
+
 	void shoot();
 	void move();
 	void animFiller();
@@ -50,7 +53,7 @@ private:
 	bool isIdle;
 	int health;
 	int ammo;
-	int status;
+	state status;
 	QVector<QPixmap> anim[4];
 	QVector<QPixmap> idleAnim[4];
 	QVector<QPixmap> pickupAnim;

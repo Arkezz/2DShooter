@@ -43,6 +43,9 @@
     <ClCompile Include="enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -66,6 +69,9 @@
     <CustomBuild Include="enemy.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -214,6 +220,24 @@
     <None Include="Assets\Tiles\TreeBackground.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Entiites\Enemy1\Walk_0.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Walk_1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Walk_2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Walk_3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Walk_4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Entiites\Enemy1\Walk_5.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Entiites\Player\_down idle_0.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -331,6 +355,9 @@
     <None Include="Assets\Sounds\b423b42.wav">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\UI\babbig.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Tiles\betterhouse_1.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -344,6 +371,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\borderrigth.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\UI\bulletmaybe.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\dirt.png">
@@ -403,6 +433,9 @@
     <None Include="Assets\Maps\maptest (1).tmx">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Sounds\pistol.wav">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Tiles\raseef.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -418,6 +451,12 @@
     <CustomBuild Include="resources.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <None Include="Assets\UI\sCitySky.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\UI\shield.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Tiles\street2t.png">
       <Filter>Resource Files</Filter>
     </None>

@@ -63,5 +63,7 @@ private:
 	soundManager music;
 	QVector<QGraphicsEllipseItem*> footsteps;
 	QTimer* invincTimer;
+	QGraphicsTextItem* ammo;
+	QGraphicsTextItem* statusText;
 };
 #endif // MAINWINDOW_H

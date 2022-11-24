@@ -26,15 +26,6 @@ Enemy::Enemy()
 	idleTimer->start(400);
 }
 
-void Enemy::loseHealth() {
-	this->health -= 1;
-}
-
-int Enemy::getHealth() {
-	return this->health;
-}
-
-//animhandler
 void Enemy::animHandler()
 {
 	if (idle_index == 3)
@@ -57,7 +48,6 @@ void Enemy::deathHandler() {
 	moveTimer->stop();
 }
 
-//attackHandler
 void Enemy::attackHandler()
 {
 	while (attack_index != 3) {

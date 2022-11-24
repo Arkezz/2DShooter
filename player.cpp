@@ -13,7 +13,6 @@ Player::Player()
 	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
 	shadow = new QGraphicsDropShadowEffect;
 	setGraphicsEffect(shadow);
-	shadow->setOffset(6);
 
 	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 
@@ -26,46 +25,6 @@ Player::Player()
 		idleTimer->start(200);
 		});
 	idleTimer->start(200);
-}
-
-void Player::setDir(dirF dir)
-{
-	this->dir = dir;
-}
-
-Player::dirF Player::getDir()
-{
-	return dir;
-}
-
-int Player::getHealth()
-{
-	return health;
-}
-
-void Player::setHealth(int health)
-{
-	this->health = health;
-}
-
-void Player::setStatus(int status)
-{
-	this->status = status;
-}
-
-int Player::getStatus()
-{
-	return status;
-}
-
-void Player::setAmmo(int ammo)
-{
-	this->ammo = ammo;
-}
-
-int Player::getAmmo()
-{
-	return ammo;
 }
 
 void Player::shoot() {

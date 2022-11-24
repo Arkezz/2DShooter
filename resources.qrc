@@ -61,6 +61,7 @@
         <file alias="bullet">Assets/UI/bulletmaybe.png</file>
         <file alias="shield">Assets/UI/shield.png</file>
         <file alias="exit">Assets/UI/babbig.png</file>
+        <file alias="sky">Assets/UI/sCitySky.png</file>
     </qresource>
     <qresource prefix="/enemy1">
         <file alias="idle_0">Assets/Entiites/Enemy1/Idle_0.png</file>

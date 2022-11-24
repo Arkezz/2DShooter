@@ -13,9 +13,9 @@ class Collectibles : public QObject, public QGraphicsPixmapItem
 	Q_OBJECT
 		Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 public:
-    enum objectType {heart, bullet, shield, exit };
+	enum objectType { heart, bullet, shield, exit };
 	Collectibles(objectType);
-	objectType getType();
+	objectType getType() { return barobject; }
 
 public slots:
 	void animHandler();
