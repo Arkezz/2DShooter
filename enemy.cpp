@@ -7,7 +7,8 @@ Enemy::Enemy()
 	//Make the enmy focusable
 	setFlag(QGraphicsItem::ItemIsFocusable);
 	animFiller();
-	anim_index = 0;
+	move_index = 0;
+	idle_index = 0;
 	attack_index = 0;
 	death_index = 0;
 	health = 2;
@@ -36,15 +37,15 @@ int Enemy::getHealth() {
 //animhandler
 void Enemy::animHandler()
 {
-	if (attack_index == 3)
+	if (idle_index == 3)
 	{
-		attack_index = 0;
+		idle_index = 0;
 	}
 	else
 	{
-		attack_index++;
+		idle_index++;
 	}
-	setPixmap(idleAnim[attack_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
+	setPixmap(idleAnim[idle_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 }
 
 void Enemy::deathHandler() {
@@ -59,16 +60,16 @@ void Enemy::deathHandler() {
 //attackHandler
 void Enemy::attackHandler()
 {
-	while (anim_index != 3) {
-		anim_index++;
+	while (attack_index != 3) {
+		attack_index++;
 	}
 	//According to the direction of the enemy, the attack animation will be played
-	setPixmap(attackAnim[anim_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
-	anim_index = 0;
+	setPixmap(attackAnim[attack_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
+	attack_index = 0;
 }
 
 void Enemy::move() {
-	//Randomly move one tile in a random direction dont allow him to walk through walls
+	idleTimer->stop();
 	int x = this->x() / tileLen;
 	int y = this->y() / tileLen;
 	int dir = rand() % 4;
@@ -76,24 +77,45 @@ void Enemy::move() {
 	case 0:
 		if (grid[y - 1][x] > 15) {
 			this->setPos(this->x(), this->y() - tileLen);
+			//Play the move animation
+			move_index++;
+			if (move_index >= moveAnim.size())
+				move_index = 0;
+			setPixmap(moveAnim[move_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 		}
 		break;
 	case 1:
 		if (grid[y + 1][x] > 15) {
 			this->setPos(this->x(), this->y() + tileLen);
+			//Play the move animation
+			move_index++;
+			if (move_index >= moveAnim.size())
+				move_index = 0;
+			setPixmap(moveAnim[move_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 		}
 		break;
 	case 2:
 		if (grid[y][x - 1] > 15) {
 			this->setPos(this->x() - tileLen, this->y());
+			//Play the move animation
+			move_index++;
+			if (move_index >= moveAnim.size())
+				move_index = 0;
+			setPixmap(moveAnim[move_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 		}
 		break;
 	case 3:
 		if (grid[y][x + 1] > 15) {
 			this->setPos(this->x() + tileLen, this->y());
+			//Play the move animation
+			move_index++;
+			if (move_index >= moveAnim.size())
+				move_index = 0;
+			setPixmap(moveAnim[move_index].transformed(QTransform().scale(-1, 1)).scaled(enemyLen, enemyLen));
 		}
 		break;
 	}
+
 	emit collisionHandler();
 }
 
@@ -118,4 +140,11 @@ void Enemy::animFiller() {
 	deathAnim.push_back(QPixmap(":/enemy1/death_2"));
 	deathAnim.push_back(QPixmap(":/enemy1/death_3"));
 	deathAnim.push_back(QPixmap(":/enemy1/death_4"));
+
+	moveAnim.push_back(QPixmap(":/enemy1/walk_0"));
+	moveAnim.push_back(QPixmap(":/enemy1/walk_1"));
+	moveAnim.push_back(QPixmap(":/enemy1/walk_2"));
+	moveAnim.push_back(QPixmap(":/enemy1/walk_3"));
+	moveAnim.push_back(QPixmap(":/enemy1/walk_4"));
+	moveAnim.push_back(QPixmap(":/enemy1/walk_5"));
 }

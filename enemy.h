@@ -24,10 +24,12 @@ public slots:
 	void move();
 private:
 	int health;
+    QVector<QPixmap> moveAnim;
 	QVector<QPixmap> idleAnim;
 	QVector<QPixmap> attackAnim;
 	QVector<QPixmap> deathAnim;
-	int anim_index;
+    int move_index;
+    int idle_index;
 	int attack_index;
 	int death_index;
 	QTimer* idleTimer;

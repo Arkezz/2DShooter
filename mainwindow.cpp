@@ -266,18 +266,17 @@ void MainWindow::drawUI() {
 		QTimer* deathTimer = new QTimer;
 		deathTimer->start(300);
 		connect(deathTimer, SIGNAL(timeout()), &enemies[0], SLOT(deathHandler()));
-		//wait 2 seconds then remove the enemy from the scene lambda
-		QTimer::singleShot(2000, [this]() {
-			scene->removeItem(&enemies[0]);
-			});
+        QTimer::singleShot(2000, this, [=]() {
+            scene->removeItem(&enemies[0]);
+            });
 	}
 	if (enemies[1].getHealth() == 0) {
 		//Timer connected to enemy deathHandler
 		QTimer* deathTimer = new QTimer;
 		deathTimer->start(300);
 		connect(deathTimer, SIGNAL(timeout()), &enemies[1], SLOT(deathHandler()));
-		//wait 2 seconds then remove the enemy from the scene lambda
-		QTimer::singleShot(2000, [this]() {
+		//wait 2 seconds then remove the enemy from the scene lambda pass a context object to the lambda
+		QTimer::singleShot(2000, this, [=]() {
 			scene->removeItem(&enemies[1]);
 			});
 	}
@@ -453,21 +452,6 @@ void MainWindow::setSize() {
 }
 
 void MainWindow::restart() {
-	//Reset the player
-	player.setPos(400, 200);
-	player.setAmmo(0);
-	player.setHealth(3);
-	player.setFocus();
-	scene->addItem(&player);
-	//Reset the enemy
-	enemies[0].setPos(400, 80);
-	scene->addItem(&enemies[0]);
-	//Reset the hearts
-	for (int i = 0; i < hearts.size(); i++) {
-		hearts[i]->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
-	}
-	//Reset the object
-	scene->addItem(object);
 }
 
 //fullscreen function

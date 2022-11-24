@@ -80,6 +80,12 @@
         <file alias="death_4">Assets/Entiites/Enemy1/Death_4.png</file>
         <file alias="death_5">Assets/Entiites/Enemy1/Death_5.png</file>
         <file alias="hurt">Assets/Entiites/Enemy1/Hurt_1.png</file>
+        <file alias="walk_0">Assets/Entiites/Enemy1/Walk_0.png</file>
+        <file alias="walk_1">Assets/Entiites/Enemy1/Walk_1.png</file>
+        <file alias="walk_2">Assets/Entiites/Enemy1/Walk_2.png</file>
+        <file alias="walk_3">Assets/Entiites/Enemy1/Walk_3.png</file>
+        <file alias="walk_4">Assets/Entiites/Enemy1/Walk_4.png</file>
+        <file alias="walk_5">Assets/Entiites/Enemy1/Walk_5.png</file>
     </qresource>
     <qresource prefix="/entities">
         <file alias="downIdle_0">Assets/Entiites/Player/_down idle_0.png</file>
