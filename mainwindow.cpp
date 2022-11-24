@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <chrono>
 
 //Pixel size of each Tile in the grid
 const int tileLen = 32;
@@ -313,10 +314,14 @@ void MainWindow::drawUI() {
 		scene->addItem(statusText);
 	}
 	else if (player.getStatus() == Player::invincible) {
-		statusText->setPlainText(QString("Invincible"));
-		statusText->setDefaultTextColor(Qt::white);
-		statusText->setFont(QFont("times", 16));
-		statusText->setPos(0, 100);
+		//Create temp timer
+		QTimer* tempTimer = new QTimer;
+		tempTimer->start(1000);
+		//Connect the timer to the lambda
+		connect(tempTimer, &QTimer::timeout, [=]() {
+			//Update the text
+			statusText->setPlainText(QString("Invincible: ") + QString::number(invincTimer->remainingTime() / 1000));
+			});
 	}
 }
 
@@ -402,7 +407,6 @@ void MainWindow::collisionHandler() {
 			}
 			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::shield) {
 				scene->removeItem(colliding_items[i]);
-				//Singleshot invinctimer for 10 seconds only one time
 				invincTimer->start(10000);
 				player.setStatus(Player::invincible);
 				drawUI();
