@@ -10,6 +10,7 @@ Player::Player()
 	ammo = 0;
 	dir = RIGHT;
 	isIdle = true;
+	status = normal;
 	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
 	shadow = new QGraphicsDropShadowEffect;
 	setGraphicsEffect(shadow);

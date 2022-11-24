@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget* parent)
 	setWindowTitle("2D Shooter");
 	music.playSound("bgm");
 
+	//Timers
+	invincTimer = new QTimer(this);
+	invincTimer->setSingleShot(true);
+
 	//Connections:
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
 	connect(&player, SIGNAL(openSettings()), this, SLOT(settings()));
@@ -24,12 +28,11 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(&enemies[1], SIGNAL(collisionHandler()), this, SLOT(enemyCollisionHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
 	connect(&player, SIGNAL(drawFootsteps()), this, SLOT(drawFootsteps()));
-
-	//Timers
-	invincTimer = new QTimer(this);
-	invincTimer->setSingleShot(true);
+	connect(invincTimer, &QTimer::timeout, [&]() {player.setStatus(Player::normal); });
+	connect(invincTimer, SIGNAL(timeout()), this, SLOT(drawUI()));
 
 	drawScene();
+	drawUI();
 }
 
 MainWindow::~MainWindow()
@@ -294,17 +297,26 @@ void MainWindow::drawUI() {
 		scene->addItem(ammo);
 	}
 	else {
-		ammo->setPlainText(QString::number(player.getAmmo()));
+		ammo->setPlainText(QString("Bullets: ") + QString::number(player.getAmmo()));
 	}
 
 	//Show a counter displaying the timer if invincible
-	if (player.getStatus() == 1) {
+	if (player.getStatus() == Player::normal) {
+		if (scene->items().contains(statusText) == true) {
+			scene->removeItem(statusText);
+		}
 		statusText = new QGraphicsTextItem;
-		statusText->setPlainText(QString("Invincible"));
+		statusText->setPlainText(QString("Normal"));
 		statusText->setDefaultTextColor(Qt::white);
 		statusText->setFont(QFont("times", 16));
 		statusText->setPos(0, 100);
 		scene->addItem(statusText);
+	}
+	else if (player.getStatus() == Player::invincible) {
+		statusText->setPlainText(QString("Invincible"));
+		statusText->setDefaultTextColor(Qt::white);
+		statusText->setFont(QFont("times", 16));
+		statusText->setPos(0, 100);
 	}
 }
 
@@ -361,13 +373,13 @@ void MainWindow::collisionHandler() {
 		//if its colliding with a collectible, remove it from the scene and decide its type
 		else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
 			//If its a bullet increase the players ammo
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 0) {
+			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::heart) {
 				scene->removeItem(colliding_items[i]);
 				player.setHealth(player.getHealth() + 1);
 				drawUI();
 				player.pickUp();
 			}
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 1) {
+			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::bullet) {
 				scene->removeItem(colliding_items[i]);
 				music.playSound("gunShot");
 				player.setAmmo(player.getAmmo() + 1);
@@ -388,7 +400,7 @@ void MainWindow::collisionHandler() {
 				drawUI();
 				player.pickUp();
 			}
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 2) {
+			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::shield) {
 				scene->removeItem(colliding_items[i]);
 				//Singleshot invinctimer for 10 seconds only one time
 				invincTimer->start(10000);
@@ -396,7 +408,7 @@ void MainWindow::collisionHandler() {
 				drawUI();
 				player.pickUp();
 			}
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == 3) {
+			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::exit) {
 				//Check the health of both enemies if both of them are dead then the player wins
 				if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
 					win();
