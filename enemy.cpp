@@ -22,7 +22,7 @@ Enemy::Enemy()
 	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
 	connect(attackTimer, SIGNAL(timeout()), this, SLOT(attackHandler()));
 	connect(moveTimer, SIGNAL(timeout()), this, SLOT(move()));
-	moveTimer->start(500);
+    //moveTimer->start(500);
 	idleTimer->start(400);
 }
 

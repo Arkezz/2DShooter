@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget* parent)
 	//Timers
 	invincTimer = new QTimer(this);
 	invincTimer->setSingleShot(true);
+	enemyTimer = new QTimer(this);
 
 	//Connections:
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
@@ -31,9 +32,11 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(&player, SIGNAL(drawFootsteps()), this, SLOT(drawFootsteps()));
 	connect(invincTimer, &QTimer::timeout, [&]() {player.setStatus(Player::normal); });
 	connect(invincTimer, SIGNAL(timeout()), this, SLOT(drawUI()));
+	connect(enemyTimer, SIGNAL(timeout()), this, SLOT(test()));
 
 	drawScene();
 	drawUI();
+	enemyTimer->start(500);
 }
 
 MainWindow::~MainWindow()
@@ -652,4 +655,28 @@ void MainWindow::settings() {
 		//Show the window
 		settingsWindow->exec();
 	}
+}
+
+void MainWindow::test() {
+	//Qdebug the graph
+	Graph graph(grid);
+
+	//Start node is enemy spawn
+	Node* start = graph.getNode(enemies[0].x() / 32, enemies[0].y() / 32);
+	//End node is player
+	Node* end = graph.getNode(player.x() / 32, player.y() / 32);
+
+	//Find the path
+	QVector<Node*> path = graph.findPath(start, end);
+
+	//Move the enmy to the next node in the path
+	if (path.size() > 1) {
+		enemies[0].setPos(path[1]->x * 32, path[1]->y * 32);
+	}
+
+	//qdebug the path
+	for (int i = 0; i < path.size(); i++) {
+		qDebug() << path[i]->x << path[i]->y;
+	}
+	qDebug() << "----------------";
 }
