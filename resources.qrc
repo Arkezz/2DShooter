@@ -19,7 +19,7 @@
         <file alias="13">Assets/Tiles/streetarct.png</file>
         <file alias="124">Assets/Tiles/TreeBackground.png</file>
         <file alias="14">Assets/Tiles/werwer.png</file>
-        <file alias="329">Assets/Tiles/grass.png</file>
+        <file>Assets/Tiles/grass.png</file>
         <file alias="190">Assets/Tiles/house_0.png</file>
         <file alias="191">Assets/Tiles/house_1.png</file>
         <file alias="192">Assets/Tiles/house_2.png</file>
@@ -39,6 +39,7 @@
         <file alias="350">Assets/Tiles/border_up.png</file>
         <file alias="75">Assets/Tiles/border_left.png</file>
         <file alias="38">Assets/Tiles/borderrigth.png</file>
+        <file alias="329">Assets/Tiles/Pixel_Grass.png</file>
     </qresource>
     <qresource prefix="/maps">
         <file alias="map1">Assets/Maps/level1.tmx</file>

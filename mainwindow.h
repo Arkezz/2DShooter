@@ -129,7 +129,7 @@ public:
             //For each node in the open set
             for (int i = 1; i < openSet.size(); i++) {
                 //If the fCost of the current node is greater than the fCost of the node in the open set
-                if (openSet[i]->fCost < currentNode->fCost || openSet[i]->fCost == currentNode->fCost && openSet[i]->hCost < currentNode->hCost) {
+                if (openSet[i]->fCost < currentNode->fCost || (openSet[i]->fCost == currentNode->fCost && openSet[i]->hCost < currentNode->hCost)) {
                     //Set the current node to the node in the open set
                     currentNode = openSet[i];
                 }
