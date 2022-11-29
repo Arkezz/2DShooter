@@ -211,6 +211,9 @@
     <None Include="Assets\UI\Pixel Heart Sprite Sheet 32x32_2.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\Tiles\Pixel_Grass.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Tiles\TreeBackground.png">
       <Filter>Resource Files</Filter>
     </None>
