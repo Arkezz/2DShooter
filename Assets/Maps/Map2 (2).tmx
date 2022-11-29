@@ -1,0 +1,43 @@
+<?xml version="1.33509" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.350" orientation="orthogonal" renderorder="right-down" width="35033509" height="15" tilewidth="3350" tileheight="3350" infinite="33509" nextlayerid="7" nextobjectid="1">
+ <tileset firstgid="1" source="City1.tsx"/>
+ <tileset firstgid="57" source="MapRev.tsx"/>
+ <tileset firstgid="3" source="test350.tsx"/>
+ <tileset firstgid="13" source="streetsarc.tsx"/>
+ <tileset firstgid="4" source="roooadtest.tsx"/>
+ <tileset firstgid="116" source="raseef.tsx"/>
+ <tileset firstgid="10" source="arc op.tsx"/>
+ <tileset firstgid="5" source="arc4.tsx"/>
+ <tileset firstgid="119" source="l shape rev.tsx"/>
+ <tileset firstgid="135033509" source="l shape.tsx"/>
+ <tileset firstgid="13501" source="intersec.tsx"/>
+ <tileset firstgid="1350350" source="intersec350.tsx"/>
+ <tileset firstgid="13503" source="arcss.tsx"/>
+ <tileset firstgid="13504" source="tree with background.tsx"/>
+ <tileset firstgid="13505" source="dirt.tsx"/>
+ <tileset firstgid="13506" source="inserec half.tsx"/>
+ <tileset firstgid="13507" source="ww.tsx"/>
+ <tileset firstgid="13508" source="raseefinver.tsx"/>
+ <tileset firstgid="13509" source="xd.tsx"/>
+ <tileset firstgid="633" source="raseefsideinver.tsx"/>
+ <tileset firstgid="634" source="raseefside.tsx"/>
+ <layer id="1" name="Tile Layer 1" width="35033509" height="15">
+  <data encoding="csv">
+350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,350,
+75,128,128,128,128,3,3,5,4,4,4,4,11,3,3,128,128,128,128,38,
+75,5,4,4,4,8,6,10,124,124,124,124,13,8,6,4,4,4,11,38,
+75,13,4,4,4,8,6,11,124,124,124,124,5,8,6,4,4,4,10,38,
+75,116,116,116,116,3,3,13,4,4,4,4,10,3,3,116,116,116,116,38,
+75,5,14,4,4,10,13,14,14,4,4,14,14,10,13,4,4,14,11,38,
+75,3,3,329,329,329,329,3,3,633,634,3,3,329,329,329,329,3,3,38,
+75,3,3,329,124,124,329,3,3,633,634,3,3,329,124,124,329,3,3,38,
+75,3,3,329,124,124,329,3,3,633,634,3,3,329,124,124,329,3,3,38,
+75,3,3,329,329,329,329,3,3,633,634,3,3,329,329,329,329,3,3,38,
+75,3,13,11,6,4,4,4,4,4,4,4,4,4,4,8,5,10,3,38,
+75,3,5,10,6,4,4,4,4,4,4,4,4,4,4,8,13,11,3,38,
+75,3,3,329,329,329,329,329,329,329,329,329,329,329,329,329,329,3,3,38,
+75,13,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,10,38,
+111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111,111
+</data>
+ </layer>
+</map>

@@ -41,8 +41,8 @@
         <file alias="329">Assets/Tiles/Pixel_Grass.png</file>
     </qresource>
     <qresource prefix="/maps">
-        <file alias="map1">Assets/Maps/level1.tmx</file>
-        <file alias="test">Assets/Maps/maptest (1).tmx</file>
+        <file alias="level1">Assets/Maps/maptest (1).tmx</file>
+        <file alias="level2">Assets/Maps/Map2 (2).tmx</file>
     </qresource>
     <qresource prefix="/sounds">
         <file alias="bgm">Assets/Sounds/b423b42.wav</file>

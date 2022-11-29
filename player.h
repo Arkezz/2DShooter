@@ -30,10 +30,10 @@ public:
 	void setStatus(state s) { status = s; }
 	state getStatus() { return status; }
 
-	void shoot();
 	void move();
 	void animFiller();
 	void pickUp();
+	void reset();
 
 signals:
 	void drawUi();

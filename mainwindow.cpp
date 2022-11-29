@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget* parent)
 	invincTimer = new QTimer(this);
 	invincTimer->setSingleShot(true);
 	enemyTimer = new QTimer(this);
-    graph = new Graph(grid);
+	graph = new Graph(grid);
 
 	//Connections:
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
@@ -30,14 +30,25 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(&enemies[0], SIGNAL(collisionHandler()), this, SLOT(enemyCollisionHandler()));
 	connect(&enemies[1], SIGNAL(collisionHandler()), this, SLOT(enemyCollisionHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
-	connect(&player, SIGNAL(drawFootsteps()), this, SLOT(drawFootsteps()));
 	connect(invincTimer, &QTimer::timeout, [&]() {player.setStatus(Player::normal); });
 	connect(invincTimer, SIGNAL(timeout()), this, SLOT(drawUI()));
-	connect(enemyTimer, SIGNAL(timeout()), this, SLOT(test()));
+	//Connect the enemytimer to lambda that calls pathfinding
+	connect(enemyTimer, &QTimer::timeout, [&]() {
+		if (scene->items().contains(&enemies[1]) && scene->items().contains(&enemies[0])) {
+			pathFinding(enemies[0]);
+			pathFinding(enemies[1]);
+		}
+		else if (scene->items().contains(&enemies[0])) {
+			pathFinding(enemies[0]);
+		}
+		else if (scene->items().contains(&enemies[1])) {
+			pathFinding(enemies[1]);
+		}
+		});
 
 	drawScene();
 	drawUI();
-    enemyTimer->start(500);
+	enemyTimer->start(1000);
 }
 
 MainWindow::~MainWindow()
@@ -56,8 +67,14 @@ void MainWindow::addTile(int x, int y, QString tileName) {
 
 void MainWindow::drawScene() {
 	scene->clear();
+	//Initialize the grid
+	for (int i = 0; i < 15; i++) {
+		for (int j = 0; j < 20; j++) {
+			grid[i][j] = 0;
+		}
+	}
 	//Read the tmx file then go line by line in the csv
-	QFile file(":/maps/test");
+	QFile file(":/maps/level" + QString::number(level));
 	file.open(QIODevice::ReadOnly);
 	QTextStream in(&file);
 	QString line = in.readLine();
@@ -200,7 +217,7 @@ void MainWindow::drawScene() {
 	player.setFocus();
 	scene->addItem(&player);
 	//Add enemy to the middle of the scene
-    enemies[0].setPos(200, 120);
+	enemies[0].setPos(200, 120);
 	scene->addItem(&enemies[0]);
 	enemies[1].setPos(400, 380);
 	scene->addItem(&enemies[1]);
@@ -212,6 +229,7 @@ void MainWindow::drawScene() {
 		scene->addItem(heart);
 		hearts.push_back(heart);
 	}
+
 	object = new Collectibles(Collectibles::heart);
 	object->setPos(500, 120);
 	scene->addItem(object);
@@ -223,7 +241,7 @@ void MainWindow::drawScene() {
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::bullet);
-	object->setPos(120, 140);
+	object->setPos(120, 100);
 	scene->addItem(object);
 	object->animHandler();
 
@@ -251,11 +269,6 @@ void MainWindow::drawScene() {
 //Function that controls the ui
 void MainWindow::drawUI() {
 	//Check the health of the player and turn each heart empty if the player is hurt start from the end of the vector
-	for (int i = player.getHealth(); i < hearts.size(); i++) {
-		hearts[i]->setPixmap(QPixmap(":/ui/emptyHeart").scaled(tileLen, tileLen));
-		//remove it from vector
-		hearts.erase(hearts.begin() + i);
-	}
 
 	//If the player gained a heart add a new heart to the vector
 	if (player.getHealth() > hearts.size()) {
@@ -276,8 +289,9 @@ void MainWindow::drawUI() {
 		QTimer* deathTimer = new QTimer;
 		deathTimer->start(300);
 		connect(deathTimer, SIGNAL(timeout()), &enemies[0], SLOT(deathHandler()));
-		QTimer::singleShot(2000, this, [=]() {
+		QTimer::singleShot(1000, this, [=]() {
 			scene->removeItem(&enemies[0]);
+		deathTimer->stop();
 			});
 	}
 	if (enemies[1].getHealth() == 0) {
@@ -286,8 +300,9 @@ void MainWindow::drawUI() {
 		deathTimer->start(300);
 		connect(deathTimer, SIGNAL(timeout()), &enemies[1], SLOT(deathHandler()));
 		//wait 2 seconds then remove the enemy from the scene lambda pass a context object to the lambda
-		QTimer::singleShot(2000, this, [=]() {
+		QTimer::singleShot(1000, this, [=]() {
 			scene->removeItem(&enemies[1]);
+		deathTimer->stop();
 			});
 	}
 
@@ -329,97 +344,85 @@ void MainWindow::drawUI() {
 	}
 }
 
-void MainWindow::drawFootsteps() {
-	//draw a round circle to simulate footsteps on the grass once there are 5 footsteps delete the oldest one
-	if (footsteps.size() < 5) {
-		QGraphicsEllipseItem* footstep = new QGraphicsEllipseItem;
-		footstep->setRect(player.x(), player.y(), 5, 5);
-		footstep->setBrush(QBrush(QColor(0, 0, 0, 100)));
-		scene->addItem(footstep);
-		footsteps.push_back(footstep);
-	}
-	else {
-		scene->removeItem(footsteps[0]);
-		footsteps.erase(footsteps.begin());
-		QGraphicsEllipseItem* footstep = new QGraphicsEllipseItem;
-		footstep->setRect(player.x() + 10, player.y() + 10, 10, 10);
-		footstep->setBrush(QBrush(QColor(0, 0, 0, 100)));
-		scene->addItem(footstep);
-		footsteps.push_back(footstep);
-	}
-}
-
 //collisionHandler
 void MainWindow::collisionHandler() {
 	//Check if the player is colliding with any enemy
 	QList<QGraphicsItem*> colliding_items = player.collidingItems();
-	for (int i = 0; i < colliding_items.size(); i++) {
-		//If invinctimer is active dont allow collision with enemy
-		if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
-			if (!invincTimer->isActive()) {
-				player.setHealth(player.getHealth() - 1);
-				player.setPixmap(QPixmap("a"));
-				drawUI();
-				emit enemyAttack();
-				music.playSound("hurt");
-				//get the direction of the player
-				int dir = player.getDir();
-				//move the player back
-				if (dir == 0) {
-					player.setPos(player.x() - tileLen, player.y());
-				}
-				else if (dir == 1) {
-					player.setPos(player.x() + tileLen, player.y());
-				}
-				else if (dir == 2) {
-					player.setPos(player.x(), player.y() + tileLen);
-				}
-				else if (dir == 3) {
-					player.setPos(player.x(), player.y() - tileLen);
+	if (scene != NULL) {
+		for (int i = 0; i < colliding_items.size(); i++) {
+			//If invinctimer is active dont allow collision with enemy
+			if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
+				if (!invincTimer->isActive()) {
+					player.setHealth(player.getHealth() - 1);
+					player.setPixmap(QPixmap("a"));
+					drawUI();
+					emit enemyAttack();
+					music.playSound("hurt");
+					//get the direction of the player
+					int dir = player.getDir();
+					//move the player back
+					if (dir == 0) {
+						player.setPos(player.x() - tileLen, player.y());
+					}
+					else if (dir == 1) {
+						player.setPos(player.x() + tileLen, player.y());
+					}
+					else if (dir == 2) {
+						player.setPos(player.x(), player.y() + tileLen);
+					}
+					else if (dir == 3) {
+						player.setPos(player.x(), player.y() - tileLen);
+					}
 				}
 			}
-		}
-		//if its colliding with a collectible, remove it from the scene and decide its type
-		else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
-			//If its a bullet increase the players ammo
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::heart) {
-				scene->removeItem(colliding_items[i]);
-				player.setHealth(player.getHealth() + 1);
-				drawUI();
-				player.pickUp();
-			}
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::bullet) {
-				scene->removeItem(colliding_items[i]);
-				music.playSound("gunShot");
-				player.setAmmo(player.getAmmo() + 1);
-				//Euclidean algorithim to find the closest enemy
-				int enemy1 = sqrt(pow(player.x() - enemies[0].x(), 2) + pow(player.y() - enemies[0].y(), 2));
-				int enemy2 = sqrt(pow(player.x() - enemies[1].x(), 2) + pow(player.y() - enemies[1].y(), 2));
-				//If the first enemy is closer then the second enemy
-				if (enemy1 < enemy2 || enemies[1].getHealth() == 0) {
-					//Shoot at the first enemy
-					enemies[0].loseHealth();
-					enemies[0].setPixmap(QPixmap(":/enemy1/hurt"));
+			//if its colliding with a collectible, remove it from the scene and decide its type
+			else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
+				//If its a bullet increase the players ammo
+				if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::heart) {
+					scene->removeItem(colliding_items[i]);
+					player.setHealth(player.getHealth() + 1);
+					drawUI();
+					player.pickUp();
 				}
-				else {
-					//Shoot at the second enemy
-					enemies[1].loseHealth();
-					enemies[1].setPixmap(QPixmap(":/enemy1/hurt"));
+				if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::bullet) {
+					scene->removeItem(colliding_items[i]);
+					music.playSound("gunShot");
+					player.setAmmo(player.getAmmo() + 1);
+					//Euclidean algorithim to find the closest enemy
+					int enemy1 = sqrt(pow(player.x() - enemies[0].x(), 2) + pow(player.y() - enemies[0].y(), 2));
+					int enemy2 = sqrt(pow(player.x() - enemies[1].x(), 2) + pow(player.y() - enemies[1].y(), 2));
+					//If the first enemy is closer then the second enemy
+					if (enemy1 < enemy2 && enemies[0].getHealth() != 0) {
+						//Shoot at the first enemy
+						enemies[0].loseHealth();
+						enemies[0].setPixmap(QPixmap(":/enemy1/hurt"));
+					}
+					else {
+						//Shoot at the second enemy
+						enemies[1].loseHealth();
+						enemies[1].setPixmap(QPixmap(":/enemy1/hurt"));
+					}
+					drawUI();
+					player.pickUp();
 				}
-				drawUI();
-				player.pickUp();
-			}
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::shield) {
-				scene->removeItem(colliding_items[i]);
-				invincTimer->start(10000);
-				player.setStatus(Player::invincible);
-				drawUI();
-				player.pickUp();
-			}
-			if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::exit) {
-				//Check the health of both enemies if both of them are dead then the player wins
-				if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
-					win();
+				if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::shield) {
+					scene->removeItem(colliding_items[i]);
+					invincTimer->start(10000);
+					player.setStatus(Player::invincible);
+					drawUI();
+					player.pickUp();
+				}
+				if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::exit) {
+					//Check the health of both enemies if both of them are dead then the player wins
+					if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
+						if (level == 2) {
+							win();
+						}
+						else {
+							level++;
+							restart();
+						}
+					}
 				}
 			}
 		}
@@ -475,6 +478,16 @@ void MainWindow::setSize() {
 }
 
 void MainWindow::restart() {
+	scene->removeItem(&player);
+	scene->removeItem(&enemies[0]);
+	scene->removeItem(&enemies[1]);
+
+	player.reset();
+	enemies[0].reset();
+	enemies[1].reset();
+
+	drawScene();
+	drawUI();
 }
 
 //fullscreen function
@@ -658,24 +671,17 @@ void MainWindow::settings() {
 	}
 }
 
-void MainWindow::test() {
-
+void MainWindow::pathFinding(Enemy& enemy) {
 	//Start node is enemy spawn
-    Node* start = graph->getNode(enemies[0].x() / 32, enemies[0].y() / 32);
+	Node* start = graph->getNode(enemy.x() / 32, enemy.y() / 32);
 	//End node is player
-    Node* end = graph->getNode(player.x() / 32, player.y() / 32);
+	Node* end = graph->getNode(player.x() / 32, player.y() / 32);
 
 	//Find the path
-    QVector<Node*> path = graph->findPath(start, end);
+	QVector<Node*> path = graph->findPath(start, end);
 
 	//Move the enmy to the next node in the path
-	if (path.size() > 1) {
-		enemies[0].setPos(path[1]->x * 32, path[1]->y * 32);
+	if (path.size() > 1 && enemy.getHealth() > 0) {
+		enemy.setPos(path[1]->x * 32, path[1]->y * 32);
 	}
-
-	//qdebug the path
-	for (int i = 0; i < path.size(); i++) {
-		qDebug() << path[i]->x << path[i]->y;
-	}
-	qDebug() << "----------------";
 }

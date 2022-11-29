@@ -28,11 +28,14 @@ Player::Player()
 	idleTimer->start(200);
 }
 
-void Player::shoot() {
-	if (ammo > 0) {
-		ammo--;
-		sounds->playSound("shoot");
-	}
+void Player::reset() {
+	health = 3;
+	ammo = 0;
+	dir = RIGHT;
+	isIdle = true;
+	status = normal;
+
+	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 }
 
 void Player::animHandler()
@@ -97,9 +100,6 @@ void Player::keyPressEvent(QKeyEvent* event)
 	else if (event->key() == Qt::Key_S) {
 		setDir(DOWN);
 		isIdle = false;
-	}
-	else if (event->key() == Qt::Key_Space) {
-		shoot();
 	}
 	else if (event->key() == Qt::Key_Escape) {
 		emit openSettings();
