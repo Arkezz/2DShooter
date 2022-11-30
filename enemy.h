@@ -15,9 +15,6 @@ public:
 	void animFiller();
 	void reset();
 
-signals:
-	void collisionHandler();
-
 public slots:
 	void animHandler();
 	void attackHandler();
