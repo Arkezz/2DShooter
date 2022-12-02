@@ -28,7 +28,12 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(this, SIGNAL(enemyAttack()), &enemies[0], SLOT(attackHandler()));
 	connect(this, SIGNAL(enemyAttack()), &enemies[1], SLOT(attackHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
-	connect(invincTimer, &QTimer::timeout, [&]() {player.setStatus(Player::normal); });
+	connect(invincTimer, &QTimer::timeout, [&]() {
+		player.setStatus(Player::normal);
+	//remove invincibility shadoweffect
+	player.setGraphicsEffect(nullptr);
+	tempTimer->stop();
+		});
 	connect(invincTimer, SIGNAL(timeout()), this, SLOT(drawUI()));
 	//Connect the enemytimer to lambda that calls pathfinding
 	connect(enemyTimer, &QTimer::timeout, [&]() {
@@ -162,8 +167,6 @@ void MainWindow::drawScene() {
 
 //Function that controls the ui
 void MainWindow::drawUI() {
-	//Check the health of the player and turn each heart empty if the player is hurt start from the end of the vector
-
 	//If the player gained a heart add a new heart to the vector
 	if (player.getHealth() > hearts.size()) {
 		QGraphicsPixmapItem* heart = new QGraphicsPixmapItem;
@@ -171,6 +174,12 @@ void MainWindow::drawUI() {
 		heart->setPos(0 + (hearts.size() * tileLen), 0);
 		scene->addItem(heart);
 		hearts.push_back(heart);
+	}
+
+	//Health checker if the player loses a heart it turns the heart empty and removes it from the vector if the player gained a heart it adds a new heart to the vector
+	if (player.getHealth() < hearts.size()) {
+		hearts[player.getHealth()]->setPixmap(QPixmap(":/ui/emptyHeart").scaled(tileLen, tileLen));
+		hearts.pop_back();
 	}
 
 	if (player.getHealth() == 0) {
@@ -200,6 +209,10 @@ void MainWindow::drawUI() {
 			});
 	}
 
+	//If bothe enemies are dead
+	if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
+	}
+
 	//Only add it once to the scene
 	if (scene->items().contains(ammo) == false) {
 		//Show the bullet count
@@ -227,12 +240,12 @@ void MainWindow::drawUI() {
 		scene->addItem(statusText);
 	}
 	else if (player.getStatus() == Player::invincible) {
-		//Create temp timer
-		QTimer* tempTimer = new QTimer;
 		tempTimer->start(1000);
+		//Put a blue particles effect on the player
+		player.setGraphicsEffect(new QGraphicsBlurEffect);
 		//Connect the timer to the lambda
 		connect(tempTimer, &QTimer::timeout, [=]() {
-			//Update the text
+			//Update the text make sure its showing a second less each time
 			statusText->setPlainText(QString("Invincible: ") + QString::number(invincTimer->remainingTime() / 1000));
 			});
 	}

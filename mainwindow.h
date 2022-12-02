@@ -225,6 +225,7 @@ private:
 	QVector<QGraphicsEllipseItem*> footsteps;
 	QTimer* invincTimer;
 	QTimer* enemyTimer;
+	QTimer* tempTimer = new QTimer;
 	QGraphicsTextItem* ammo;
 	QGraphicsTextItem* statusText;
 	Graph* graph;
