@@ -21,7 +21,6 @@ MainWindow::MainWindow(QWidget* parent)
 	invincTimer->setSingleShot(true);
 	enemyTimer = new QTimer(this);
 	tempTimer = new QTimer(this);
-	graph = new Graph();
 
 	//Connections:
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
@@ -109,6 +108,7 @@ void MainWindow::drawScene() {
 		}
 		line = in.readLine();
 	}
+	graph = new Graph();
 
 	//Use the list to add the tiles to the scene the name of the tile is also its id
 	//Ex: if tile name is "1" then it should be placed wherever there is 1 in the grid
@@ -125,10 +125,12 @@ void MainWindow::drawScene() {
 	player.setFocus();
 	scene->addItem(&player);
 	//Add enemy to the middle of the scene
-	enemies[0].setPos(200, 120);
+	enemies[0].setPos(150, 120);
 	scene->addItem(&enemies[0]);
 	enemies[1].setPos(400, 380);
 	scene->addItem(&enemies[1]);
+
+	//Check if the scene already contains the heart
 
 	for (int i = 0; i < player.getHealth(); i++) {
 		QGraphicsPixmapItem* heart = new QGraphicsPixmapItem;
@@ -585,10 +587,12 @@ void MainWindow::pathFinding(Enemy& enemy) {
 	Node* end = graph->getNode(player.x() / 32, player.y() / 32);
 	//Find the path
 	QVector<Node*> path = graph->findPath(start, end);
-	graph->createGraph();
+	//graph->createGraph();
 	//qdebug the path for testing
 	for (int i = 0; i < path.size(); i++) {
 		qDebug() << path[i]->x << path[i]->y;
+		//show whether its walkable or not
+		qDebug() << path[i]->walkable;
 	}
 
 	//Move the enmy to the next node in the path

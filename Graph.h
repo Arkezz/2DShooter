@@ -6,6 +6,8 @@
 #include <queue>
 #include <limits>
 #include <algorithm>
+#include <unordered_set>
+#include <iterator>
 
 extern int grid[15][20];
 
@@ -36,14 +38,14 @@ public:
 
 class Graph {
 private:
-	int width = 20;
-	int height = 15;
+	const int width = 20;
+	const int height = 15;
 public:
 	//Create the graph according to the map
 	Graph() {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				if (grid[i][j] < 15) {
+				if (grid[j][i] < 15) {
 					nodes[i][j] = new Node(i, j, true);
 				}
 				else {
@@ -55,17 +57,23 @@ public:
 	Node* nodes[20][15];
 
 	void createGraph() {
+		//qdebug every node in a grid style to see if it is walkable or not
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				if (nodes[i][j]->walkable == false) {
-					std::cout << "Non walkable node at: " << j << " " << i << std::endl;
-				}
+				std::cout << nodes[i][j]->walkable << " ";
 			}
+			std::cout << std::endl;
 		}
 	}
 
 	//getNode returns the node at the x,y
 	Node* getNode(int x, int y) {
+		// Check if the x and y values are within the bounds of the nodes array
+		if (x < 0 || x >= width || y < 0 || y >= height) {
+			// If not, return nullptr
+			return nullptr;
+		}
+
 		return nodes[x][y];
 	}
 
@@ -74,28 +82,36 @@ public:
 		QVector<Node*> neighbors;
 		int x = node->x;
 		int y = node->y;
-		if (x > 0) {
-			neighbors.push_back(nodes[x - 1][y]);
-			if (y > 0) {
+		if (x > 0 && y > 0) {
+			if (nodes[x - 1][y]->walkable) {
+				neighbors.push_back(nodes[x - 1][y]);
+			}
+			if (nodes[x - 1][y - 1]->walkable) {
 				neighbors.push_back(nodes[x - 1][y - 1]);
 			}
-			if (y < height - 1) {
+		}
+		if (x > 0 && y < height - 1) {
+			if (nodes[x - 1][y + 1]->walkable) {
 				neighbors.push_back(nodes[x - 1][y + 1]);
 			}
 		}
-		if (x < width - 1) {
-			neighbors.push_back(nodes[x + 1][y]);
-			if (y > 0) {
+		if (x < width - 1 && y > 0) {
+			if (nodes[x + 1][y]->walkable) {
+				neighbors.push_back(nodes[x + 1][y]);
+			}
+			if (nodes[x + 1][y - 1]->walkable) {
 				neighbors.push_back(nodes[x + 1][y - 1]);
 			}
-			if (y < height - 1) {
+		}
+		if (x < width - 1 && y < height - 1) {
+			if (nodes[x + 1][y + 1]->walkable) {
 				neighbors.push_back(nodes[x + 1][y + 1]);
 			}
 		}
-		if (y > 0) {
+		if (y > 0 && nodes[x][y - 1]->walkable) {
 			neighbors.push_back(nodes[x][y - 1]);
 		}
-		if (y < height - 1) {
+		if (y < height - 1 && nodes[x][y + 1]->walkable) {
 			neighbors.push_back(nodes[x][y + 1]);
 		}
 		return neighbors;
@@ -111,8 +127,43 @@ public:
 		return 14 * dstX + 10 * (dstY - dstX);
 	}
 
+	int manhattanDistance(Node* a, Node* b) {
+		return abs(a->x - b->x) + abs(a->y - b->y);
+	}
+
+	QVector<Node*> constructPath(Node* end) {
+		// Create a vector to store the path
+		QVector<Node*> path;
+
+		// Create a pointer to the current node
+		Node* current = end;
+
+		// Add the current node to the path
+		path.push_back(current);
+
+		// Follow the chain of parent nodes back to the start node
+		// and add each node to the path in reverse order
+		while (current->parent != nullptr) {
+			current = current->parent;
+			path.push_back(current);
+		}
+
+		// Reverse the path to put it in the correct order
+		// and return it
+		std::reverse(path.begin(), path.end());
+		return path;
+	}
+
 	//Find shortest path from start to end returns a vector of nodes use Djikstra
 	QVector<Node*> findPath(Node* start, Node* end) {
+		// Store the original walkable value of the starting and ending nodes
+		bool startNodeWalkable = start->walkable;
+		bool endNodeWalkable = end->walkable;
+
+		// Temporarily set the starting and ending nodes to be walkable
+		start->walkable = true;
+		end->walkable = true;
+
 		//THe path consists of all the nodes the enemy would need to go through he can only go through walkable nodes
 		QVector<Node*> path;
 		//The open set is the set of nodes that have not been checked yet
@@ -181,7 +232,77 @@ public:
 			}
 		}
 		//Return an empty path
+		start->walkable = startNodeWalkable;
+		end->walkable = endNodeWalkable;
 		return path;
+	}
+
+	QVector<Node*> findPath2(Node* start, Node* end) {
+		// Create a set to store visited nodes
+		std::unordered_set<Node*> visited;
+
+		// Create a priority queue to store the nodes to be visited,
+		// ordered by their fCost (estimated total cost from start to end)
+		auto cmp = [](Node* left, Node* right) {
+			return left->fCost > right->fCost;
+		};
+		std::priority_queue<Node*, std::vector<Node*>, decltype(cmp)> toVisit(cmp);
+
+		// Set the start node's gCost (actual cost from start) to 0
+		// and its hCost (estimated cost to end) to the Manhattan distance
+		// between the start and end nodes
+		start->gCost = 0;
+		start->hCost = manhattanDistance(start, end);
+		start->fCost = start->gCost + start->hCost;
+
+		// Add the start node to the queue
+		toVisit.push(start);
+
+		// Keep searching until the queue is empty
+		while (!toVisit.empty()) {
+			// Get the node with the lowest fCost from the queue
+			Node* current = toVisit.top();
+			toVisit.pop();
+
+			// If we have reached the end node, construct and return the path
+			if (current == end) {
+				return constructPath(current);
+			}
+
+			// Mark the current node as visited
+			visited.insert(current);
+
+			// Get the current node's neighbors
+			QVector<Node*> neighbors = getNeighbors(current);
+			for (Node* neighbor : neighbors) {
+				// Skip visited nodes
+				if (visited.count(neighbor) > 0) {
+					continue;
+				}
+
+				// Calculate the neighbor's gCost, hCost, and fCost
+				int gCost = current->gCost + 1; // assume a cost of 1 to move to any neighbor
+				int hCost = manhattanDistance(neighbor, end);
+				int fCost = gCost + hCost;
+
+				// If the neighbor's fCost is lower than its current fCost,
+				// or if it is not in the queue, update its parent, gCost, hCost, and fCost
+				if (fCost < neighbor->fCost || visited.count(neighbor) == 0) {
+					neighbor->parent = current;
+					neighbor->gCost = gCost;
+					neighbor->hCost = hCost;
+					neighbor->fCost = fCost;
+
+					// Add the neighbor to the queue if it is not already in it
+					if (visited.count(neighbor) == 0) {
+						toVisit.push(neighbor);
+					}
+				}
+			}
+		}
+
+		// If we reach here, no path was found
+		return QVector<Node*>();
 	}
 };
 
