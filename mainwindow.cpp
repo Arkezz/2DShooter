@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include <QDir>
-
+#include <queue>
 //Pixel size of each Tile in the grid
 const int tileLen = 32;
 //Data structure that stores the location of each tile in the grid
@@ -20,7 +20,8 @@ MainWindow::MainWindow(QWidget* parent)
 	invincTimer = new QTimer(this);
 	invincTimer->setSingleShot(true);
 	enemyTimer = new QTimer(this);
-	graph = new Graph(grid);
+	tempTimer = new QTimer(this);
+	graph = new Graph();
 
 	//Connections:
 	connect(&player, SIGNAL(drawUi()), this, SLOT(drawUI()));
@@ -28,15 +29,17 @@ MainWindow::MainWindow(QWidget* parent)
 	connect(this, SIGNAL(enemyAttack()), &enemies[0], SLOT(attackHandler()));
 	connect(this, SIGNAL(enemyAttack()), &enemies[1], SLOT(attackHandler()));
 	connect(&player, SIGNAL(collisionHandler()), this, SLOT(collisionHandler()));
-	connect(invincTimer, &QTimer::timeout, [&]() {
+	connect(invincTimer, &QTimer::timeout, this, [&]() {
 		player.setStatus(Player::normal);
 	//remove invincibility shadoweffect
 	player.setGraphicsEffect(nullptr);
-	tempTimer->stop();
+	if (tempTimer != nullptr) {
+		tempTimer->stop();
+	}
 		});
 	connect(invincTimer, SIGNAL(timeout()), this, SLOT(drawUI()));
 	//Connect the enemytimer to lambda that calls pathfinding
-	connect(enemyTimer, &QTimer::timeout, [&]() {
+	connect(enemyTimer, &QTimer::timeout, this, [&]() {
 		if (scene->items().contains(&enemies[1]) && scene->items().contains(&enemies[0])) {
 			pathFinding(enemies[0]);
 			pathFinding(enemies[1]);
@@ -65,10 +68,19 @@ void MainWindow::addTile(int x, int y, QString tileName) {
 	//Set pixmap from .qrc file and make sure it is scaled
 	newItem->setPixmap(QPixmap(":/tiles/" + tileName).scaled(tileLen, tileLen));
 	newItem->setPos(x * tileLen, y * tileLen);
-	scene->addItem(newItem);
+
+	// Check if the scene already contains this item before adding it
+	if (!scene->items().contains(newItem)) {
+		scene->addItem(newItem);
+	}
 }
 
 void MainWindow::drawScene() {
+	for (auto item : scene->items()) {
+		if (typeid(*item) == typeid(Collectibles)) {
+			dynamic_cast<Collectibles*>(item)->group->stop();
+		}
+	}
 	scene->clear();
 	//Initialize the grid
 	for (int i = 0; i < 15; i++) {
@@ -98,9 +110,6 @@ void MainWindow::drawScene() {
 		line = in.readLine();
 	}
 
-	//Read the .qrc files and store all tiles
-	QDir dir(":/tiles");
-	QStringList files = dir.entryList();
 	//Use the list to add the tiles to the scene the name of the tile is also its id
 	//Ex: if tile name is "1" then it should be placed wherever there is 1 in the grid
 	for (int i = 0; i < 15; i++) {
@@ -112,7 +121,7 @@ void MainWindow::drawScene() {
 	}
 
 	//Add player to the middle of the scene
-	player.setPos(400, 200);
+	player.setPos(420, 200);
 	player.setFocus();
 	scene->addItem(&player);
 	//Add enemy to the middle of the scene
@@ -161,13 +170,16 @@ void MainWindow::drawScene() {
 
 	object = new Collectibles(Collectibles::exit);
 	object->setPos(550, 400);
-	scene->addItem(object);
+	//Check if the item is already added to the scene and if its the same scene
+	if (!scene->items().contains(object) && scene == view->scene()) {
+		scene->addItem(object);
+	}
 	object->animHandler();
 }
 
 //Function that controls the ui
 void MainWindow::drawUI() {
-	//If the player gained a heart add a new heart to the vector
+	// Update hearts
 	if (player.getHealth() > hearts.size()) {
 		QGraphicsPixmapItem* heart = new QGraphicsPixmapItem;
 		heart->setPixmap(QPixmap(":/ui/fullHeart").scaled(tileLen, tileLen));
@@ -175,9 +187,7 @@ void MainWindow::drawUI() {
 		scene->addItem(heart);
 		hearts.push_back(heart);
 	}
-
-	//Health checker if the player loses a heart it turns the heart empty and removes it from the vector if the player gained a heart it adds a new heart to the vector
-	if (player.getHealth() < hearts.size()) {
+	else if (player.getHealth() < hearts.size()) {
 		hearts[player.getHealth()]->setPixmap(QPixmap(":/ui/emptyHeart").scaled(tileLen, tileLen));
 		hearts.pop_back();
 	}
@@ -187,30 +197,18 @@ void MainWindow::drawUI() {
 		gameOver();
 	}
 
-	if (enemies[0].getHealth() == 0) {
-		//Timer connected to enemy deathHandler
-		QTimer* deathTimer = new QTimer;
-		deathTimer->start(300);
-		connect(deathTimer, SIGNAL(timeout()), &enemies[0], SLOT(deathHandler()), Qt::QueuedConnection);
-		QTimer::singleShot(1000, this, [=]() {
-			scene->removeItem(&enemies[0]);
-		deathTimer->stop();
-			});
-	}
-	if (enemies[1].getHealth() == 0) {
-		//Timer connected to enemy deathHandler
-		QTimer* deathTimer = new QTimer;
-		deathTimer->start(300);
-		connect(deathTimer, SIGNAL(timeout()), &enemies[1], SLOT(deathHandler()), Qt::QueuedConnection);
-		//wait 2 seconds then remove the enemy from the scene lambda pass a context object to the lambda
-		QTimer::singleShot(1000, this, [=]() {
-			scene->removeItem(&enemies[1]);
-		deathTimer->stop();
-			});
-	}
-
-	//If bothe enemies are dead
-	if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
+	for (int i = 0; i < 2; i++) {
+		Enemy& enemy = enemies[i];
+		if (enemy.getHealth() == 0) {
+			//Timer connected to enemy deathHandler
+			QTimer* deathTimer = new QTimer;
+			deathTimer->start(300);
+			connect(deathTimer, SIGNAL(timeout()), &enemy, SLOT(deathHandler()), Qt::QueuedConnection);
+			QTimer::singleShot(1000, this, [this, &enemy, deathTimer]() {
+				scene->removeItem(&enemy);
+			deathTimer->stop();
+				});
+		}
 	}
 
 	//Only add it once to the scene
@@ -244,7 +242,7 @@ void MainWindow::drawUI() {
 		//Put a blue particles effect on the player
 		player.setGraphicsEffect(new QGraphicsBlurEffect);
 		//Connect the timer to the lambda
-		connect(tempTimer, &QTimer::timeout, [=]() {
+		connect(tempTimer, &QTimer::timeout, this, [=]() {
 			//Update the text make sure its showing a second less each time
 			statusText->setPlainText(QString("Invincible: ") + QString::number(invincTimer->remainingTime() / 1000));
 			});
@@ -255,10 +253,11 @@ void MainWindow::drawUI() {
 void MainWindow::collisionHandler() {
 	//Check if the player is colliding with any enemy
 	QList<QGraphicsItem*> colliding_items = player.collidingItems();
-	if (scene != NULL) {
+	if (scene != nullptr) {
 		for (int i = 0; i < colliding_items.size(); i++) {
 			//If invinctimer is active dont allow collision with enemy
-			if (typeid(*(colliding_items[i])) == typeid(Enemy)) {
+			QGraphicsItem* item = colliding_items[i];
+			if (typeid(*item) == typeid(Enemy)) {
 				if (!invincTimer->isActive()) {
 					player.setHealth(player.getHealth() - 1);
 					player.setPixmap(QPixmap("a"));
@@ -283,7 +282,7 @@ void MainWindow::collisionHandler() {
 				}
 			}
 			//if its colliding with a collectible, remove it from the scene and decide its type
-			else if (typeid(*(colliding_items[i])) == typeid(Collectibles)) {
+			else if (typeid(*item) == typeid(Collectibles)) {
 				//If its a bullet increase the players ammo
 				if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::heart) {
 					scene->removeItem(colliding_items[i]);
@@ -320,7 +319,8 @@ void MainWindow::collisionHandler() {
 					player.pickUp();
 				}
 				if (dynamic_cast<Collectibles*>(colliding_items[i])->getType() == Collectibles::exit) {
-					//Check the health of both enemies if both of them are dead then the player wins
+					//Check if the exit has already been removed
+						//Check the health of both enemies if both of them are dead then the player wins
 					if (enemies[0].getHealth() == 0 && enemies[1].getHealth() == 0) {
 						if (level == 2) {
 							win();
@@ -530,7 +530,7 @@ void MainWindow::settings() {
 		volumeLabel->setStyleSheet("color: #FFFFFF; font-size: 20px;");
 		layout->addWidget(volumeLabel, 0, Qt::AlignCenter);
 		//Connect the slider to the label pass the value of the slider to the label using a lambda
-		connect(volumeSlider, &QSlider::valueChanged, [volumeLabel](int value) {
+		connect(volumeSlider, &QSlider::valueChanged, this, [volumeLabel](int value) {
 			volumeLabel->setText(QString::number(value) + "%");
 			});
 
@@ -542,7 +542,7 @@ void MainWindow::settings() {
 		muteButton->setIconSize(QSize(20, 20));
 		layout->addWidget(muteButton, 0, Qt::AlignLeft);
 		//if the mute button is clicked change the icon to unmute and change the volume to 100
-		connect(muteButton, &QPushButton::clicked, [muteButton, volumeSlider]() {
+		connect(muteButton, &QPushButton::clicked, this, [muteButton, volumeSlider]() {
 			if (muteButton->icon().cacheKey() == QIcon(":/ui/muteButton").cacheKey()) {
 				muteButton->setIcon(QIcon(":/ui/unmuteButton"));
 				volumeSlider->setValue(100);
@@ -583,9 +583,13 @@ void MainWindow::pathFinding(Enemy& enemy) {
 	Node* start = graph->getNode(enemy.x() / 32, enemy.y() / 32);
 	//End node is player
 	Node* end = graph->getNode(player.x() / 32, player.y() / 32);
-
 	//Find the path
 	QVector<Node*> path = graph->findPath(start, end);
+	graph->createGraph();
+	//qdebug the path for testing
+	for (int i = 0; i < path.size(); i++) {
+		qDebug() << path[i]->x << path[i]->y;
+	}
 
 	//Move the enmy to the next node in the path
 	if (path.size() > 1 && enemy.getHealth() > 0) {

@@ -1,6 +1,5 @@
 #include "enemy.h"
 extern int grid[15][20];
-const int tileLen = 32;
 const int enemyLen = 64;
 Enemy::Enemy()
 {
@@ -70,26 +69,20 @@ void Enemy::attackHandler()
 }
 
 void Enemy::animFiller() {
-	idleAnim.push_back(QPixmap(":/enemy1/idle_0"));
-	idleAnim.push_back(QPixmap(":/enemy1/idle_1"));
-	idleAnim.push_back(QPixmap(":/enemy1/idle_2"));
-	idleAnim.push_back(QPixmap(":/enemy1/idle_3"));
+	//Populate the vectors using for loops
+	for (int i = 0; i < 6; i++) {
+		moveAnim.push_back(QPixmap(":/enemy1/walk_" + QString::number(i)));
+	}
 
-	attackAnim.push_back(QPixmap(":/enemy1/attack_0"));
-	attackAnim.push_back(QPixmap(":/enemy1/attack_1"));
-	attackAnim.push_back(QPixmap(":/enemy1/attack_2"));
-	attackAnim.push_back(QPixmap(":/enemy1/attack_3"));
+	for (int i = 0; i < 4; i++) {
+		attackAnim.push_back(QPixmap(":/enemy1/attack_" + QString::number(i)));
+	}
 
-	deathAnim.push_back(QPixmap(":/enemy1/death_0"));
-	deathAnim.push_back(QPixmap(":/enemy1/death_1"));
-	deathAnim.push_back(QPixmap(":/enemy1/death_2"));
-	deathAnim.push_back(QPixmap(":/enemy1/death_3"));
-	deathAnim.push_back(QPixmap(":/enemy1/death_4"));
+	for (int i = 0; i < 4; i++) {
+		idleAnim.push_back(QPixmap(":/enemy1/idle_" + QString::number(i)));
+	}
 
-	moveAnim.push_back(QPixmap(":/enemy1/walk_0"));
-	moveAnim.push_back(QPixmap(":/enemy1/walk_1"));
-	moveAnim.push_back(QPixmap(":/enemy1/walk_2"));
-	moveAnim.push_back(QPixmap(":/enemy1/walk_3"));
-	moveAnim.push_back(QPixmap(":/enemy1/walk_4"));
-	moveAnim.push_back(QPixmap(":/enemy1/walk_5"));
+	for (int i = 0; i < 5; i++) {
+		deathAnim.push_back(QPixmap(":/enemy1/death_" + QString::number(i)));
+	}
 }

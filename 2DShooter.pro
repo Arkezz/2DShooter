@@ -18,6 +18,7 @@ SOURCES += \
     soundmanager.cpp
 
 HEADERS += \
+    Graph.h \
     collectibles.h \
     enemy.h \
     mainwindow.h \

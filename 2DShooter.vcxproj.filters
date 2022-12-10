@@ -60,6 +60,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Graph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="collectibles.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -194,6 +197,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\Intersec full.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Assets\Maps\Map2 (2).tmx">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\UI\Off sound button.png">
@@ -355,6 +361,9 @@
     <None Include="Assets\UI\babbig.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Assets\UI\babbigo.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="Assets\Tiles\betterhouse_1.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -374,9 +383,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\dirt.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Tiles\grass.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\hhouse_border_etc_21.png">
@@ -422,9 +428,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Tiles\inserec half .png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Assets\Maps\level1.tmx">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Assets\Maps\maptest (1).tmx">
