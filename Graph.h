@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <QVector>
 #include <queue>
 #include <limits>
 #include <algorithm>
@@ -78,44 +79,6 @@ public:
 	}
 
 	//getNeighbors returns a vector of the neighbors of the node
-	QVector<Node*> getNeighbors(Node* node) {
-		QVector<Node*> neighbors;
-		int x = node->x;
-		int y = node->y;
-		if (x > 0 && y > 0) {
-			if (nodes[x - 1][y]->walkable) {
-				neighbors.push_back(nodes[x - 1][y]);
-			}
-			if (nodes[x - 1][y - 1]->walkable) {
-				neighbors.push_back(nodes[x - 1][y - 1]);
-			}
-		}
-		if (x > 0 && y < height - 1) {
-			if (nodes[x - 1][y + 1]->walkable) {
-				neighbors.push_back(nodes[x - 1][y + 1]);
-			}
-		}
-		if (x < width - 1 && y > 0) {
-			if (nodes[x + 1][y]->walkable) {
-				neighbors.push_back(nodes[x + 1][y]);
-			}
-			if (nodes[x + 1][y - 1]->walkable) {
-				neighbors.push_back(nodes[x + 1][y - 1]);
-			}
-		}
-		if (x < width - 1 && y < height - 1) {
-			if (nodes[x + 1][y + 1]->walkable) {
-				neighbors.push_back(nodes[x + 1][y + 1]);
-			}
-		}
-		if (y > 0 && nodes[x][y - 1]->walkable) {
-			neighbors.push_back(nodes[x][y - 1]);
-		}
-		if (y < height - 1 && nodes[x][y + 1]->walkable) {
-			neighbors.push_back(nodes[x][y + 1]);
-		}
-		return neighbors;
-	}
 
 	//getDistance returns the distance between two nodes
 	int getDistance(Node* nodeA, Node* nodeB) {
@@ -131,6 +94,7 @@ public:
 		return abs(a->x - b->x) + abs(a->y - b->y);
 	}
 
+	// QVector is a container class that provides similar functionality to std::vector
 	QVector<Node*> constructPath(Node* end) {
 		// Create a vector to store the path
 		QVector<Node*> path;
@@ -152,6 +116,26 @@ public:
 		// and return it
 		std::reverse(path.begin(), path.end());
 		return path;
+	}
+
+	//getNeighbors returns a vector of the neighbors of the node
+	QVector<Node*> getNeighbors(Node* node) {
+		QVector<Node*> neighbors;
+		int x = node->x;
+		int y = node->y;
+
+		// Check all 8 adjacent nodes and add them to the list of neighbors if they are walkable
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if (i == 0 && j == 0) continue; // Skip the current node
+				Node* neighbor = getNode(x + i, y + j);
+				if (neighbor && neighbor->walkable) {
+					neighbors.push_back(neighbor);
+				}
+			}
+		}
+
+		return neighbors;
 	}
 
 	//Find shortest path from start to end returns a vector of nodes use Djikstra
@@ -258,8 +242,10 @@ public:
 		// Add the start node to the queue
 		toVisit.push(start);
 
+		int maxVisitedNodes = 1000; // or some other suitable threshold
+		int numVisitedNodes = 0;
 		// Keep searching until the queue is empty
-		while (!toVisit.empty()) {
+		while (!toVisit.empty() && numVisitedNodes < maxVisitedNodes) {
 			// Get the node with the lowest fCost from the queue
 			Node* current = toVisit.top();
 			toVisit.pop();
@@ -271,6 +257,7 @@ public:
 
 			// Mark the current node as visited
 			visited.insert(current);
+			numVisitedNodes++;
 
 			// Get the current node's neighbors
 			QVector<Node*> neighbors = getNeighbors(current);
