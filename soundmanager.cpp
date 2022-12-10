@@ -4,14 +4,14 @@ soundManager::soundManager()
 {
 	audioOutput = new QAudioOutput();
 
-	footSteps = new QSoundEffect();
-	footSteps->setSource(QUrl("qrc:/sounds/footstepSound"));
-	//Only play as long as the player is moving
-	footSteps->setLoopCount(1);
-	footSteps->setVolume(1);
+    footSteps = new QSoundEffect();
+    footSteps->setSource(QUrl("qrc:/sounds/footstepSound"));
+    //Only play as long as the player is moving
+    footSteps->setLoopCount(1);
+    footSteps->setVolume(1);
 
-	hurtSound = new QSoundEffect();
-	hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
+    hurtSound = new QSoundEffect();
+    hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
 
     gunShot = new QSoundEffect();
     gunShot->setSource(QUrl("qrc:/sounds/gunShot"));
@@ -47,7 +47,9 @@ bool soundManager::isPlaying(QString soundName)
 	}
 	else if (soundName == "hurt") {
 		return hurtSound->isPlaying();
-	}
+    } else {
+        return 0;
+    }
 }
 
 void soundManager::stopSound(QString soundName)

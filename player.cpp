@@ -60,13 +60,16 @@ void Player::reset() {
 
 void Player::animHandler()
 {
-	if (isIdle)
-	{
-		idle_index++;
-		if (idle_index >= idleAnim[dir].size())
-			idle_index = 0;
-		setPixmap(idleAnim[dir][idle_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-	}
+    if (isIdle)
+       {
+           idle_index++;
+           // Check if the idle animation index is within bounds
+           if (idle_index >= idleAnim[dir].size())
+               idle_index = 0;
+
+           // Set the current pixmap to the appropriate idle animation frame
+           setPixmap(idleAnim[dir][idle_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+       }
 }
 
 void Player::pickUp() {
@@ -74,7 +77,7 @@ void Player::pickUp() {
 
 	pickup_index++;
 	if (pickup_index >= pickupAnim.size())
-		anim_index = 0;
+        pickup_index = 0;
 	//Play the anim according to the direction
 	if (dir == LEFT) {
 		setPixmap(pickupAnim[pickup_index].scaled(playerLen, playerLen));
@@ -84,7 +87,7 @@ void Player::pickUp() {
 		setPixmap(pickupAnim[pickup_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 	}
 	//If up or down randomly do the left or right anim
-	else if (dir == UP || dir == DOWN)
+    else
 	{
 		QRandomGenerator* rand = QRandomGenerator::global();
 		int randn = rand->bounded(0, 2);
@@ -97,13 +100,10 @@ void Player::pickUp() {
 			setPixmap(pickupAnim[pickup_index].scaled(playerLen, playerLen));
 		}
 	}
-	pickup_index = 0;
 }
 
 void Player::keyPressEvent(QKeyEvent* event)
 {
-	emit drawFootsteps();
-
 	idleTimer->stop();
 	if (event->key() == Qt::Key_W) {
 		setDir(UP);
@@ -129,65 +129,65 @@ void Player::keyPressEvent(QKeyEvent* event)
 
 void Player::move() {
 	{
-		//Get the players position
-		int x = pos().x() / tileLen;
-		int y = pos().y() / tileLen;
+        //Get the players position
+        int x = pos().x() / tileLen;
+        int y = pos().y() / tileLen;
 
-		if (!isIdle)
-		{
-			switch (dir) {
-			case UP:
-				//If the tile above the player is empty, move the player up
-				if (grid[y - 1][x] < 15) {
-					setPos(x * tileLen, (y - 1) * tileLen);
-					//Play down anims flipped vertically
-					if (anim_index < anim[UP].size() - 1) {
-						anim_index++;
-					}
-					else {
-						anim_index = 0;
-					}
-					setPixmap(anim[UP][anim_index].scaled(playerLen, playerLen));
-				}
-				break;
-			case DOWN:
-				//If the tile below the player is empty, move the player down
-				if (grid[y + 1][x] < 15) {
-					setPos(x * tileLen, (y + 1) * tileLen);
-					//Play the down anims
-					if (anim_index < 4) {
-						anim_index++;
-					}
-					else {
-						anim_index = 0;
-					}
-					setPixmap(anim[DOWN][anim_index].scaled(playerLen, playerLen));
-				}
-				break;
-			case LEFT:
-				//If the tile to the left of the player is empty, move the player left
-				if (grid[y][x - 1] < 15) {
-					setPos((x - 1) * tileLen, y * tileLen);
-					//Play the side animS
-					anim_index++;
-					if (anim_index > 5) {
-						anim_index = 0;
-					}
-					setPixmap(anim[LEFT][anim_index].scaled(playerLen, playerLen));
-				}
-				break;
-			case RIGHT:
-				//If the tile to the right of the player is empty, move the player right
-				if (grid[y][x + 1] < 15) {
-					setPos((x + 1) * tileLen, y * tileLen);
-					//Play the side animS flipped around
-					anim_index++;
-					if (anim_index > 5) {
-						anim_index = 0;
-					}
-					setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-				}
-			}
+        if (!isIdle)
+        {
+            switch (dir) {
+            case UP:
+                //If the tile above the player is empty, move the player up
+                if (grid[y - 1][x] < 15) {
+                    setPos(x * tileLen, (y - 1) * tileLen);
+                    //Play down anims flipped vertically
+                    if (anim_index < anim[UP].size() - 1) {
+                        anim_index++;
+                    }
+                    else {
+                        anim_index = 0;
+                    }
+                    setPixmap(anim[UP][anim_index].scaled(playerLen, playerLen));
+                }
+                break;
+            case DOWN:
+                //If the tile below the player is empty, move the player down
+                if (grid[y + 1][x] < 15) {
+                    setPos(x * tileLen, (y + 1) * tileLen);
+                    //Play the down anims
+                    if (anim_index < 4) {
+                        anim_index++;
+                    }
+                    else {
+                        anim_index = 0;
+                    }
+                    setPixmap(anim[DOWN][anim_index].scaled(playerLen, playerLen));
+                }
+                break;
+            case LEFT:
+                //If the tile to the left of the player is empty, move the player left
+                if (grid[y][x - 1] < 15) {
+                    setPos((x - 1) * tileLen, y * tileLen);
+                    //Play the side animS
+                    anim_index++;
+                    if (anim_index > 5) {
+                        anim_index = 0;
+                    }
+                    setPixmap(anim[LEFT][anim_index].scaled(playerLen, playerLen));
+                }
+                break;
+            case RIGHT:
+                //If the tile to the right of the player is empty, move the player right
+                if (grid[y][x + 1] < 15) {
+                    setPos((x + 1) * tileLen, y * tileLen);
+                    //Play the side animS flipped around
+                    anim_index++;
+                    if (anim_index > 5) {
+                        anim_index = 0;
+                    }
+                    setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+                }
+            }
 			emit collisionHandler();
 		}
 		isIdle = true;
@@ -196,61 +196,17 @@ void Player::move() {
 }
 
 void Player::animFiller() {
-	anim[RIGHT].push_back(QPixmap(":/entities/side_0"));
-	anim[RIGHT].push_back(QPixmap(":/entities/side_1"));
-	anim[RIGHT].push_back(QPixmap(":/entities/side_2"));
-	anim[RIGHT].push_back(QPixmap(":/entities/side_3"));
-	anim[RIGHT].push_back(QPixmap(":/entities/side_4"));
-	anim[RIGHT].push_back(QPixmap(":/entities/side_5"));
-
-	anim[UP].push_back(QPixmap(":/entities/up_0"));
-	anim[UP].push_back(QPixmap(":/entities/up_1"));
-	anim[UP].push_back(QPixmap(":/entities/up_2"));
-	anim[UP].push_back(QPixmap(":/entities/up_3"));
-	anim[UP].push_back(QPixmap(":/entities/up_4"));
-	anim[UP].push_back(QPixmap(":/entities/up_5"));
-
-	anim[LEFT].push_back(QPixmap(":/entities/side_0"));
-	anim[LEFT].push_back(QPixmap(":/entities/side_1"));
-	anim[LEFT].push_back(QPixmap(":/entities/side_2"));
-	anim[LEFT].push_back(QPixmap(":/entities/side_3"));
-	anim[LEFT].push_back(QPixmap(":/entities/side_4"));
-	anim[LEFT].push_back(QPixmap(":/entities/side_5"));
-
-	anim[DOWN].push_back(QPixmap(":/entities/down_0"));
-	anim[DOWN].push_back(QPixmap(":/entities/down_1"));
-	anim[DOWN].push_back(QPixmap(":/entities/down_2"));
-	anim[DOWN].push_back(QPixmap(":/entities/down_3"));
-	anim[DOWN].push_back(QPixmap(":/entities/down_4"));
-	anim[DOWN].push_back(QPixmap(":/entities/down_5"));
-
-	idleAnim[RIGHT].push_back(QPixmap(":/entities/sideIdle_0"));
-	idleAnim[RIGHT].push_back(QPixmap(":/entities/sideIdle_1"));
-	idleAnim[RIGHT].push_back(QPixmap(":/entities/sideIdle_2"));
-	idleAnim[RIGHT].push_back(QPixmap(":/entities/sideIdle_3"));
-	idleAnim[RIGHT].push_back(QPixmap(":/entities/sideIdle_4"));
-
-	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_0"));
-	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_1"));
-	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_2"));
-	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_3"));
-	idleAnim[UP].push_back(QPixmap(":/entities/upIdle_4"));
-
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_0").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_1").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_2").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_3").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-	idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_4").transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
-
-	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_0"));
-	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_1"));
-	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_2"));
-	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_3"));
-	idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_4"));
-
-	pickupAnim.push_back(QPixmap(":/entities/pickup_0"));
-	pickupAnim.push_back(QPixmap(":/entities/pickup_1"));
-	pickupAnim.push_back(QPixmap(":/entities/pickup_2"));
-	pickupAnim.push_back(QPixmap(":/entities/pickup_3"));
-	pickupAnim.push_back(QPixmap(":/entities/pickup_4"));
+    for (int i = 0; i < 6; i++) {
+            anim[RIGHT].push_back(QPixmap(":/entities/side_" + QString::number(i)));
+            anim[UP].push_back(QPixmap(":/entities/up_" + QString::number(i)));
+            anim[LEFT].push_back(QPixmap(":/entities/side_" + QString::number(i)));
+            anim[DOWN].push_back(QPixmap(":/entities/down_" + QString::number(i)));
+        }
+    for (int i = 0; i < 5; i++) {
+         idleAnim[RIGHT].push_back(QPixmap(":/entities/sideIdle_" + QString::number(i)));
+         idleAnim[UP].push_back(QPixmap(":/entities/upIdle_" + QString::number(i)));
+         idleAnim[LEFT].push_back(QPixmap(":/entities/sideIdle_" + QString::number(i)).transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+         idleAnim[DOWN].push_back(QPixmap(":/entities/downIdle_" + QString::number(i)));
+         pickupAnim.push_back(QPixmap(":/entities/pickup_" + QString::number(i)));
+     }
 }

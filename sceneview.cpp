@@ -20,11 +20,13 @@ SceneView::SceneView(QWidget* parent)
 	setRenderHint(QPainter::SmoothPixmapTransform);
 
 	setOptimizationFlags(QGraphicsView::DontSavePainterState);
+
+    fitInView(sceneRect(), Qt::KeepAspectRatio);
 }
 
 void SceneView::resizeEvent(QResizeEvent* event)
 {
 	//Resize keeps scales everything in the scene as well
-	fitInView(sceneRect(), Qt::KeepAspectRatio);
+    fitInView(sceneRect(), Qt::KeepAspectRatio);
 	QGraphicsView::resizeEvent(event);
 }
