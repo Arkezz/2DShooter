@@ -66,7 +66,6 @@ private:
 	QTimer* shieldtime;
 	soundManager* sounds;
 	QGraphicsDropShadowEffect* shadow;
-	QVector<QGraphicsDropShadowEffect> trail;
 };
 
 #endif // PLAYER_H

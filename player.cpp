@@ -5,26 +5,44 @@ const int playerLen = 64;
 
 Player::Player()
 {
-	animFiller();
-	health = 3;
-	ammo = 0;
-	dir = RIGHT;
-	isIdle = true;
-	status = normal;
-	setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
-	shadow = new QGraphicsDropShadowEffect;
-	setGraphicsEffect(shadow);
+    // Initialize member variables
 
-	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+    // Fill the animation vectors with appropriate images
+    animFiller();
 
-	sounds = new soundManager();
-	keyPressTimer = new QTimer(this);
-	idleTimer = new QTimer(this);
-	moveTimer = new QTimer(this);
-	connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
-	connect(keyPressTimer, &QTimer::timeout, [=]() {
-		idleTimer->start(200);
-		});
+    // Set initial direction
+    dir = RIGHT;
+    setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
+
+    // Player is idle initially
+    isIdle = true;
+
+    // Set initial health and ammo
+    health = 3;
+    ammo = 0;
+
+    // Set initial state
+    status = normal;
+
+    // Initialize timers
+    idleTimer = new QTimer(this);
+    keyPressTimer = new QTimer(this);
+    moveTimer = new QTimer(this);
+
+    // Connect timer signals and slots
+    connect(idleTimer, SIGNAL(timeout()), this, SLOT(animHandler()));
+    connect(keyPressTimer, &QTimer::timeout, this, [=]() {
+        idleTimer->start(200);
+        });
+
+    // Create sound manager object
+    sounds = new soundManager();
+
+     // Create drop shadow effect
+    setFlags(this->flags() | QGraphicsPixmapItem::ItemIsFocusable);
+    shadow = new QGraphicsDropShadowEffect;
+    setGraphicsEffect(shadow);
+
 	idleTimer->start(200);
 }
 
@@ -34,6 +52,8 @@ void Player::reset() {
 	dir = RIGHT;
 	isIdle = true;
 	status = normal;
+    anim_index = 2;
+    idle_index = 0;
 
 	setPixmap(anim[RIGHT][anim_index].transformed(QTransform().scale(-1, 1)).scaled(playerLen, playerLen));
 }
