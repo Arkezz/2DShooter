@@ -17,11 +17,21 @@ public:
 	Collectibles(objectType);
 	objectType getType() { return barobject; }
 
+    //Property animations for the collectible
+    QPropertyAnimation* animation;
+    QPropertyAnimation* animation2;
+
+    //Animation group to play animations sequentially
+    QSequentialAnimationGroup* group;
+
 public slots:
 	void animHandler();
 
 private:
+    //Type of the collectible
 	objectType barobject;
+
+
 };
 
 #endif // COLLECTIBLES_H
