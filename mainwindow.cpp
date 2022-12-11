@@ -145,36 +145,43 @@ void MainWindow::drawScene() {
 	}
 
 	object = new Collectibles(Collectibles::heart);
+    object->setParent(this);
 	object->setPos(500, 120);
 	scene->addItem(object);
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::bullet);
+    object->setParent(this);
 	object->setPos(60, 400);
 	scene->addItem(object);
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::bullet);
+    object->setParent(this);
 	object->setPos(120, 100);
 	scene->addItem(object);
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::bullet);
+    object->setParent(this);
 	object->setPos(400, 60);
 	scene->addItem(object);
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::bullet);
+    object->setParent(this);
 	object->setPos(550, 300);
 	scene->addItem(object);
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::shield);
+    object->setParent(this);
 	object->setPos(300, 400);
 	scene->addItem(object);
 	object->animHandler();
 
 	object = new Collectibles(Collectibles::exit);
+    object->setParent(this);
 	object->setPos(550, 400);
 	//Check if the item is already added to the scene and if its the same scene
 	if (!scene->items().contains(object) && scene == view->scene()) {
@@ -580,7 +587,7 @@ void MainWindow::settings() {
 		connect(quitButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
 		connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
 		//Connection lambda that turns the settingsOpen bool to false when the window is closed
-		connect(settingsWindow, &QDialog::finished, this, [this]() {
+        connect(settingsWindow, &QDialog::finished, this, []() {
 			settingsOpen = false;
 			});
 		//Show the window
