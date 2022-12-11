@@ -416,6 +416,10 @@ void MainWindow::fullScreen() {
 		// Set the background brush to the desired color or image
 		scene->setBackgroundBrush(QBrush(QImage(":/ui/sky")));
 		this->showNormal();
+		//center the settings window
+		int x = ((screenGeometry.width() - this->width()) / 2);
+		int y = ((screenGeometry.height() - this->height()) / 2);
+		settingsWindow->move(x, y);
 	}
 	else {
 		// Set the background brush to the desired color or image
