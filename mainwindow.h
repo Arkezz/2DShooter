@@ -48,6 +48,7 @@ public slots:
 	void pathFinding(Enemy& enemy);
 
 private:
+	QDialog* settingsWindow;
 	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
