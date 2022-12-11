@@ -7,6 +7,9 @@ const int tileLen = 32;
 //0 = empty, 1 = wall, 2 = player, 3 = enemy
 int grid[15][20];
 
+// Flag to track whether the settings screen is currently open
+bool settingsOpen = false;
+
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -75,6 +78,7 @@ void MainWindow::addTile(int x, int y, QString tileName) {
 }
 
 void MainWindow::drawScene() {
+	hearts.clear();
 	for (auto item : scene->items()) {
 		if (typeid(*item) == typeid(Collectibles)) {
 			dynamic_cast<Collectibles*>(item)->group->stop();
@@ -402,12 +406,12 @@ void MainWindow::restart() {
 //fullscreen function
 void MainWindow::fullScreen() {
 	if (this->isFullScreen()) {
-		//Remove backgorund
-		scene->setBackgroundBrush(QBrush(QColor(0, 0, 0, 0)));
+		// Set the background brush to the desired color or image
+		scene->setBackgroundBrush(QBrush(QImage(":/ui/sky")));
 		this->showNormal();
 	}
 	else {
-		//Paint the background
+		// Set the background brush to the desired color or image
 		scene->setBackgroundBrush(QBrush(QImage(":/ui/sky")));
 		this->showFullScreen();
 	}
@@ -488,7 +492,8 @@ void MainWindow::gameOver() {
 
 //Settings function
 void MainWindow::settings() {
-	if (!settingsWindow) {
+	if (!settingsOpen) {
+		settingsOpen = true;
 		QDialog* settingsWindow = new QDialog(this);
 		settingsWindow->setWindowModality(Qt::ApplicationModal);
 		settingsWindow->setWindowFlags(Qt::FramelessWindowHint);
@@ -509,7 +514,6 @@ void MainWindow::settings() {
 		closeButton->setIconSize(QSize(20, 20));
 		layout->addWidget(closeButton, 0, Qt::AlignRight);
 		connect(closeButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
-
 		//Create the label
 		QLabel* settingsLabel = new QLabel("Settings");
 		settingsLabel->setStyleSheet("color: #FFFFFF; font-size: 30px;");
@@ -575,6 +579,10 @@ void MainWindow::settings() {
 		layout->addWidget(quitButton, 0, Qt::AlignCenter);
 		connect(quitButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
 		connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+		//Connection lambda that turns the settingsOpen bool to false when the window is closed
+		connect(settingsWindow, &QDialog::finished, this, [this]() {
+			settingsOpen = false;
+			});
 		//Show the window
 		settingsWindow->exec();
 	}

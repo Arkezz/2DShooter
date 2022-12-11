@@ -48,8 +48,6 @@ public slots:
 	void pathFinding(Enemy& enemy);
 
 private:
-	//Only allow one instance of the settings
-	QDialog* settingsWindow = nullptr;
 	QGraphicsScene* scene;
 	SceneView* view;
 	QRect screenGeometry = QApplication::primaryScreen()->geometry();
