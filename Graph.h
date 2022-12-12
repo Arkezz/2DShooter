@@ -279,6 +279,7 @@ public:
 				}
 			}
 		}
+        return path;
 	}
 };
 

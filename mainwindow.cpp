@@ -521,6 +521,7 @@ void MainWindow::settings() {
 
 		//Create the layout
 		QVBoxLayout* layout = new QVBoxLayout;
+		layout->setSpacing(10);
 		settingsWindow->setLayout(layout);
 
 		//Make the window closable button is round
@@ -531,6 +532,7 @@ void MainWindow::settings() {
 		closeButton->setIconSize(QSize(20, 20));
 		layout->addWidget(closeButton, 0, Qt::AlignRight);
 		connect(closeButton, SIGNAL(clicked()), settingsWindow, SLOT(close()));
+
 		//Create the label
 		QLabel* settingsLabel = new QLabel("Settings");
 		settingsLabel->setStyleSheet("color: #FFFFFF; font-size: 30px;");
@@ -566,6 +568,7 @@ void MainWindow::settings() {
 		layout->addWidget(muteButton, 0, Qt::AlignLeft);
 		//if the mute button is clicked change the icon to unmute and change the volume to 100
 		connect(muteButton, &QPushButton::clicked, this, [muteButton, volumeSlider]() {
+			// Check the current icon and set the new icon accordingly
 			if (muteButton->icon().cacheKey() == QIcon(":/ui/muteButton").cacheKey()) {
 				muteButton->setIcon(QIcon(":/ui/unmuteButton"));
 				volumeSlider->setValue(100);

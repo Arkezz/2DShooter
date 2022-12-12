@@ -4,24 +4,24 @@ soundManager::soundManager()
 {
 	audioOutput = new QAudioOutput();
 
-    footSteps = new QSoundEffect();
-    footSteps->setSource(QUrl("qrc:/sounds/footstepSound"));
-    //Only play as long as the player is moving
-    footSteps->setLoopCount(1);
-    footSteps->setVolume(1);
+	footSteps = new QSoundEffect();
+	footSteps->setSource(QUrl("qrc:/sounds/footstepSound"));
+	//Only play as long as the player is moving
+	footSteps->setLoopCount(1);
+	footSteps->setVolume(1);
 
-    hurtSound = new QSoundEffect();
-    hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
+	hurtSound = new QSoundEffect();
+	hurtSound->setSource(QUrl("qrc:/sounds/hurtSound"));
 
-    gunShot = new QSoundEffect();
-    gunShot->setSource(QUrl("qrc:/sounds/gunShot"));
-    gunShot->setVolume(50);
+	gunShot = new QSoundEffect();
+	gunShot->setSource(QUrl("qrc:/sounds/gunShot"));
+	gunShot->setVolume(50);
 
 	musicPlayer = new QMediaPlayer();
 	musicPlayer->setSource(QUrl("qrc:/sounds/bgm"));
 	musicPlayer->setAudioOutput(audioOutput);
 	musicPlayer->setLoops(-1);
-	audioOutput->setVolume(50);
+	audioOutput->setVolume(10);
 }
 
 void soundManager::playSound(QString soundName)
@@ -35,9 +35,9 @@ void soundManager::playSound(QString soundName)
 	else if (soundName == "bgm") {
 		musicPlayer->play();
 	}
-    else if (soundName == "gunShot") {
-        gunShot->play();
-    }
+	else if (soundName == "gunShot") {
+		gunShot->play();
+	}
 }
 
 bool soundManager::isPlaying(QString soundName)
@@ -47,9 +47,10 @@ bool soundManager::isPlaying(QString soundName)
 	}
 	else if (soundName == "hurt") {
 		return hurtSound->isPlaying();
-    } else {
-        return 0;
-    }
+	}
+	else {
+		return 0;
+	}
 }
 
 void soundManager::stopSound(QString soundName)
@@ -72,5 +73,7 @@ void soundManager::mute()
 
 void soundManager::changeVolume(int volume)
 {
-	audioOutput->setVolume(volume);
+	// Convert the volume value from an integer to a floating-point value between 0.0 and 1.0
+	float floatVolume = (float)volume / 100.0;
+	audioOutput->setVolume(floatVolume);
 }
