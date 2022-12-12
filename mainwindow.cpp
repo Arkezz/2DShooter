@@ -9,6 +9,7 @@ int grid[15][20];
 
 // Flag to track whether the settings screen is currently open
 bool settingsOpen = false;
+int difficulty = 0;
 
 MainWindow::MainWindow(QWidget* parent)
 	: QMainWindow(parent)
@@ -599,6 +600,23 @@ void MainWindow::settings() {
 		connect(settingsWindow, &QDialog::finished, this, []() {
 			settingsOpen = false;
 			});
+
+		//Add a place to choose the difficulty
+		QComboBox* difficultyBox = new QComboBox;
+		difficultyBox->setStyleSheet("background-color: #FFFFFF; color: #000000; font-size: 20px;");
+		difficultyBox->addItem("Easy");
+		difficultyBox->addItem("Medium");
+
+		layout->addWidget(difficultyBox, 0, Qt::AlignCenter);
+		//Connect the difficulty box to changing the diffculty value using a lambda
+		connect(difficultyBox, &QComboBox::currentTextChanged, this, [difficultyBox](QString text) {
+			if (text == "Easy") {
+				difficulty = 0;
+			}
+			else if (text == "Medium") {
+				difficulty = 1;
+			}
+			});
 		//Show the window
 		settingsWindow->exec();
 	}
@@ -609,15 +627,12 @@ void MainWindow::pathFinding(Enemy& enemy) {
 	Node* start = graph->getNode(enemy.x() / 32, enemy.y() / 32);
 	//End node is player
 	Node* end = graph->getNode(player.x() / 32, player.y() / 32);
-	//Find the path
-	QVector<Node*> path = graph->findPath(start, end);
-	//graph->createGraph();
-	//qdebug the path for testing
-	for (int i = 0; i < path.size(); i++) {
-		qDebug() << path[i]->x << path[i]->y;
-		//show whether its walkable or not
-		qDebug() << path[i]->walkable;
-	}
+	QVector<Node*> path;
+	//Add a difficulty check that determines which findPath function is used
+	if (difficulty == 0)
+		path = graph->findPath2(start, end); //Easy
+	else if (difficulty == 1)
+		path = graph->findPath(start, end); //Medium
 
 	//Move the enmy to the next node in the path
 	if (path.size() > 1 && enemy.getHealth() > 0) {

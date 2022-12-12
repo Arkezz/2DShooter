@@ -8,6 +8,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QPropertyAnimation>
 #include <QDialog>
+#include <QComboBox>
 #include <QSlider>
 #include <QApplication>
 #include <QScreen>

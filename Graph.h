@@ -94,30 +94,6 @@ public:
 		return abs(a->x - b->x) + abs(a->y - b->y);
 	}
 
-	// QVector is a container class that provides similar functionality to std::vector
-	QVector<Node*> constructPath(Node* end) {
-		// Create a vector to store the path
-		QVector<Node*> path;
-
-		// Create a pointer to the current node
-		Node* current = end;
-
-		// Add the current node to the path
-		path.push_back(current);
-
-		// Follow the chain of parent nodes back to the start node
-		// and add each node to the path in reverse order
-		while (current->parent != nullptr) {
-			current = current->parent;
-			path.push_back(current);
-		}
-
-		// Reverse the path to put it in the correct order
-		// and return it
-		std::reverse(path.begin(), path.end());
-		return path;
-	}
-
 	//getNeighbors returns a vector of the neighbors of the node
 	QVector<Node*> getNeighbors(Node* node) {
 		QVector<Node*> neighbors;
@@ -222,74 +198,87 @@ public:
 	}
 
 	QVector<Node*> findPath2(Node* start, Node* end) {
-		// Create a set to store visited nodes
+		// Create an empty list to store the path
+		QVector<Node*> path;
+
+		// Create an empty set to store the visited nodes
 		std::unordered_set<Node*> visited;
 
-		// Create a priority queue to store the nodes to be visited,
-		// ordered by their fCost (estimated total cost from start to end)
-		auto cmp = [](Node* left, Node* right) {
-			return left->fCost > right->fCost;
-		};
-		std::priority_queue<Node*, std::vector<Node*>, decltype(cmp)> toVisit(cmp);
+		// Create a priority queue to store the nodes to be visited
+		// The nodes will be sorted by their fCost (the total cost of traveling to the node)
+		auto cmp = [](Node* a, Node* b) { return a->fCost > b->fCost; };
+		std::priority_queue<Node*, std::vector<Node*>, decltype(cmp)> frontier(cmp);
 
-		// Set the start node's gCost (actual cost from start) to 0
-		// and its hCost (estimated cost to end) to the Manhattan distance
-		// between the start and end nodes
+		// Set the starting node's gCost (the cost of traveling to the node) to 0
 		start->gCost = 0;
+
+		// Set the starting node's hCost (the estimated cost of traveling from the node to the end) to the manhattan distance between the start and end nodes
 		start->hCost = manhattanDistance(start, end);
+
+		// Set the starting node's fCost (the total cost of traveling to the node) to its gCost and hCost
 		start->fCost = start->gCost + start->hCost;
 
-		// Add the start node to the queue
-		toVisit.push(start);
+		// Add the starting node to the frontier
+		frontier.push(start);
 
-		int maxVisitedNodes = 1000; // or some other suitable threshold
-		int numVisitedNodes = 0;
-		// Keep searching until the queue is empty
-		while (!toVisit.empty() && numVisitedNodes < maxVisitedNodes) {
-			// Get the node with the lowest fCost from the queue
-			Node* current = toVisit.top();
-			toVisit.pop();
+		// Loop until the frontier is empty
+		while (!frontier.empty()) {
+			// Get the node with the lowest fCost from the frontier
+			Node* current = frontier.top();
+			frontier.pop();
 
-			// If we have reached the end node, construct and return the path
+			// If the current node is the end node, we have found a path
 			if (current == end) {
-				return constructPath(current);
+				// Trace the path back from the end node to the start node
+				while (current != start) {
+					// Add the current node to the path
+					path.push_back(current);
+
+					// Set the current node to its parent
+					current = current->parent;
+				}
+
+				// Add the start node to the path
+				path.push_back(start);
+
+				// Reverse the path to get the correct order
+				std::reverse(path.begin(), path.end());
+
+				// Return the path
+				return path;
 			}
 
-			// Mark the current node as visited
+			// Add the current node to the visited set
 			visited.insert(current);
-			numVisitedNodes++;
 
 			// Get the current node's neighbors
 			QVector<Node*> neighbors = getNeighbors(current);
+
+			std::vector<Node*> nodes;
+
+			// Loop through the current node's neighbors
 			for (Node* neighbor : neighbors) {
-				// Skip visited nodes
-				if (visited.count(neighbor) > 0) {
-					continue;
-				}
+				// Skip the neighbor if it is not walkable or if it has already been visited
+				if (!neighbor->walkable || visited.count(neighbor) > 0) continue;
 
-				// Calculate the neighbor's gCost, hCost, and fCost
-				int gCost = current->gCost + 1; // assume a cost of 1 to move to any neighbor
-				int hCost = manhattanDistance(neighbor, end);
-				int fCost = gCost + hCost;
+				// Calculate the cost of traveling to the neighbor
+				int cost = current->gCost + getDistance(current, neighbor);
 
-				// If the neighbor's fCost is lower than its current fCost,
-				// or if it is not in the queue, update its parent, gCost, hCost, and fCost
-				if (fCost < neighbor->fCost || visited.count(neighbor) == 0) {
+				// If the neighbor has not been visited, or if the cost of traveling to the neighbor is lower than its current gCost, update the neighbor's gCost, hCost, and fCost, and set its parent to the current node
+				if (std::find(nodes.begin(), nodes.end(), neighbor) == nodes.end() || cost < neighbor->gCost) {
+					neighbor->gCost = cost;
+					neighbor->hCost = manhattanDistance(neighbor, end);
+					neighbor->fCost = neighbor->gCost + neighbor->hCost;
 					neighbor->parent = current;
-					neighbor->gCost = gCost;
-					neighbor->hCost = hCost;
-					neighbor->fCost = fCost;
 
-					// Add the neighbor to the queue if it is not already in it
-					if (visited.count(neighbor) == 0) {
-						toVisit.push(neighbor);
+					// Add the neighbor to the frontier if it has not been visited yet
+					if (std::find(nodes.begin(), nodes.end(), neighbor) == nodes.end()) {
+						frontier.push(neighbor);
+						nodes.push_back(neighbor);
 					}
 				}
 			}
 		}
-
-		// If we reach here, no path was found
-		return QVector<Node*>();
 	}
 };
 
